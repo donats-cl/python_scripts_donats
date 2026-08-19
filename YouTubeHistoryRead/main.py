@@ -15,16 +15,9 @@ with open("h.json", "r", encoding='utf-8') as f:
 		# print(f"{sub=}")
 		r = sub[0] if type(sub) == list else sub
 		# print(f"{r=}")
-		try:
-			r.get("names")
-		except AttributeError as e:
-			print(f"ERROR: {r=} 90% blocked video")
-			continue
-		try:
-			name = r.get("name")
-		except AttributeError as e:
-			print(f"ERROR: {e} {name=}")
-			continue
+		if not r: continue
+		
+		name = r.get("name")
 		author.append(name)
 
 		title = i.get("title")
