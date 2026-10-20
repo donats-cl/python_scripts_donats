@@ -1,0 +1,220 @@
+Scrap Grenade
+
+**0**
+
+**26**s
+
+Throw a grenade of scrap that detonates multiple times, dealing   bullet damage and applying   slow.  
+  
+The grenade can be meleed to knock it away.
+
+*x*0.6
+
+**65**
+
+Detonation Damage
+
+*x*0.08
+
+-**20**%
+
+Move Speed
+
+**3**
+ Detonations
+
+**8**m
+ Detonation Radius
+
+**4**s
+ Slow Duration
+
+The final detonation has a longer fuse but increased detonation radius, deals increased   bullet damage and applies a stronger   slow.
+
+*x*0
+
+**0**
+
+Big Detonation Damage
+
+**0**m
+
+Big Detonation Radius
+
+*x*0
+
+**40**%
+
+Big Detonation Move Speed
+
+**4**s
+ Slow Duration
+
+**1**
+
+-8s Cooldown
+
+**2**
+
++65 Detonation Damage
+
+**5**
+
+Add an additional final Bigger Detonation
+
+---
+
+Rat Swarm
+
+**50**m
+
+**10**m
+
+**6**s
+
+**1**
+
+**8**s
+
+**28**s
+
+Call forth a swarm of rats that leap onto enemies, dealing   spirit damage over time and reducing their   bullet resist with every bite. The more rats are attached, the faster they will bite the target.  
+  
+Enemies can have multiple rats attached, but can shake off a rat early by performing a ground or air dash.
+
+*x*0.08
+
+**8**
+
+Damage per Bite
+
+**-1**%
+
+Bullet Resist per Bite
+
+**1**s
+ Bite Interval per Rat
+
+**4**s
+ Debuff Duration
+
+**5**
+ Max Attached Rats
+
+**1**
+
++1 Charges
+
+**2**
+
+Increased Swarm Size  
++4s Debuff Duration
+
+**5**
+
++8 Damage and -1% Bullet Resist per Bite
+
+---
+
+Royal Pestments
+
+**6**s
+
+**0**
+
+**22**s
+
+Adorn scrappy armor, gaining   barrier based on your   max health. As long as the armor holds, bullets have a chance to be deflected back towards the attacker.  
+  
+The barrier does not benefit from resists.
+
+**15**%
+
+Max Health as Barrier
+
+*x*0.1
+
+**15**%
+
+Bullet Return Chance
+
+**1**
+
++4s Duration
+
+**2**
+
+-8s Cooldown  
++15% Bullet Return Chance
+
+**5**
+
+Reduce all damage to a max of 250  
++10% Max Health as Barrier
+
+---
+
+Rule, Ratannia!
+
+**24**m
+
+**12**s
+
+**0**
+
+**130**s
+
+Charge up and summon the banner of Ratannia, granting all nearby allies increased   move speed, immunity from slows, and reduced incoming damage while near the banner.
+
+**Banner Aura**
+
+*x*0.05
+
+**3**m
+
+Move Speed
+
+**Banner Aura**
+
+**20**%
+
+Damage Reduction
+
+**24**m
+ Radius
+
+Slam the banner into the ground causing the sewers below to violently erupt, dealing   bullet damage while applying   knockup and   slow to all enemies in the area. Rats will swarm out of the sewers, applying Rat Swarm to enemies they hit.
+
+**Banner Slam**
+
+*x*1.2
+
+**200**
+
+Damage
+
+**Banner Slam**
+
+-**40**%
+
+Move Speed
+
+**12**s
+ Flag Duration
+
+**24**m
+ Radius
+
+**1**
+
+-20s Cooldown and +1m Move Speed
+
+**2**
+
++8s Charge Duration  
++8s Flag Duration  
++8m Radius
+
+**5**
+
++150 Damage and +15% Damage Reduction

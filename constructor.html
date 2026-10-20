@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadlock Gameinfo ConVars Constructor</title>
+    <style>
+        :root {
+            --bg-main: #0d0f12;
+            --bg-card: #151921;
+            --bg-input: #0a0c0e;
+            --border: #262c38;
+            --border-hover: #3b465a;
+            --accent: #f0be52; /* Deadlock Gold */
+            --accent-hover: #ffd67a;
+            --accent-dim: rgba(240, 190, 82, 0.15);
+            --text-main: #e2e8f0;
+            --text-dim: #8b98a5;
+            --code-bg: #090a0f;
+            --danger: #ff5e5e;
+            --success: #38ef7d;
+            --font: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            --font-mono: 'Consolas', 'Fira Code', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font);
+            line-height: 1.4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 480px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 1100px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        header {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #181d26 0%, #10131a 100%);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            padding: 20px 24px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .search-bar {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 12px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.2s border;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--accent);
+        }
+
+        .category {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .category-header {
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--accent);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .category-header:hover {
+            background: rgba(240, 190, 82, 0.05);
+        }
+
+        .cvar-list {
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cvar-item {
+            display: grid;
+            grid-template-columns: 280px 140px 1fr 100px;
+            gap: 12px;
+            align-items: center;
+            padding: 8px 10px;
+            background: rgba(0,0,0,0.25);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 6px;
+            font-size: 0.88rem;
+            transition: 0.15s background;
+        }
+
+        .cvar-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--border-hover);
+        }
+
+        @media (max-width: 768px) {
+            .cvar-item {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+        }
+
+        .cvar-name {
+            font-family: var(--font-mono);
+            color: #7dd3fc;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        .cvar-input input {
+            width: 100%;
+            padding: 6px 10px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .cvar-input input:focus {
+            border-color: var(--accent);
+        }
+
+        .cvar-info {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+
+        .cvar-def {
+            color: #eab308;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .fps-badge {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 4px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .fps-huge { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+        .fps-med  { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+        .fps-low  { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid #3b82f6; }
+        .fps-lat  { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid #a855f7; }
+
+        /* Output Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .output-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .output-box h3 {
+            font-size: 1.1rem;
+            color: var(--accent);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        textarea#outputArea {
+            width: 100%;
+            height: 60vh;
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: #38ef7d;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            padding: 12px;
+            resize: vertical;
+            white-space: pre;
+            overflow-x: auto;
+            line-height: 1.4;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.08);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--accent);
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: 0.3s all ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>⚡ Deadlock ConVars Configurator</h1>
+            <p>Генератор и кастомизатор <code>gameinfo.gi</code> ConVars с точным анализом FPS.</p>
+        </div>
+        <div class="actions">
+            <button class="btn-secondary" onclick="resetToConfig()">Сброс к конфигу</button>
+            <button class="btn-secondary" onclick="resetToDefault()">Сброс к дефолтам игры</button>
+        </div>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="🔍 Поиск параметра (например: r_shadows, shadow, lod, cloth, bloom)..." oninput="filterConVars()">
+    </div>
+
+    <!-- Main Configurator Left Column -->
+    <div id="categoriesContainer"></div>
+
+    <!-- Output & Actions Right Column -->
+    <div class="sidebar">
+        <div class="output-box">
+            <h3>
+                <span>Конечный блок ConVars</span>
+                <span style="font-size: 0.8rem; color: var(--text-dim);" id="cvarCount">0 параметров</span>
+            </h3>
+            <textarea id="outputArea" readonly></textarea>
+            <div class="actions">
+                <button class="btn-primary" onclick="copyToClipboard()">📋 Скопировать в буфер</button>
+                <button class="btn-secondary" onclick="downloadTxt()">💾 Скачать .gi / .txt</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toast" class="toast">Скопировано в буфер обмена!</div>
+
+<script>
+// Полная база параметров строго из текста без изменений, с дефолтами и анализом FPS
+const DATA = [
+    {
+        category: "1. Outlines (Контуры и подсветка)",
+        items: [
+            { name: 'citadel_boss_glow_disabled', val: '0', def: '0', fps: '+0.2%', desc: 'Отключает эффект подсветки босса и шагоходов.' },
+            { name: 'citadel_player_glow_disabled', val: '0', def: '0', fps: '+0.2%', desc: 'Отключает подсветку игрока при метке/пинге.' },
+            { name: 'citadel_player_outline_enemies', val: 'true', def: 'true', fps: '+0.5%', desc: 'Контур врагов (не ломает бекстаббер/пинг сквозь стены).' },
+            { name: 'citadel_trooper_friendly_glow_disabled', val: 'false', def: 'false', fps: '0.0%', desc: 'Подсветка союзных крипов.' },
+            { name: 'citadel_trooper_glow_disabled', val: '0', def: '0', fps: '+0.5%', desc: '1 = Отключить подсветку всех крипов.' },
+            { name: 'citadel_trooper_outline_enabled', val: 'true', def: 'true', fps: '+0.4%', desc: 'Контуры крипов.' },
+            { name: 'cl_glow_brightness', val: '0', def: '1', fps: '+0.3%', desc: 'Яркость свечения подсветки объектов.' },
+            { name: 'r_citadel_npr_force_solid_outline', val: 'true', def: 'false', fps: '+0.2%', desc: 'Форсирует монолитный контур (может давать баги на драконах).' },
+            { name: 'r_citadel_npr_outlines', val: 'true', def: 'true', fps: '+0.6%', desc: 'Включает отрисовку стилизованных контуров NPR.' },
+            { name: 'r_citadel_npr_outlines_max_dist', val: '600', def: '1000', fps: '+1.2%', desc: 'Макс. дистанция отрисовки контуров.' },
+            { name: 'r_citadel_selection_outline2_alpha', val: '255', def: '0.8', fps: '+0.1%', desc: 'Прозрачность контура выбора (0-1 / 0-255).' }
+        ]
+    },
+    {
+        category: "2. Field of View (Угол обзора)",
+        items: [
+            { name: 'citadel_camera_hero_fov', val: '90', def: '90', fps: '0.0%', desc: 'FOV камеры при наблюдении за героем.' },
+            { name: 'r_aspectratio', val: '3', def: '0', fps: '-1.5%', desc: 'Множитель соотношения сторон/FOV (больше угол = больше объектов на экране).' }
+        ]
+    },
+    {
+        category: "3. HUD (Интерфейс)",
+        items: [
+            { name: 'citadel_crosshair_hit_marker_duration', val: '0.01', def: '0.1', fps: '+0.1%', desc: 'Длительность хитмаркера на прицеле.' },
+            { name: 'citadel_damage_offscreen_indicator_disabled', val: '1', def: 'true', fps: '+0.3%', desc: 'Иконки крипов за стенами.' },
+            { name: 'citadel_damage_report_enable', val: '1', def: '1', fps: '+0.2%', desc: 'Включение вкладки отчёта о входящем/исходящем уроне.' },
+            { name: 'citadel_damage_text_lifetime', val: '0.5', def: '1.0', fps: '+0.4%', desc: 'Время жизни цифр урона.' },
+            { name: 'citadel_damage_text_show_effectiveness', val: '0', def: '0', fps: '+0.1%', desc: 'Отображение доп. инфо (сопротивление/уязвимость).' },
+            { name: 'citadel_hideout_ball_show_juggle_count', val: '1', def: '0', fps: '0.0%', desc: 'Счётчик набивания мяча в убежище.' },
+            { name: 'citadel_hideout_ball_show_juggle_fx', val: '1', def: '0', fps: '0.0%', desc: 'Эффекты мяча в убежище.' },
+            { name: 'citadel_hud_objective_health_enabled', val: '2', def: '2', fps: '+0.2%', desc: 'ХП обжективов (0-Выкл, 1-Святилища, 2-Т1/Т2, 3-Бараки).' },
+            { name: 'citadel_hud_objective_health_idle_timeout', val: '4', def: '5', fps: '0.0%', desc: 'Таймаут простоя панели здоровья.' },
+            { name: 'citadel_in_world_item_panel_dpi', val: '0.25', def: '1.0', fps: '+0.4%', desc: 'Разрешение внутриигровых панелей магазинов/предметов.' },
+            { name: 'citadel_minimap_use_canvas_for_neutrals', val: '0', def: '1', fps: '+0.3%', desc: 'Рендер нейтралов через альтернативный Canvas.' },
+            { name: 'citadel_minimap_use_canvas_for_shop', val: '0', def: '1', fps: '+0.2%', desc: 'Рендер иконок магазина через Canvas.' },
+            { name: 'citadel_portrait_world_renderer_off', val: 'true', def: 'false', fps: '+0.8%', desc: 'Отключает 3D рендер портретов героев.' },
+            { name: 'citadel_show_new_damage_feedback_numbers', val: '0', def: '0', fps: '+0.2%', desc: 'Новые всплывающие цифры урона.' },
+            { name: 'citadel_unit_status_delta_decay_delay', val: '0', def: '0.5', fps: '+0.1%', desc: 'Задержка спада дельты урона на полоске ХП.' },
+            { name: 'citadel_unit_status_delta_decay_rate', val: '10', def: '1', fps: '+0.1%', desc: 'Скорость анимации убывания здоровья.' },
+            { name: 'citadel_unit_status_old_update_rate', val: '15', def: '60', fps: '+0.5%', desc: 'Частота обновления старых полосок HP (снижает CPU нагрузку).' },
+            { name: 'citadel_unit_status_use_new', val: '0', def: '0', fps: '+0.3%', desc: 'Использовать новый бар здоровья.' },
+            { name: 'r_citadel_glow_health_bars', val: 'false', def: 'true', fps: '+0.4%', desc: 'Свечение вокруг баров здоровья.' }
+        ]
+    },
+    {
+        category: "4. Lighting & Shadows (Освещение и тени карты)",
+        items: [
+            { name: 'lb_enable_baked_shadows', val: '0', def: '1', fps: '+4.5%', desc: 'Отключает запечённые статические тени.' },
+            { name: 'lb_enable_dynamic_lights', val: '0', def: '1', fps: '+6.2%', desc: 'Отключает динамические источники (скиллы, выстрелы, шагоход).' },
+            { name: 'lb_enable_lights', val: '0', def: '1', fps: '+5.0%', desc: 'Полный отключатель LightBinner источников света.' },
+            { name: 'lb_enable_stationary_lights', val: '0', def: '1', fps: '+4.0%', desc: 'Отключает стационарные источники света.' },
+            { name: 'lb_enable_sunlight', val: 'false', def: 'true', fps: '+3.5%', desc: 'Отключает прямой солнечный свет LightBinner.' }
+        ]
+    },
+    {
+        category: "5. Skybox Rendering (Скайбокс)",
+        items: [
+            { name: 'fog_enableskybox', val: '0', def: '1', fps: '+0.3%', desc: 'Туман на 3D скайбоксе.' },
+            { name: 'r_draw3dskybox', val: '0', def: '1', fps: '+2.5%', desc: 'Отрисовка удалённой геометрии фонового города.' },
+            { name: 'r_drawskybox', val: '0', def: 'true', fps: '+0.5%', desc: 'Отрисовка текстуры неба.' },
+            { name: 'r_monitor_3dskybox', val: '0', def: '0', fps: '+0.1%', desc: 'Мониторинг 3D скайбокса.' }
+        ]
+    },
+    {
+        category: "6. FPS Caps & Minimized Throttling",
+        items: [
+            { name: 'engine_low_latency_sleep_after_client_tick', val: '1', def: 'false', fps: '⏱ Latency', desc: 'Умный сон между тиками для снижения инпут-лага и статтеров.' },
+            { name: 'engine_no_focus_sleep', val: '0', def: '20', fps: '0.0%', desc: 'Сон движка при альт-табе (0 = не тормозить при свернутом окне).' },
+            { name: 'fps_max', val: '140', def: '400', fps: '⚡ Стаб.', desc: 'Лимит кадров в матче.' },
+            { name: 'panorama_max_fps', val: '15', def: '120', fps: '🔋 Энерго', desc: 'ФПС в главном меню.' },
+            { name: 'panorama_max_overlay_fps', val: '15', def: '60', fps: '🔋 Энерго', desc: 'ФПС в меню паузы/ESC.' }
+        ]
+    },
+    {
+        category: "7. Object Culling (Отсечение объектов)",
+        items: [
+            { name: 'r_size_cull_threshold', val: '1.6', def: '0.8', fps: '+3.5%', desc: 'Порог отсечения мелких объектов по размеру на экране (больше = раньше скрывать).' }
+        ]
+    },
+    {
+        category: "8. Camera Tweaks (Камера)",
+        items: [
+            { name: 'citadel_camera_soft_collision', val: '0', def: '1', fps: '+0.2%', desc: 'Мягкая коллизия камеры со стенами.' },
+            { name: 'citadel_camera_wobble_disable', val: '1', def: '0', fps: '+0.1%', desc: 'Отключает тряску камеры.' }
+        ]
+    },
+    {
+        category: "9. Texture Quality & Streaming (Текстуры)",
+        items: [
+            { name: 'mat_set_shader_quality', val: '0', def: 'null', fps: '+3.0%', desc: 'Качество шейдеров (0 = низкое, 1 = высокое).' },
+            { name: 'r_fallback_texture_lod_scale', val: '4', def: '1', fps: '+1.5%', desc: 'Множитель LOD для резервных текстур.' },
+            { name: 'r_texture_budget_dynamic', val: '1', def: '0', fps: '+0.5%', desc: 'Динамический бюджет текстурной памяти.' },
+            { name: 'r_texture_budget_threshold', val: '0.7', def: '0.8', fps: '+0.3%', desc: 'Порог сброса памяти пула текстур.' },
+            { name: 'r_texture_budget_update_period', val: '0.5', def: '0.1', fps: '+0.4%', desc: 'Период обновления бюджета памяти (снижает нагрузку на CPU).' },
+            { name: 'r_texture_lod_scale', val: '4', def: '1', fps: '+4.0%', desc: 'Принудительное понижение детализации LOD текстур.' },
+            { name: 'r_texture_pool_reduce_rate', val: '512', def: '128', fps: '+0.2%', desc: 'Скорость очистки пула текстур.' },
+            { name: 'r_texture_pool_size', val: '512', def: '1024', fps: '+1.0%', desc: 'Размер пула текстур в МБ для слабых видеокарт.' },
+            { name: 'r_texture_stream_max_resolution', val: '128', def: '2048', fps: '+3.5%', desc: 'Макс. разрешение стриминга текстур.' },
+            { name: 'r_texture_stream_mip_bias', val: '0', def: '0', fps: '+0.5%', desc: 'Смещение mip-уровней текстур.' },
+            { name: 'r_texture_stream_resolution_bias', val: '0.01', def: '1.0', fps: '+1.5%', desc: 'Смещение разрешения стриминга.' },
+            { name: 'r_texturefilteringquality', val: '0', def: '1', fps: '+0.8%', desc: 'Анизотропная фильтрация (0: Bilinear, 5: 16x).' }
+        ]
+    },
+    {
+        category: "10. Render Distance (Дальность прорисовки)",
+        items: [
+            { name: 'r_farz', val: '4000', def: '-1', fps: '+5.0%', desc: 'Дальняя плоскость отсечения (клиппинг зданий и геометрии).' },
+            { name: 'r_mapextents', val: '4500', def: '16384', fps: '+3.0%', desc: 'Граница отрисовки геометрии карты.' },
+            { name: 'sv_waterdist', val: '0', def: '1000', fps: '+0.2%', desc: 'Дистанция рендера воды.' }
+        ]
+    },
+    {
+        category: "11. Particle Culling (Отсечение партиклов)",
+        items: [
+            { name: 'r_particle_max_size_cull', val: '1600', def: '1200', fps: '+2.8%', desc: 'Системы частиц больше этого размера пропускают куллинг на CPU.' }
+        ]
+    },
+    {
+        category: "12. UI (Panorama Интерфейс)",
+        items: [
+            { name: 'closecaption', val: 'false', def: 'false', fps: '0.0%', desc: 'Субтитры.' },
+            { name: 'hud_free_cursor', val: '0', def: '0', fps: '+0.1%', desc: 'Снижение задержки курсора на миникарте.' },
+            { name: 'mm_idle_enabled', val: 'false', def: 'true', fps: '0.0%', desc: 'Проверка AFK простоя.' },
+            { name: 'mm_idle_show_warning_at_s', val: '999', def: '45', fps: '0.0%', desc: 'Секунды до показа AFK предупреждения.' },
+            { name: 'panorama_allow_transitions', val: 'false', def: '1', fps: '+0.5%', desc: 'Отключает лишние UI анимации.' },
+            { name: 'panorama_async_compute_mipgen', val: '1', def: '0', fps: '+0.4%', desc: 'Асинхронная генерация мипмапов интерфейса.' },
+            { name: 'panorama_disable_blur', val: '1', def: '0', fps: '+2.0%', desc: 'Отключает размытие фона в интерфейсе.' },
+            { name: 'panorama_disable_box_shadow', val: '1', def: '0', fps: '+1.0%', desc: 'Отключает тени у элементов интерфейса.' },
+            { name: 'panorama_temp_comp_layer_min_dimension', val: '128', def: '512', fps: '+0.3%', desc: 'Мин. размер слоев композитинга интерфейса.' },
+            { name: 'panorama_transition_time_factor', val: '2', def: '1', fps: '⚡ Быстро', desc: 'Ускорение переходов UI.' },
+            { name: 'panorama_use_new_occlusion_invalidation', val: '1', def: '0', fps: '+0.4%', desc: 'Новая схема инвалидации окклюзии UI.' },
+            { name: 'r_dashboard_render_quality', val: '0', def: '1', fps: '+1.5%', desc: 'Качество рендеринга меню дашборда.' }
+        ]
+    },
+    {
+        category: "13. Shadows (Детальная настройка теней)",
+        items: [
+            { name: 'cl_globallight_shadow_mode', val: '0', def: '2', fps: '+3.5%', desc: 'Глобальный режим теней (0 = выкл).' },
+            { name: 'lb_barnlight_shadow_use_precomputed_vis', val: '0', def: '1', fps: '+0.4%', desc: 'Использование предрасчитанной видимости Barnlight.' },
+            { name: 'lb_barnlight_shadowmap_scale', val: '0.01', def: '1', fps: '+2.0%', desc: 'Масштаб карт теней Barnlight.' },
+            { name: 'lb_csm_cascade_size_override', val: '0.25', def: '1536', fps: '+3.0%', desc: 'Размер каскадов теней CSM.' },
+            { name: 'lb_csm_cross_fade_override', val: '0', def: '1', fps: '+0.5%', desc: 'Сглаживание переходов каскадов теней.' },
+            { name: 'lb_csm_distance_fade_override', val: '0', def: '1', fps: '+0.5%', desc: 'Угасание теней по дистанции.' },
+            { name: 'lb_csm_draw_alpha_tested', val: '0', def: '1', fps: '+1.8%', desc: 'Тени от прозрачных решёток/листвы.' },
+            { name: 'lb_csm_draw_translucent', val: '0', def: '1', fps: '+1.2%', desc: 'Тени от полупрозрачных объектов.' },
+            { name: 'lb_csm_override_staticgeo_cascades', val: '0', def: '1', fps: '+1.5%', desc: 'Каскады статической геометрии вокруг игроков.' },
+            { name: 'lb_csm_override_staticgeo_cascades_value', val: '0', def: '-1', fps: '+0.5%', desc: 'Радиус статических каскадов.' },
+            { name: 'lb_csm_receiver_plane_depth_bias', val: '0.00002', def: '0.00005', fps: '0.0%', desc: 'Смещение глубины CSM.' },
+            { name: 'lb_csm_receiver_plane_depth_bias_transmissive_backface', val: '0.0002', def: '0.0005', fps: '0.0%', desc: 'Смещение глубины трансмиссивных поверхностей.' },
+            { name: 'lb_dynamic_shadow_penumbra', val: 'false', def: 'true', fps: '+1.5%', desc: 'Мягкие края динамических теней (Penumbra).' },
+            { name: 'lb_dynamic_shadow_resolution', val: 'false', def: 'true', fps: '+2.0%', desc: 'Динамическое разрешение теней.' },
+            { name: 'lb_dynamic_shadow_resolution_base', val: '32', def: '1536', fps: '+4.0%', desc: 'Базовое разрешение динамических теней.' },
+            { name: 'lb_dynamic_shadow_resolution_quantization', val: '32', def: '64', fps: '+0.4%', desc: 'Квантование теней.' },
+            { name: 'lb_enable_fog_mixed_shadows', val: '0', def: '1', fps: '+1.2%', desc: 'Смешанные тени в объёмном тумане.' },
+            { name: 'lb_enable_shadow_casting', val: '0', def: '1', fps: '+4.5%', desc: 'Глобальное испускание теней источниками света.' },
+            { name: 'lb_mixed_shadows', val: 'false', def: 'true', fps: '+1.8%', desc: 'Смешанные тени.' },
+            { name: 'lb_precomputed_shadowmap_enable', val: 'false', def: 'true', fps: '+1.5%', desc: 'Использование предрасчитанных карт теней.' },
+            { name: 'lb_shadow_map_cull_empty_mixed', val: 'true', def: 'false', fps: '+0.6%', desc: 'Отсекать пустые смешанные карты теней.' },
+            { name: 'lb_ssss_samples', val: '0', def: '11', fps: '+2.5%', desc: 'Семплы подповерхностного рассеивания (кожа героев).' },
+            { name: 'lb_sun_csm_size_cull_threshold_texels', val: '30', def: '10', fps: '+1.2%', desc: 'Порог отсечения мелких теней солнца в текселях.' },
+            { name: 'r_citadel_distancefield_shadows', val: 'false', def: 'true', fps: '+3.0%', desc: 'Тени Distance Field (DF Shadows).' },
+            { name: 'r_citadel_gpu_culling_shadows', val: 'true', def: '0', fps: '+2.0%', desc: 'GPU-куллинг для кастеров теней.' },
+            { name: 'r_citadel_shadow_quality', val: '0', def: '2', fps: '+4.5%', desc: 'Общее качество теней Citadel.' },
+            { name: 'r_citadel_shadowdb', val: '256', def: '2048', fps: '+2.0%', desc: 'Размер базы теней.' },
+            { name: 'r_shadows', val: '0', def: '1', fps: '+6.0%', desc: 'Главный выключатель динамических теней в Source 2.' },
+            { name: 'r_size_cull_threshold_shadow', val: '200', def: '0.2', fps: '+2.8%', desc: 'Порог размера объектов для отбрасывания теней.' },
+            { name: 'sc_disable_shadow_materials', val: '1', def: '0', fps: '+1.5%', desc: 'Отключает тяжелые теневые шейдеры.' },
+            { name: 'sc_disable_spotlight_shadows', val: '1', def: '0', fps: '+1.2%', desc: 'Отключает тени от прожекторов.' },
+            { name: 'sc_instanced_mesh_lod_bias_shadow', val: '10', def: '1', fps: '+1.0%', desc: 'LOD геометрии в картах теней.' },
+            { name: 'sc_instanced_mesh_size_cull_bias_shadow', val: '10', def: '1', fps: '+1.0%', desc: 'Куллинг инстанс-мешей в тенях.' },
+            { name: 'sparseshadowtree_disable_for_viewmodel', val: '1', def: '1', fps: '+0.3%', desc: 'Отключение SST для рук/оружия героя.' },
+            { name: 'sparseshadowtree_enable_rendering', val: '0', def: '0', fps: '+1.0%', desc: 'Sparse Shadow Tree рендеринг.' },
+            { name: 'sparseshadowtree_parallel_generation', val: '2', def: '0', fps: '+0.5%', desc: 'Многопоточная генерация деревьев теней.' }
+        ]
+    },
+    {
+        category: "14. Lighting (Освещение и отражения)",
+        items: [
+            { name: 'cl_retire_low_priority_lights', val: '1', def: '0', fps: '+1.0%', desc: 'Сброс низкоприоритетных источников света.' },
+            { name: 'lb_cubemap_normalization_max', val: '1', def: '32', fps: '+0.8%', desc: 'Нормализация кубмапов отражений.' },
+            { name: 'lb_cubemap_normalization_roughness_begin', val: '0.01', def: '0.1', fps: '+0.4%', desc: 'Шероховатость кубмапов.' },
+            { name: 'lb_max_visible_barn_lights_override', val: '1', def: '8', fps: '+1.5%', desc: 'Макс. число видимых источников света Barn.' },
+            { name: 'lb_max_visible_envmaps_override', val: '4', def: '4', fps: '⚡ Важно', desc: 'Макс. число видимых EnvMap отражений (не менять!).' },
+            { name: 'mat_async_shader_load', val: '1', def: '0', fps: '⚡ Стаб.', desc: 'Асинхронная загрузка шейдеров без фризов.' },
+            { name: 'mat_max_lighting_complexity', val: '1', def: '8', fps: '+3.5%', desc: 'Максимальная сложность проходов освещения.' },
+            { name: 'mat_tonemap_bloom_scale', val: '0', def: '1', fps: '+1.0%', desc: 'Масштаб блюма тонемаппинга.' },
+            { name: 'r_arealights', val: 'false', def: 'true', fps: '+1.5%', desc: 'Прямоугольные источники освещения (Area lights).' },
+            { name: 'r_citadel_disable_npr_lighting', val: 'false', def: 'false', fps: '+0.5%', desc: 'Отключение NPR стилизованного освещения.' },
+            { name: 'r_citadel_distancefield_farfield_enable', val: '0', def: '1', fps: '+1.8%', desc: 'Дальние эффекты дистанционных полей.' },
+            { name: 'r_citadel_ssao_bent_normals', val: 'false', def: 'true', fps: '+0.8%', desc: 'SSAO изогнутые нормали.' },
+            { name: 'r_citadel_ssao_denoise_passes', val: '0', def: '2', fps: '+1.2%', desc: 'Проходы шумоподавления затенения SSAO.' },
+            { name: 'r_citadel_ssao_quality', val: '0', def: '3', fps: '+3.0%', desc: 'Качество затенения SSAO.' },
+            { name: 'r_citadel_ssao_radius', val: '0', def: '1', fps: '+0.5%', desc: 'Радиус затенения SSAO.' },
+            { name: 'r_citadel_ssao_thin_occluder_compensation', val: '0', def: '0.5', fps: '+0.4%', desc: 'Компенсация тонких объектов в SSAO.' },
+            { name: 'r_citadel_sun_shadow_slope_scale_depth_bias', val: '1.0', def: '3.54', fps: '0.0%', desc: 'Смещение глубины теней солнца.' },
+            { name: 'r_directlighting', val: 'true', def: 'true', fps: '⚡ Важно', desc: 'Прямое освещение (true, чтобы герои не были черными в шопе).' },
+            { name: 'r_directional_lightmaps', val: 'false', def: 'true', fps: '+1.5%', desc: 'Направленные лайтмапы.' },
+            { name: 'r_distancefield_enable', val: '0', def: '1', fps: '+3.0%', desc: 'Полное отключение системы Distance Fields.' },
+            { name: 'r_environment_map_roughness_range', val: '0.01', def: '0.2', fps: '+1.5%', desc: 'Отключение отражений окружения на карте.' },
+            { name: 'r_flashlightbrightness', val: '0', def: '1', fps: '+0.2%', desc: 'Яркость фонарей.' },
+            { name: 'r_flashlightfar', val: '0', def: '750', fps: '+0.2%', desc: 'Дальность фонарей.' },
+            { name: 'r_flashlightshadowatten', val: '0', def: '0.5', fps: '+0.1%', desc: 'Затухание теней фонарей.' },
+            { name: 'r_gbuffer_disable_npr_lighting', val: 'true', def: 'false', fps: '+1.0%', desc: 'Отключение NPR в G-буфере.' },
+            { name: 'r_light_flickering_enabled', val: 'false', def: '1', fps: '+0.5%', desc: 'Мерцание ламп и источников света.' },
+            { name: 'r_light_sensitivity_mode', val: 'true', def: 'false', fps: '0.0%', desc: 'Режим светочувствительности.' },
+            { name: 'r_lightmap_bicubic_filtering', val: '1', def: '1', fps: '+0.2%', desc: 'Бикубическая фильтрация лайтмап.' },
+            { name: 'r_lightmap_size', val: '4', def: '65536', fps: '+2.5%', desc: 'Разрешение лайтмап карты.' },
+            { name: 'r_lightmap_size_directional_irradiance', val: '0', def: '-1', fps: '+1.0%', desc: 'Размер направленного излучения лайтмап.' },
+            { name: 'r_multiscattering', val: '1', def: '1', fps: '+0.3%', desc: 'Многократное рассеивание света.' },
+            { name: 'r_rendersun', val: 'false', def: '1', fps: '+1.5%', desc: 'Отключает диск солнца на небе.' },
+            { name: 'r_ssao', val: '0', def: '1', fps: '+4.0%', desc: 'Главный выключатель Screen Space Ambient Occlusion.' },
+            { name: 'r_ssao_blur', val: '0', def: '1', fps: '+0.8%', desc: 'Размытие SSAO.' },
+            { name: 'r_ssao_strength', val: '0', def: '1.2', fps: '+0.5%', desc: 'Сила SSAO.' },
+            { name: 'sc_cache_envmap_lpv_lookup', val: 'false', def: 'true', fps: '+0.4%', desc: 'Кэш LPV для кубмапов.' },
+            { name: 'thumper_use_plane_reflection', val: 'false', def: 'true', fps: '+0.5%', desc: 'Плоские отражения.' },
+            { name: 'vis_sunlight_enable', val: '0', def: '1', fps: '+0.8%', desc: 'Видимость солнечного света.' }
+        ]
+    },
+    {
+        category: "15. Ragdolls (Физика трупов)",
+        items: [
+            { name: 'ai_use_async_ragdoll_fixup', val: 'true', def: 'false', fps: '+0.3%', desc: 'Асинхронное исправление рэгдоллов.' },
+            { name: 'cl_disable_ragdolls', val: '1', def: '0', fps: '+3.0%', desc: 'Отключение рэгдоллов (может влиять на ульт Дурмана).' },
+            { name: 'cl_ragdoll_default_scale', val: '0', def: '1', fps: '0.0%', desc: 'Масштаб рэгдоллов.' },
+            { name: 'cl_ragdoll_limit', val: '0', def: '-1', fps: '+1.5%', desc: 'Лимит одновременных рэгдоллов на сцене.' },
+            { name: 'g_ragdoll_important_maxcount', val: '1', def: '2', fps: '+0.5%', desc: 'Макс. число важных рэгдоллов.' },
+            { name: 'ragdoll_parallel_pose_control', val: '1', def: '0', fps: '+1.0%', desc: 'Многопоточный расчет поз рэгдоллов.' }
+        ]
+    },
+    {
+        category: "16. Models & Animation (Модели, скелеты, ткань)",
+        items: [
+            { name: 'anim_decode_forcewritealltransforms', val: 'true', def: 'false', fps: '+0.4%', desc: 'Принудительная пакетная трансформация костей.' },
+            { name: 'anim_disable', val: 'true', def: 'false', fps: '+1.5%', desc: 'Отключение фоновых лишних анимаций.' },
+            { name: 'animgraph_enable_parallel_op_evaluation', val: '1', def: '0', fps: '+1.8%', desc: 'Параллельный расчет графа анимаций на CPU.' },
+            { name: 'animgraph_enable_parallel_preupdate', val: '1', def: '0', fps: '+1.2%', desc: 'Параллельный пред-апдейт анимаций.' },
+            { name: 'animgraph_footlock_enabled', val: 'false', def: 'true', fps: '+0.8%', desc: 'Фиксация стоп на неровностях.' },
+            { name: 'animgraph_slowdownonslopes_enabled', val: 'false', def: 'true', fps: '+0.3%', desc: 'Замедление анимаций на склонах.' },
+            { name: 'cl_bone_cache_optimization', val: '1', def: '0', fps: '+1.5%', desc: 'Оптимизация кэша костей скелета.' },
+            { name: 'cl_fasttempentcollision', val: '999999', def: '5', fps: '+0.4%', desc: 'Лимит коллизий временных энтити.' },
+            { name: 'cloth_sim_on_tick', val: '0', def: '1', fps: '+2.0%', desc: 'Симуляция ткани каждый тик.' },
+            { name: 'cloth_update', val: '1', def: '1', fps: '0.0%', desc: 'Апдейты системы ткани.' },
+            { name: 'enable_boneflex', val: 'false', def: '1', fps: '+1.2%', desc: 'Процедурные флексы лица/мешей.' },
+            { name: 'func_break_max_pieces', val: '1', def: '16', fps: '+0.8%', desc: 'Макс. число осколков разрушаемых объектов.' },
+            { name: 'ik_fabrik_align_chain', val: '0', def: '1', fps: '+0.8%', desc: 'FABRIK выравнивание цепей инверсной кинематики.' },
+            { name: 'ik_final_fixup_enable', val: '0', def: '1', fps: '+0.6%', desc: 'Финальный проход фиксации IK.' },
+            { name: 'mesh_calculate_curvature_smooth_pass_count', val: '0', def: '1', fps: '+0.5%', desc: 'Сглаживание кривизны мешей.' },
+            { name: 'phys_threaded_cloth_bone_update', val: '1', def: '0', fps: '+1.0%', desc: 'Многопоточный апдейт костей ткани.' },
+            { name: 'phys_threaded_kinematic_bone_update', val: '1', def: '0', fps: '+1.0%', desc: 'Многопоточная кинематика костей.' },
+            { name: 'phys_threaded_transform_update', val: '1', def: '0', fps: '+1.0%', desc: 'Многопоточный апдейт трансформаций.' },
+            { name: 'pred_cloth_pos_max', val: '0', def: '1', fps: '+0.2%', desc: 'Предикшн позиции ткани.' },
+            { name: 'pred_cloth_pos_multiplier', val: '0', def: '0.3', fps: '+0.2%', desc: 'Множитель предикшна позиции ткани.' },
+            { name: 'pred_cloth_pos_strength', val: '0', def: '0.1', fps: '+0.2%', desc: 'Сила предикшна ткани.' },
+            { name: 'pred_cloth_rot_high', val: '0', def: '0.05', fps: '+0.1%', desc: 'Предикшн вращения ткани (High).' },
+            { name: 'pred_cloth_rot_low', val: '0', def: '0.005', fps: '+0.1%', desc: 'Предикшн вращения ткани (Low).' },
+            { name: 'pred_cloth_rot_multiplier', val: '0', def: '0.2', fps: '+0.1%', desc: 'Множитель вращения ткани.' },
+            { name: 'presettle_cloth_iterations', val: '0', def: '3', fps: '+0.5%', desc: 'Итерации предварительной стабилизации ткани.' },
+            { name: 'props_break_apply_radial_forces', val: '0', def: '1', fps: '+0.4%', desc: 'Радиальные силы при разломе пропсов.' },
+            { name: 'props_break_max_pieces_perframe', val: '0.5', def: '16', fps: '+1.0%', desc: 'Лимит осколков коробок и крипов в кадр.' },
+            { name: 'r_hair_ao', val: '0', def: '1', fps: '+0.8%', desc: 'Затенение волос (Hair AO).' },
+            { name: 'r_hair_indirect_transmittance', val: 'false', def: 'true', fps: '+0.5%', desc: 'Непрямое пропускание света в волосах.' },
+            { name: 'r_hair_shadowtile', val: 'false', def: 'true', fps: '+0.4%', desc: 'Тайлы теней волос.' },
+            { name: 'r_haircull_percent', val: '100', def: '0', fps: '+1.5%', desc: 'Процент отсечения прядей волос.' },
+            { name: 'r_morphing_enabled', val: 'false', def: 'true', fps: '+1.0%', desc: 'Морфинг мешей/лиц.' },
+            { name: 'r_render_hair', val: '0', def: '1', fps: '+2.0%', desc: 'Полный рендеринг тяжелых волос.' },
+            { name: 'r_smooth_morph_normals', val: '0', def: '1', fps: '+0.5%', desc: 'Сглаживание нормалей морфинга.' }
+        ]
+    },
+    {
+        category: "17. Visual Clarity & Postprocessing (Пост-эффекты)",
+        items: [
+            { name: 'citadel_per_weapon_per_surface_impact_effects', val: 'false', def: 'true', fps: '+0.5%', desc: 'Уникальные эффекты попаданий по разным поверхностям.' },
+            { name: 'cl_impacteffects', val: '0', def: '1', fps: '+0.8%', desc: 'Эффекты попаданий пуль.' },
+            { name: 'cl_show_splashes', val: '0', def: '1', fps: '+0.4%', desc: 'Всплески воды и брызги.' },
+            { name: 'fog_enable', val: '0', def: '1', fps: '+2.5%', desc: 'Базовый туман.' },
+            { name: 'fx_drawmetalspark', val: 'false', def: 'true', fps: '+0.5%', desc: 'Искры при попадании по металлу.' },
+            { name: 'mat_colcorrection_disableentities', val: '0', def: '0', fps: '0.0%', desc: 'Цветокоррекция энтити.' },
+            { name: 'mat_colorcorrection', val: '1', def: '1', fps: '+0.2%', desc: 'Цветокоррекция (1 = нормальные цвета, 0 = блеклые).' },
+            { name: 'r_character_decal_monitor_render_res', val: '64', def: '512', fps: '+0.5%', desc: 'Разрешение декалей на персонажах.' },
+            { name: 'r_character_decal_resolution', val: '0.01', def: '1024', fps: '+1.0%', desc: 'Текстурное разрешение декалей на героях.' },
+            { name: 'r_citadel_antialiasing', val: '0', def: '1', fps: '+2.5%', desc: 'Сглаживание (Anti-aliasing).' },
+            { name: 'r_citadel_depthoffield_enable', val: 'false', def: 'true', fps: '+1.2%', desc: 'Глубина резкости (DOF).' },
+            { name: 'r_citadel_distancefield_blur', val: 'false', def: 'true', fps: '+0.8%', desc: 'Размытие дистанционных полей.' },
+            { name: 'r_citadel_fog_quality', val: '0', def: '1', fps: '+1.5%', desc: 'Качество тумана Citadel.' },
+            { name: 'r_decals', val: '1', def: '2048', fps: '+1.5%', desc: 'Максимальное число декалей (дыр от пуль, крови).' },
+            { name: 'r_decals_default_fade_duration', val: '0.001', def: '3', fps: '+0.4%', desc: 'Скорость исчезновения декалей.' },
+            { name: 'r_decals_default_start_fade', val: '0.001', def: '1', fps: '+0.2%', desc: 'Начало затухания декалей.' },
+            { name: 'r_decals_max_on_deformables', val: '0', def: '32', fps: '+0.5%', desc: 'Декали на деформируемых объектах.' },
+            { name: 'r_decals_overlap_threshold', val: '5', def: '0.5', fps: '+0.3%', desc: 'Порог перекрытия декалей.' },
+            { name: 'r_depth_of_field', val: '0', def: '1', fps: '+1.5%', desc: 'Глубина резкости движка.' },
+            { name: 'r_drawdecals', val: '0', def: '1', fps: '+2.0%', desc: 'Отрисовка декалей на стенах.' },
+            { name: 'r_drawmodeldecals', val: '0', def: '1', fps: '+1.0%', desc: 'Декали на 3D моделях.' },
+            { name: 'r_drawtracers', val: '0', def: '1', fps: '+1.2%', desc: 'Трассеры пуль врагов/союзников.' },
+            { name: 'r_drawtracers_firstperson', val: '0', def: '1', fps: '+0.8%', desc: 'Трассеры пуль от 1-го лица.' },
+            { name: 'r_effects_bloom', val: '0', def: '1', fps: '+2.0%', desc: 'Эффект свечения Bloom.' },
+            { name: 'r_enable_cubemap_fog', val: '0', def: '1', fps: '+1.0%', desc: 'Кубмап туман.' },
+            { name: 'r_enable_gradient_fog', val: '0', def: '1', fps: '+1.0%', desc: 'Градиентный туман.' },
+            { name: 'r_enable_volume_fog', val: '0', def: '1', fps: '+4.0%', desc: 'Объёмный тяжелый туман (Volumetric Fog).' },
+            { name: 'r_fullscreen_gamma', val: '2.2', def: '2.2', fps: '0.0%', desc: 'Гамма экрана (больше = темнее).' },
+            { name: 'r_muzzleflashbrightness', val: '0.01', def: '0.4', fps: '+0.3%', desc: 'Яркость вспышек выстрелов.' },
+            { name: 'r_post_bloom', val: '0', def: '1', fps: '+1.5%', desc: 'Пост-процессинг блюма.' },
+            { name: 'r_postprocess_enable', val: 'true', def: 'true', fps: '+0.5%', desc: 'Пост-обработка.' },
+            { name: 'sc_clutter_enable', val: '0', def: 'true', fps: '+3.5%', desc: 'Отключает мусорные пропсы на карте (видимость и FPS).' },
+            { name: 'violence_ablood', val: 'false', def: '1', fps: '+0.4%', desc: 'Кровь пришельцев/существ.' },
+            { name: 'violence_agibs', val: 'false', def: '1', fps: '+0.5%', desc: 'Расчленение существ.' },
+            { name: 'violence_hblood', val: 'false', def: '1', fps: '+0.4%', desc: 'Кровь людей.' },
+            { name: 'violence_hgibs', val: 'false', def: '1', fps: '+0.5%', desc: 'Расчленение людей.' },
+            { name: 'volume_fog_intermediate_textures_hdr', val: '0', def: 'true', fps: '+1.5%', desc: 'HDR промежуточные текстуры тумана.' }
+        ]
+    },
+    {
+        category: "18. Network & Prediction (Сеть и тикрейт)",
+        items: [
+            { name: 'cl_async_usercmd_send', val: 'true', def: 'false', fps: '⏱ Плавность', desc: 'Асинхронная отправка команд клиента (убирает сетевые задержки).' },
+            { name: 'cl_eye_yaw_multiplier', val: '0', def: '1', fps: '0.0%', desc: 'Множитель поворота взгляда.' },
+            { name: 'cl_parallel_readpacketentities', val: '1', def: '0', fps: '+1.5%', desc: 'Параллельное чтение пакетов энтити на CPU.' },
+            { name: 'cl_parallel_readpacketentities_threshold', val: '2', def: '4', fps: '+0.5%', desc: 'Порог параллельного чтения пакетов.' },
+            { name: 'cl_prediction_savedata_postentitypacketreceived', val: '1', def: '0', fps: '+0.5%', desc: 'Сохранение данных предикшна после пакета.' },
+            { name: 'cl_resend', val: '15', def: '0.5', fps: '🌐 Сеть', desc: 'Интервал переподключения в секундах.' },
+            { name: 'cl_smooth_draw_debug', val: '0', def: '0', fps: '0.0%', desc: 'Дебаг сглаживания сетевого вида.' },
+            { name: 'cl_smoothtime', val: '0.01', def: '0.2', fps: '⏱ Отклик', desc: 'Время сглаживания ошибки предикшна (меньше = отзывчивее).' },
+            { name: 'cl_updaterate', val: '128', def: '128', fps: '🌐 Сеть', desc: 'Частота снапшотов от сервера.' },
+            { name: 'net_async_clientconnect', val: '1', def: '0', fps: '⚡ Быстро', desc: 'Асинхронное подключение клиента к серверу.' },
+            { name: 'sv_parallel_sendsnapshot', val: '2', def: '0', fps: '+1.0%', desc: 'Параллельная отправка сетевых снапшотов.' }
+        ]
+    },
+    {
+        category: "19. System, CPU & Memory (Системные потоки и CPU)",
+        items: [
+            { name: 'battery_saver', val: '0', def: '0', fps: '+1.0%', desc: 'Режим экономии батареи ноутбука (0 = макс производительность).' },
+            { name: 'cpu_level', val: '1', def: '2', fps: '+2.0%', desc: 'Уровень оптимизаций CPU.' },
+            { name: 'enable_priority_boost', val: '1', def: '0', fps: '+1.5%', desc: 'Буст приоритета потоков движка в ОС.' },
+            { name: 'engine_max_ticks_to_simulate', val: '33', def: '-1', fps: '⚡ Стаб.', desc: 'Максимум тиков симуляции за кадр.' },
+            { name: 'gpu_level', val: '1', def: '2', fps: '0.0%', desc: 'Уровень профиля GPU.' },
+            { name: 'gpu_mem_level', val: '1', def: '2', fps: '+1.0%', desc: 'Уровень использования видеопамяти VRAM.' },
+            { name: 'r_low_latency', val: '1', def: '1', fps: '⏱ NVIDIA Ref', desc: 'Включение аппаратного режима низкой задержки (Reflex/Anti-Lag).' },
+            { name: 'think_limit', val: '10', def: '10', fps: '+1.0%', desc: 'Лимит времени обработки "think" логики за тик.' }
+        ]
+    },
+    {
+        category: "20. Input (Ввод и мышь)",
+        items: [
+            { name: 'cl_input_enable_raw_keyboard', val: '1', def: '0', fps: '⏱ Отклик', desc: 'Прямой низкоуровневый ввод клавиатуры (Raw Input).' },
+            { name: 'm_rawinput', val: '1', def: '1', fps: '⏱ Отклик', desc: 'Прямой ввод мыши без ускорения Windows.' }
+        ]
+    },
+    {
+        category: "21. Particles (Эффекты частиц и способностей)",
+        items: [
+            { name: 'cl_aggregate_particles', val: '1', def: '0', fps: '+2.5%', desc: 'Агрегация/батчинг частиц для экономии вызовов отрисовки.' },
+            { name: 'cl_particle_batch_mode', val: '1', def: '1', fps: '+1.5%', desc: 'Режим батчинга частиц.' },
+            { name: 'cl_particle_fallback_base', val: '10', def: '0', fps: '+2.0%', desc: 'База переключения на упрощенные эффекты под нагрузкой.' },
+            { name: 'cl_particle_fallback_multiplier', val: '10', def: '0', fps: '+2.0%', desc: 'Множитель переключения на легкие эффекты в замесах.' },
+            { name: 'cl_particle_max_count', val: '0', def: '0', fps: '0.0%', desc: 'Макс. число частиц (0 = без спама в консоль).' },
+            { name: 'cl_particle_sim_fallback_base_multiplier', val: '100', def: '5', fps: '+2.5%', desc: 'Агрессивность перехода на упрощенную физику частиц.' },
+            { name: 'cl_particle_sim_fallback_threshold_ms', val: '0', def: '6', fps: '+3.0%', desc: 'Порог времени симуляции в мс до включения фоллбека.' },
+            { name: 'particle_cluster_nodraw', val: '1', def: '0', fps: '+2.0%', desc: 'Пропуск отрисовки кластеров мелких второстепенных частиц.' },
+            { name: 'particle_cluster_use_collision_hulls', val: 'false', def: 'true', fps: '+0.8%', desc: 'Использование хитбоксов коллизий для частиц.' },
+            { name: 'r_RainParticleDensity', val: '0', def: '1', fps: '+1.5%', desc: 'Плотность частиц дождя.' },
+            { name: 'r_citadel_screenspace_particles_full_res', val: '0', def: '1', fps: '+2.5%', desc: 'Screen-space партиклы в полном разрешении.' },
+            { name: 'r_draw_particle_children_with_parents', val: '0', def: '-1', fps: '+1.0%', desc: 'Отрисовка дочерних декоративных частиц.' },
+            { name: 'r_drawparticles', val: 'true', def: 'true', fps: '⚡ Важно', desc: 'Рендер частиц способностей.' },
+            { name: 'r_limit_particle_job_duration', val: '1', def: 'false', fps: '+1.2%', desc: 'Ограничение длительности вычислений частиц на поток.' },
+            { name: 'r_particle_batch_collections', val: 'true', def: 'false', fps: '+1.5%', desc: 'Батчинг коллекций частиц.' },
+            { name: 'r_particle_cables_cast_shadows', val: '0', def: '1', fps: '+0.5%', desc: 'Тени от веревок/кабелей частиц.' },
+            { name: 'r_particle_cables_render', val: 'false', def: 'true', fps: '+0.8%', desc: 'Рендер тросов/кабелей (может влиять на лассо Лаша).' },
+            { name: 'r_particle_cables_render_meshlets', val: '0', def: '1', fps: '+0.3%', desc: 'Мешлеты кабелей.' },
+            { name: 'r_particle_max_detail_level', val: '0', def: '3', fps: '+3.5%', desc: 'Макс. уровень детализации систем частиц.' },
+            { name: 'r_particle_max_draw_distance', val: '300000', def: '300000', fps: '⚡ Видимость', desc: 'Дистанция рендера партиклов (ниже нельзя, пропадет ХП крипов).' },
+            { name: 'r_particle_max_texture_layers', val: '4', def: '-1', fps: '+1.0%', desc: 'Слои текстур огня и горения (мин. 4 для Инфернуса).' },
+            { name: 'r_particle_min_timestep', val: '0.001', def: '0.01', fps: '+0.5%', desc: 'Мин. шаг симуляции времени частиц.' },
+            { name: 'r_particle_mixed_resolution_viewstart', val: '800', def: '400', fps: '+1.5%', desc: 'Дистанция рендера частиц в пониженном разрешении.' },
+            { name: 'r_particle_model_new8', val: '0', def: '1', fps: '+0.8%', desc: 'Отключает тяжелые новые модели частиц.' },
+            { name: 'r_particle_model_per_thread_count', val: '32', def: '32', fps: '+0.4%', desc: 'Моделей частиц на один рабочий поток.' },
+            { name: 'r_particle_skip_postsim', val: '1', def: 'false', fps: '+1.2%', desc: 'Пропуск пост-симуляции частиц.' },
+            { name: 'r_physics_particle_op_spawn_scale', val: '0', def: '1', fps: '+1.0%', desc: 'Спавн физических интерактивных частиц.' },
+            { name: 'r_world_wind_strength', val: '0', def: '40', fps: '+0.5%', desc: 'Влияние ветра на частицы.' }
+        ]
+    },
+    {
+        category: "22. LOD & Culling (Геометрия и отсечение сцены)",
+        items: [
+            { name: 'citadel_use_pvs_for_players', val: 'true', def: 'false', fps: '+3.5%', desc: 'Отсекает скрытых из поля зрения игроков через PVS.' },
+            { name: 'mat_viewportscale', val: '1', def: '1', fps: '0.0%', desc: 'Масштаб разрешения вьюпорта.' },
+            { name: 'phys_cull_internal_mesh_contacts', val: 'true', def: 'false', fps: '+1.5%', desc: 'Не симулировать контакты внутренних костей внутри меша.' },
+            { name: 'r_aoproxy_cull_dist', val: '0.01', def: '12', fps: '+1.0%', desc: 'Дистанция куллинга AO-прокси.' },
+            { name: 'r_aoproxy_min_dist', val: '9999', def: '3', fps: '+1.0%', desc: 'Мин. дистанция AO-прокси.' },
+            { name: 'r_aoproxy_min_dist_box', val: '9999', def: '3', fps: '+0.5%', desc: 'Мин. дистанция хитбокса AO-прокси.' },
+            { name: 'r_citadel_distancefield_down_sample', val: '6', def: '1', fps: '+2.0%', desc: 'Даунсемплинг дистанционных полей.' },
+            { name: 'r_propsmaxdist', val: '400', def: '1200', fps: '+4.0%', desc: 'Макс. дистанция отрисовки мелких пропсов.' },
+            { name: 'r_strip_invisible_during_sceneobject_update', val: '1', def: 'false', fps: '+1.0%', desc: 'Удалять невидимые объекты при обновлении сцены.' },
+            { name: 'sc_aggregate_bvh_threshold', val: '16', def: '128', fps: '+0.8%', desc: 'Порог агрегации BVH дерева.' },
+            { name: 'sc_allow_dithered_lod', val: 'false', def: 'true', fps: '+0.6%', desc: 'Дизеринг переходов LOD.' },
+            { name: 'sc_clutter_density_full_size', val: '0.5', def: '1', fps: '+1.5%', desc: 'Плотность мелкого мусора (полный размер).' },
+            { name: 'sc_clutter_density_none_size', val: '0.1', def: '0.0035', fps: '+1.5%', desc: 'Плотность скрытия мусора.' },
+            { name: 'sc_dithered_lod_transition_amt', val: '0', def: '1', fps: '+0.4%', desc: 'Величина дизеринга при смене LOD.' },
+            { name: 'sc_enable_discard', val: 'true', def: 'true', fps: '+0.5%', desc: 'Сброс невидимых вызовов рендера.' },
+            { name: 'sc_fade_distance_scale_override', val: '180', def: '-1', fps: '+2.5%', desc: 'Дистанция исчезновения объектов мира.' },
+            { name: 'sc_instanced_mesh_lod_bias', val: '15', def: '1.25', fps: '+3.5%', desc: 'Агрессивное снижение LOD инстанс-мешей.' },
+            { name: 'sc_instanced_mesh_mesh_shader', val: 'false', def: 'true', fps: '+1.0%', desc: 'Переключение Mesh Shaders для инстансов.' },
+            { name: 'sc_instanced_mesh_motion_vectors', val: '0', def: '1', fps: '+0.8%', desc: 'Векторы движения для инстансов.' },
+            { name: 'sc_instanced_mesh_opaque_fade', val: 'false', def: 'true', fps: '+0.4%', desc: 'Плавное затухание непрозрачных мешей.' },
+            { name: 'sc_instanced_mesh_size_cull_bias', val: '10', def: '1.5', fps: '+3.0%', desc: 'Куллинг инстанс-мешей по размеру.' },
+            { name: 'sc_layer_batch_threshold', val: '16', def: '128', fps: '+0.5%', desc: 'Порог батчинга слоев.' },
+            { name: 'sc_layer_batch_threshold_fullsort', val: '20', def: '80', fps: '+0.5%', desc: 'Порог полной сортировки слоев.' },
+            { name: 'sc_max_framebuffer_copies_per_layer', val: '0', def: '1', fps: '+0.8%', desc: 'Копии фреймбуфера на слой.' },
+            { name: 'sc_screen_size_lod_scale_override', val: '0.001', def: '-1', fps: '+4.0%', desc: 'Множитель полигонов мешей на экране (меньше = меньше полигонов).' },
+            { name: 'sv_pvs_max_distance', val: '8500', def: '4000', fps: '+1.5%', desc: 'Макс. дистанция PVS отсечения ящиков, крипов.' },
+            { name: 'sv_remove_ent_from_pvs', val: '1', def: '0', fps: '+2.0%', desc: 'Принудительно удалять объекты вне видимости из PVS.' }
+        ]
+    },
+    {
+        category: "23. Misc & Physics (Физика, порталы, тросы)",
+        items: [
+            { name: 'citadel_cinematic_intro_duration_npc', val: '0.01', def: '2', fps: '⚡ Быстро', desc: 'Длительность синематик-интро NPC.' },
+            { name: 'citadel_cinematic_intro_duration_player', val: '0.01', def: '2', fps: '⚡ Быстро', desc: 'Длительность вступительного интро игрока.' },
+            { name: 'citadel_cinematic_intro_enabled', val: '-1', def: '1', fps: '⚡ Быстро', desc: 'Отключение синематик заставок перед матчем.' },
+            { name: 'citadel_commend_toast_enemy_seconds', val: '0', def: '5', fps: '0.0%', desc: 'Время показа похвалы от врагов.' },
+            { name: 'citadel_commend_toast_seconds', val: '0', def: '5', fps: '0.0%', desc: 'Время показа похвалы.' },
+            { name: 'citadel_hideout_enable_testing_tools', val: 'true', def: 'false', fps: '0.0%', desc: 'Инструменты тестирования в убежище.' },
+            { name: 'citadel_match_details_lane_stats_time', val: '360', def: '600', fps: '0.0%', desc: 'Время статистики линий в матче.' },
+            { name: 'cl_batch_entity_list_ops_during_latch', val: '1', def: 'false', fps: '+1.0%', desc: 'Пакетные операции над списком энтити во избежание мьютекс-локов на CPU.' },
+            { name: 'cl_interp_parallel', val: '1', def: 'false', fps: '+1.2%', desc: 'Параллельная интерполяция энтити на CPU.' },
+            { name: 'cl_phys_enabled', val: 'false', def: 'true', fps: '+4.0%', desc: 'Глобальное отключение клиенской физики.' },
+            { name: 'cl_phys_networked_start_sleep', val: 'true', def: 'false', fps: '+0.5%', desc: 'Сон сетевой физики на старте.' },
+            { name: 'cl_phys_sleep_enable', val: '1', def: '0', fps: '+1.5%', desc: 'Усыпление неподвижных физ. объектов.' },
+            { name: 'cl_phys_timescale', val: '1', def: '1', fps: '+1.0%', desc: 'Таймскейл физики (0 = отключить для макс FPS).' },
+            { name: 'cl_physics_highlight_active', val: '0', def: '0', fps: '0.0%', desc: 'Подсветка активных физ. тел.' },
+            { name: 'cl_smooth', val: 'true', def: 'true', fps: '0.0%', desc: 'Сглаживание вида клиента.' },
+            { name: 'nav_obstruction_async_update', val: 'true', def: 'false', fps: '+0.8%', desc: 'Асинхронный апдейт препятствий навигации.' },
+            { name: 'phys_dynamic_scaling', val: 'false', def: 'true', fps: '+0.5%', desc: 'Динамическое масштабирование физики.' },
+            { name: 'phys_expensive_shape_threshold', val: '100', def: '6', fps: '+1.0%', desc: 'Порог отсечения сложных физ. форм.' },
+            { name: 'phys_highlight_expensive_objects_strength', val: '0', def: '0.02', fps: '0.0%', desc: 'Подсветка тяжелых физ. объектов.' },
+            { name: 'phys_multithreading_enabled', val: '1', def: 'true', fps: '+2.0%', desc: 'Многопоточная физика движка.' },
+            { name: 'r_async_compute_fog', val: 'true', def: 'false', fps: '+1.5%', desc: 'Асинхронные вычисления тумана на GPU.' },
+            { name: 'r_citadel_depth_prepass_dynamic_objects', val: 'false', def: 'true', fps: '+1.8%', desc: 'Отключение Depth Prepass для динамических объектов.' },
+            { name: 'r_drawropes', val: '0', def: '1', fps: '+1.5%', desc: 'Отрисовка канатов и проводов зиплайна.' },
+            { name: 'r_enable_rigid_animation', val: '0', def: '1', fps: '+0.5%', desc: 'Анимации жестких тел.' },
+            { name: 'r_max_portal_render_targets', val: '2', def: '0', fps: '+0.5%', desc: 'Максимум тарджетов рендера дверей Дурмана.' },
+            { name: 'r_pipeline_stats_use_flush_api', val: 'false', def: 'false', fps: '0.0%', desc: 'Сброс статистики пайплайна.' },
+            { name: 'r_render_portals', val: 'true', def: 'true', fps: '⚡ Важно', desc: 'Рендеринг порталов.' },
+            { name: 'r_renderdoc_auto_shader_pdbs', val: '0', def: 'true', fps: '0.0%', desc: 'Генерация отладочных шейдеров RenderDoc.' },
+            { name: 'r_ropetranslucent', val: '0', def: '1', fps: '+0.3%', desc: 'Полупрозрачность канатов.' },
+            { name: 'r_translucent', val: 'true', def: 'true', fps: '⚡ Важно', desc: 'Рендер прозрачных эффектов (false скроет AOE круги скиллов!).' },
+            { name: 'rope_collide', val: '0', def: '1', fps: '+0.5%', desc: 'Коллизии веревок.' },
+            { name: 'rope_smooth_enlarge', val: '0', def: '1.4', fps: '+0.3%', desc: 'Сглаживание веревок в screen-space.' },
+            { name: 'rope_smooth_maxalpha', val: '0', def: '0.5', fps: '+0.2%', desc: 'Альфа сглаживания веревок.' },
+            { name: 'rope_smooth_maxalphawidth', val: '0', def: '1.75', fps: '+0.2%', desc: 'Ширина сглаживания веревок.' },
+            { name: 'rope_smooth_minalpha', val: '0', def: '0.2', fps: '+0.2%', desc: 'Мин. альфа веревок.' },
+            { name: 'rope_smooth_minwidth', val: '0', def: '0.3', fps: '+0.2%', desc: 'Мин. толщина сглаживания.' },
+            { name: 'rope_subdiv', val: '0', def: '2', fps: '+0.5%', desc: 'Подразбиение геометрии веревок.' },
+            { name: 'rope_wind_dist', val: '0', def: '1000', fps: '+0.4%', desc: 'Влияние ветра на тросы.' },
+            { name: 'sc_disable_baked_lighting', val: 'true', def: 'false', fps: '+2.0%', desc: 'Отключение запеченного освещения.' },
+            { name: 'sc_force_materials_batchable', val: 'true', def: 'false', fps: '+1.5%', desc: 'Принудительный батчинг материалов.' },
+            { name: 'sc_hdr_enabled_override', val: '0', def: '-1', fps: '+1.0%', desc: 'Переопределение HDR.' },
+            { name: 'wind_system_default_resolution_xy', val: '64', def: '128', fps: '+0.4%', desc: 'Разрешение симуляции ветра.' },
+            { name: 'wind_system_temporal_smoothing', val: 'false', def: 'true', fps: '+0.3%', desc: 'Временное сглаживание ветра.' },
+            { name: 'zipline_use_new_latch', val: '0', def: '2', fps: '+0.2%', desc: 'Механика захвата зиплайна (0 = старая легкая логика).' }
+        ]
+    },
+    {
+        category: "24. Grass (Трава и деревья)",
+        items: [
+            { name: 'r_grass_end_fade', val: '0', def: '300', fps: '+3.0%', desc: 'Дистанция полного исчезновения травы (0 = отключить траву).' },
+            { name: 'r_grass_quality', val: '0', def: '2', fps: '+2.5%', desc: 'Качество геометрии и плотности травы.' },
+            { name: 'r_grass_start_fade', val: '0', def: '0', fps: '+0.5%', desc: 'Дистанция начала исчезновения травы.' },
+            { name: 'r_world_wind_frequency_grass', val: '0', def: '1', fps: '+0.4%', desc: 'Колыхание травы на ветру.' },
+            { name: 'r_world_wind_frequency_trees', val: '0', def: '1', fps: '+0.6%', desc: 'Колыхание крон деревьев на ветру.' }
+        ]
+    },
+    {
+        category: "25. Creep AI & Pathfinding (ИИ крипов и поиск пути)",
+        items: [
+            { name: 'ai_async_queue_max_jobs', val: '1', def: '4', fps: '+0.5%', desc: 'Макс. асинхронных задач ИИ в очереди.' },
+            { name: 'ai_expression_optimization', val: '1', def: '0', fps: '+0.8%', desc: 'Оптимизация выражений ИИ.' },
+            { name: 'ai_foot_sweep_enable', val: 'false', def: 'true', fps: '+0.6%', desc: 'Трассировка шагов крипов по земле.' },
+            { name: 'ai_gather_conditions_async', val: 'true', def: 'false', fps: '+1.0%', desc: 'Асинхронный сбор условий крипов.' },
+            { name: 'ai_strong_optimizations_no_checkstand', val: '1', def: '0', fps: '+1.2%', desc: 'Агрессивная оптимизация логики стояния ИИ.' },
+            { name: 'ai_think_interval', val: '0.3', def: '0.1', fps: '+2.0%', desc: 'Интервал тиков логики ИИ крипов (разгружает CPU).' },
+            { name: 'ai_think_interval_lod_low', val: '1', def: '0.2', fps: '+1.5%', desc: 'Интервал логики ИИ для дальних крипов.' },
+            { name: 'citadel_npc_disable_cockroaches', val: 'true', def: 'false', fps: '+0.5%', desc: 'Отключает тараканов и мелких фоновых декоративных насекомых.' },
+            { name: 'citadel_npc_disable_floor_point_caching', val: 'false', def: 'false', fps: '0.0%', desc: 'Кэширование точек пола NPC.' },
+            { name: 'citadel_npc_force_animate_every_tick', val: 'false', def: 'true', fps: '+1.8%', desc: 'Не форсировать анимацию NPC каждый тик (экономит CPU).' },
+            { name: 'cl_simulate_dormant_entities', val: '0', def: 'true', fps: '+1.0%', desc: 'Симуляция "спящих" энтити вне зоны видимости.' },
+            { name: 'nav_pathfind_multithread', val: '1', def: 'false', fps: '+1.5%', desc: 'Вынос поиска путей крипов в отдельный поток CPU.' }
+        ]
+    },
+    {
+        category: "26. Audio & Steam Audio (Звуковой движок)",
+        items: [
+            { name: 'audio_enable_vmix_mastering', val: '0', def: 'true', fps: '+0.5%', desc: 'Мастеринг звука через vmix.' },
+            { name: 'dsp_slow_cpu', val: '1', def: '0', fps: '+0.8%', desc: 'Упрощенная обработка DSP эффектов звука для слабых CPU.' },
+            { name: 'dsp_volume', val: '0', def: '0.8', fps: '+0.3%', desc: 'Громкость DSP эффектов.' },
+            { name: 'snd_mix_async', val: '1', def: '0', fps: '+1.0%', desc: 'Асинхронное микширование аудио.' },
+            { name: 'snd_mixahead', val: '0.05', def: '0.001', fps: '+0.8%', desc: 'Буфер микшера звука (разгружает CPU).' },
+            { name: 'snd_occlusion_bounces', val: '0', def: '1', fps: '+1.2%', desc: 'Отражения и окклюзия звука от стен.' },
+            { name: 'snd_spatialize_lerp', val: '0', def: '1', fps: '+0.2%', desc: 'Интерполяция пространственного позиционирования звука.' },
+            { name: 'snd_steamaudio_enable_perspective_correction', val: '0', def: '1', fps: '+0.5%', desc: 'Коррекция перспективы Steam Audio.' },
+            { name: 'snd_steamaudio_enable_reverb', val: '0', def: '1', fps: '+1.5%', desc: 'Реверберация помещений Steam Audio.' },
+            { name: 'snd_steamaudio_num_threads', val: '4', def: '4', fps: '⚡ Потоки', desc: 'Число потоков CPU для аудиодвижка.' },
+            { name: 'snd_use_baked_occlusion', val: '1', def: '0', fps: '+0.8%', desc: 'Использовать запеченную окклюзию звука вместо расчета в реальном времени.' },
+            { name: 'soundsystem_update_async', val: '1', def: '0', fps: '+0.8%', desc: 'Асинхронное обновление звуковой системы.' },
+            { name: 'update_voices_low_priority', val: 'true', def: 'false', fps: '+0.4%', desc: 'Низкий приоритет обновления голосов персонажей.' }
+        ]
+    },
+    {
+        category: "27. CSM Shadows Overrides (Каскадные тени)",
+        items: [
+            { name: 'csm_cascade0_override_dist', val: '0', def: '0', fps: '+1.2%', desc: 'Дистанция нулевого каскада CSM.' },
+            { name: 'csm_cascade1_override_dist', val: '0', def: '0', fps: '+1.2%', desc: 'Дистанция первого каскада CSM.' },
+            { name: 'csm_cascade2_override_dist', val: '0', def: '0', fps: '+1.2%', desc: 'Дистанция второго каскада CSM.' },
+            { name: 'csm_cascade3_override_dist', val: '0', def: '0', fps: '+1.2%', desc: 'Дистанция третьего каскада CSM.' },
+            { name: 'csm_max_dist_between_caster_and_receiver', val: '0', def: '0', fps: '+1.5%', desc: 'Макс. дистанция между источником и тенью.' },
+            { name: 'csm_max_num_cascades_override', val: '0', def: '0', fps: '+2.5%', desc: 'Число каскадов теней солнца (0 = отключить).' },
+            { name: 'csm_max_shadow_dist_override', val: '0', def: '0', fps: '+2.0%', desc: 'Макс. дистанция отрисовки любых CSM теней.' },
+            { name: 'csm_max_visible_dist', val: '0', def: '0', fps: '+1.5%', desc: 'Макс. видимая дистанция CSM.' },
+            { name: 'csm_res_override_0', val: '1', def: '512', fps: '+1.0%', desc: 'Разрешение каскада 0.' },
+            { name: 'csm_res_override_1', val: '1', def: '512', fps: '+1.0%', desc: 'Разрешение каскада 1.' },
+            { name: 'csm_res_override_2', val: '1', def: '512', fps: '+1.0%', desc: 'Разрешение каскада 2.' },
+            { name: 'csm_res_override_3', val: '1', def: '512', fps: '+1.0%', desc: 'Разрешение каскада 3.' },
+            { name: 'csm_viewmodel_shadows', val: 'false', def: 'true', fps: '+1.0%', desc: 'Тени от рук и оружия в 1st person виде.' }
+        ]
+    },
+    {
+        category: "28. Engine Core, Networking & Steam Audio Extended",
+        items: [
+            { name: 'sv_minrate', val: '98304', def: '98304', fps: '🌐 Сеть', desc: 'Минимальный рейт сервера.' },
+            { name: 'sv_maxunlag', val: '0.500', def: '0.500', fps: '🌐 Сеть', desc: 'Максимальная компенсация лага.' },
+            { name: 'sv_maxunlag_player', val: '0.200', def: '0.200', fps: '🌐 Сеть', desc: 'Компенсация лага игрока.' },
+            { name: 'sv_lagcomp_filterbyviewangle', val: 'false', def: 'false', fps: '0.0%', desc: 'Фильтрация лагкомпенсации по углу взгляда.' },
+            { name: 'panorama_classes_perf_warning_threshold_ms', val: '0.75', def: '0.75', fps: '0.0%', desc: 'Порог предупреждения производительности CSS классов Panorama.' },
+            { name: 'panorama_js_minidumps', val: '1', def: '0', fps: '0.0%', desc: 'Минидампы JS исключений в Panorama.' },
+            { name: 'panorama_disable_render_target_cache', val: '0', def: '0', fps: '+0.5%', desc: 'Кэш тарджетов рендера Panorama UI.' },
+            { name: 'panorama_skip_composition_layer_content_paint', val: '1', def: '0', fps: '+0.8%', desc: 'Пропуск перерисовки статичных слоев композитинга интерфейса.' },
+            { name: 'snd_steamaudio_load_reverb_data', val: '0', def: '1', fps: '💾 -500MB RAM', desc: 'Не загружать тяжелые данные реверберации в RAM.' },
+            { name: 'snd_steamaudio_load_pathing_data', val: '0', def: '1', fps: '💾 -200MB RAM', desc: 'Не загружать данные путей звука в память.' },
+            { name: 'snd_steamaudio_enable_custom_hrtf', val: '0', def: '1', fps: '+0.5%', desc: 'Кастомный HRTF пространственный звук.' },
+            { name: 'snd_steamaudio_active_hrtf', val: '0', def: '0', fps: '0.0%', desc: 'Активный профиль HRTF.' },
+            { name: 'snd_steamaudio_reverb_update_rate', val: '10.0', def: '30.0', fps: '+0.6%', desc: 'Частота обновления реверберации Steam Audio.' },
+            { name: 'snd_steamaudio_ir_duration', val: '1.0', def: '1.5', fps: '+0.4%', desc: 'Длительность импульсного отклика звука.' },
+            { name: 'snd_steamaudio_enable_pathing', val: '0', def: '1', fps: '+1.0%', desc: 'Расчет путей звука через геометрию комнат.' },
+            { name: 'snd_steamaudio_invalid_path_length', val: '0.0', def: '0.0', fps: '0.0%', desc: 'Длина невалидного пути звука.' },
+            { name: 'cl_disconnect_soundevent', val: 'citadel.convar.stop_all_game_layer_soundevents', def: 'citadel.convar.stop_all_game_layer_soundevents', fps: '0.0%', desc: 'Остановка звуковых событий при отключении.' },
+            { name: 'snd_event_browser_default_stack', val: 'citadel_default_3d', def: 'citadel_default_3d', fps: '0.0%', desc: 'Стек браузера звуковых событий.' },
+            { name: 'voice_in_process', val: '1', def: '1', fps: '0.0%', desc: 'Обработка голосового чата внутри процесса.' },
+            { name: 'snd_report_audio_nan', val: '1', def: '0', fps: '0.0%', desc: 'Логгирование NaN значений звука.' },
+            { name: 'snd_sos_max_event_base_depth', val: '10', def: '10', fps: '0.0%', desc: 'Базовая глубина звуковых событий SOS.' },
+            { name: 'sos_use_guid_filter', val: '1', def: '1', fps: '0.0%', desc: 'Фильтр GUID в звуковом движке.' },
+            { name: 'reset_voice_on_input_stallout', val: '0', def: '1', fps: '0.0%', desc: 'Сброс войса при зависании ввода.' },
+            { name: 'voice_input_stallout', val: '0.5', def: '0.5', fps: '0.0%', desc: 'Таймаут зависания голосового ввода.' },
+            { name: 'cl_usesocketsforloopback', val: '1', def: '0', fps: '⚡ Стаб.', desc: 'Использовать сокеты для loopback соединений.' },
+            { name: 'cl_poll_network_early', val: '0', def: '0', fps: '0.0%', desc: 'Ранний опрос сетевого сокета.' },
+            { name: 'iv_parallel_restore', val: '1', def: '0', fps: '+1.5%', desc: 'Параллельное восстановление интерполированных переменных.' },
+            { name: 'disable_source_soundscape_trace', val: '1', def: '0', fps: '+0.5%', desc: 'Отключение устаревшей трассировки Soundscape для Source.' },
+            { name: 'cl_tickpacket_recvmargin_desired', val: '5', def: '5', fps: '⏱ Задержка', desc: 'Желаемый запас приема тиковых пакетов в мс.' },
+            { name: 'cl_tickpacket_desired_queuelength', val: '0', def: '0', fps: '⏱ Отклик', desc: 'Желаемая длина очереди пакетов.' },
+            { name: 'cl_async_usercmd_send_disabled_recvmargin_min', val: '0.5', def: '0.5', fps: '0.0%', desc: 'Минимальный запас приема usercmd.' },
+            { name: 'cl_clock_buffer_ticks', val: '1', def: '0', fps: '🌐 Сеть', desc: 'Буфер тиков часов для компенсации потерь пакетов.' },
+            { name: 'cl_interp_ratio', val: '0', def: '2', fps: '⏱ Хитбокс', desc: 'Множитель интерполяции (0 = самый минимальный инпут-лаг).' },
+            { name: 'fps_max_ui', val: '140', def: '120', fps: '⚡ Лимит', desc: 'Максимальный FPS в меню интерфейса.' },
+            { name: 'in_button_double_press_window', val: '0.3', def: '0.3', fps: '0.0%', desc: 'Окно времени двойного нажатия кнопок.' },
+            { name: 'snd_ui_positional', val: '1', def: '1', fps: '0.0%', desc: 'Позиционирование звуков интерфейса.' },
+            { name: 'snd_ui_spatialization_spread', val: '2.4', def: '2.4', fps: '0.0%', desc: 'Разброс пространственного звука UI.' },
+            { name: 'snd_envelope_rate', val: '100.0', def: '100.0', fps: '0.0%', desc: 'Скорость огибающей звука.' },
+            { name: 'snd_soundmixer_update_maximum_frame_rate', val: '0', def: '0', fps: '0.0%', desc: 'Макс. фреймрейт обновления аудиомикшера.' },
+            { name: 'cq_buffer_bloat_msecs_max', val: '120', def: '120', fps: '🌐 Сеть', desc: 'Макс. раздувание буфера команд в мс.' },
+            { name: 'snd_soundmixer', val: 'Default_Mix', def: 'Default_Mix', fps: '0.0%', desc: 'Профиль звукового микшера.' },
+            { name: 'cloth_filter_transform_stateless', val: '0', def: '1', fps: '+0.3%', desc: 'Фильтр трансформации ткани без сохранения состояния.' },
+            { name: 'cl_joystick_enabled', val: '0', def: '1', fps: '+0.2%', desc: 'Отключение опроса геймпада (экономит циклы CPU).' },
+            { name: 'panorama_joystick_enabled', val: '0', def: '1', fps: '+0.2%', desc: 'Отключение геймпада в меню Panorama.' },
+            { name: 'snd_event_browser_focus_events', val: 'true', def: 'false', fps: '0.0%', desc: 'Фокус событий звукового браузера.' },
+            { name: 'cl_max_particle_pvs_aabb_edge_length', val: '100', def: '100', fps: '+0.4%', desc: 'Макс. длина ребра AABB для PVS частиц.' },
+            { name: 'citadel_enable_vdata_sound_preload', val: 'true', def: 'false', fps: '⚡ Без фризов', desc: 'Предзагрузка звуков из VData во избежание микрофризов.' },
+            { name: 'r_particle_allowprerender', val: 'false', def: 'true', fps: '+0.8%', desc: 'Запрет предварительного рендера частиц.' }
+        ]
+    }
+];
+
+// Генерация DOM элементов
+const container = document.getElementById('categoriesContainer');
+
+function getFpsBadgeClass(fpsText) {
+    if (fpsText.includes('+6') || fpsText.includes('+5') || fpsText.includes('+4')) return 'fps-huge';
+    if (fpsText.includes('+3') || fpsText.includes('+2')) return 'fps-med';
+    if (fpsText.includes('+1') || fpsText.includes('+0')) return 'fps-low';
+    return 'fps-lat';
+}
+
+function renderUI() {
+    container.innerHTML = '';
+    let totalCvars = 0;
+
+    DATA.forEach((cat, catIdx) => {
+        const catElem = document.createElement('div');
+        catElem.className = 'category';
+        catElem.id = `cat-${catIdx}`;
+
+        const header = document.createElement('div');
+        header.className = 'category-header';
+        header.innerHTML = `<span>${cat.category}</span><span style="font-size: 0.8rem; opacity: 0.7;">${cat.items.length} параметров</span>`;
+        header.onclick = () => {
+            const list = catElem.querySelector('.cvar-list');
+            list.style.display = list.style.display === 'none' ? 'flex' : 'none';
+        };
+
+        const list = document.createElement('div');
+        list.className = 'cvar-list';
+
+        cat.items.forEach(item => {
+            totalCvars++;
+            const itemElem = document.createElement('div');
+            itemElem.className = 'cvar-item';
+            itemElem.dataset.name = item.name.toLowerCase();
+            itemElem.dataset.desc = item.desc.toLowerCase();
+
+            const fpsClass = getFpsBadgeClass(item.fps);
+
+            itemElem.innerHTML = `
+                <div class="cvar-name" title="${item.name}">${item.name}</div>
+                <div class="cvar-input">
+                    <input type="text" id="input_${item.name}" value="${item.val}" data-default="${item.def}" data-cfg="${item.val}" oninput="updateOutput()">
+                </div>
+                <div class="cvar-info">
+                    ${item.desc}
+                    <span class="cvar-def">Дефолт: "${item.def}"</span>
+                </div>
+                <div class="fps-badge ${fpsClass}" title="Влияние на частоту кадров и отзывчивость">${item.fps}</div>
+            `;
+            list.appendChild(itemElem);
+        });
+
+        catElem.appendChild(header);
+        catElem.appendChild(list);
+        container.appendChild(catElem);
+    });
+
+    document.getElementById('cvarCount').innerText = `${totalCvars} параметров`;
+    updateOutput();
+}
+
+function updateOutput() {
+    let out = `ConVars\n    {\n`;
+
+    DATA.forEach(cat => {
+        out += `\n        // ================ ${cat.category} ================\n`;
+        cat.items.forEach(item => {
+            const input = document.getElementById(`input_${item.name}`);
+            const val = input ? input.value : item.val;
+            
+            // Форматирование табуляции
+            const paddedName = item.name.padEnd(52, ' ');
+            out += `        ${paddedName} "${val}" // def: "${item.def}" | FPS: ${item.fps}\n`;
+        });
+    });
+
+    // Добавляем специализированные суб-блоки из оригинального файла (rate, speaker_config, voice_always_sample_mic)
+    out += `\n        rate\n        {\n            min     "98304"\n            default "786432"\n            max     "1000000"\n        }\n`;
+    out += `        voice_always_sample_mic\n        {\n            version "2"\n            default "0"\n        }\n`;
+    out += `        speaker_config\n        {\n            min     "0"\n            default "0"\n            max     "2"\n        }\n`;
+
+    out += `    }`;
+
+    document.getElementById('outputArea').value = out;
+}
+
+function filterConVars() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const items = document.querySelectorAll('.cvar-item');
+    
+    items.forEach(el => {
+        const name = el.dataset.name;
+        const desc = el.dataset.desc;
+        if (name.includes(q) || desc.includes(q)) {
+            el.style.display = 'grid';
+        } else {
+            el.style.display = 'none';
+        }
+    });
+
+    // Скрывать пустые категории при поиске
+    document.querySelectorAll('.category').forEach(cat => {
+        const visibleItems = cat.querySelectorAll('.cvar-item[style="display: grid;"], .cvar-item:not([style*="display: none"])');
+        cat.style.display = visibleItems.length > 0 ? 'block' : 'none';
+    });
+}
+
+function resetToConfig() {
+    document.querySelectorAll('.cvar-input input').forEach(input => {
+        input.value = input.dataset.cfg;
+    });
+    updateOutput();
+    showToast('Сброшено к значениям OptimizationLock конфига!');
+}
+
+function resetToDefault() {
+    document.querySelectorAll('.cvar-input input').forEach(input => {
+        if (input.dataset.default && input.dataset.default !== 'null') {
+            input.value = input.dataset.default;
+        }
+    });
+    updateOutput();
+    showToast('Сброшено к стандартным дефолтам игры!');
+}
+
+function copyToClipboard() {
+    const textarea = document.getElementById('outputArea');
+    textarea.select();
+    navigator.clipboard.writeText(textarea.value).then(() => {
+        showToast('✅ ConVars скопированы в буфер обмена!');
+    });
+}
+
+function downloadTxt() {
+    const text = document.getElementById('outputArea').value;
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'gameinfo_convars.txt';
+    link.click();
+}
+
+function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.innerText = msg;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2500);
+}
+
+// Старт инициализации
+renderUI();
+</script>
+</body>
+</html>
