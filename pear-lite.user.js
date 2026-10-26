@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Pear Lite — тема по обложке + тексты во вкладке «Текст» (YouTube Music)
+// @name         Pear Lite
 // @namespace    https://github.com/pear-devs/pear-desktop
-// @version      1.1.0
+// @version      1.3.0
 // @description  Порт album-color-theme и synced-lyrics из Pear Desktop для music.youtube.com (без блокировщика рекламы)
 // @match        https://music.youtube.com/*
 // @run-at       document-idle
@@ -10,6 +10,7 @@
 // @grant        GM_setValue
 // @grant        GM_addStyle
 // @grant        GM_registerMenuCommand
+// @grant        GM_setClipboard
 // @connect      lrclib.net
 // @connect      genius.com
 // @connect      googleusercontent.com
@@ -459,7 +460,9 @@ ytmusic-search-box[is-bauhaus-sidenav-enabled] {
   const artistMatch = (a, b) => {
     const A = splitArtists(a);
     const B = splitArtists(b);
-    return A.some((x) => B.some((y) => x === y || x.includes(y) || y.includes(x)));
+    return A.some((x) =>
+      B.some((y) => x === y || (Math.min(x.length, y.length) >= 3 && (x.includes(y) || y.includes(x)))),
+    );
   };
   // "Song (feat. X) - Remastered 2011" -> "song"
   const coreTitle = (s) => norm((s || '').replace(/\(.*?\)|\[.*?\]|\s[-–—]\s.*$/g, ''));
@@ -468,6 +471,31 @@ ytmusic-search-box[is-bauhaus-sidenav-enabled] {
     const y = coreTitle(b);
     return !!x && !!y && (x === y || x.includes(y) || y.includes(x));
   };
+
+  // ----------------- очистка названия трека -----------------
+  // На YouTube Music у не-"Topic" треков в названии бывает весь заголовок видео:
+  //   "Henry Morris - I Can Be Your Daddy (Official Audio)"
+  // Для поиска нужно только "I Can Be Your Daddy".
+  const JUNK_IN_BRACKETS =
+    /\s*[(\[{][^)\]}]*?\b(?:official|audio|video|lyrics?|lyric video|visuali[sz]er|music video|mv|hd|hq|4k|explicit|clip|premiere|full album|topic)\b[^)\]}]*[)\]}]/gi;
+  const JUNK_TRAILING =
+    /\s*[|\-–—]\s*(?:official\s*(?:music\s*)?(?:audio|video|lyric video)|lyrics?|audio|visuali[sz]er)\s*$/i;
+
+  function cleanTrack(track) {
+    let title = (track.title || '').replace(JUNK_IN_BRACKETS, '').replace(JUNK_TRAILING, '').trim();
+
+    // "Исполнитель - Название" или "Название - Исполнитель"
+    const parts = title.split(/\s+[-–—|]\s+/);
+    if (parts.length >= 2) {
+      const left = parts[0];
+      const right = parts[parts.length - 1];
+      if (artistMatch(left, track.artist)) title = parts.slice(1).join(' - ');
+      else if (artistMatch(right, track.artist)) title = parts.slice(0, -1).join(' - ');
+    }
+
+    title = title.replace(/\s{2,}/g, ' ').trim() || track.title;
+    return { ...track, title };
+  }
 
   // ------------------------------ LRCLib ------------------------------
   async function lrclibJSON(path, params) {
@@ -501,8 +529,10 @@ ytmusic-search-box[is-bauhaus-sidenav-enabled] {
     return ok[0] || null;
   }
 
-  async function fetchFromLRCLib(track, duration) {
+  async function fetchFromLRCLib(track, duration, report) {
     const dur = duration ? Math.round(duration) : 0;
+    const note = (s) => report && report.lines.push(s);
+    note(`Длительность трека: ${dur ? dur + ' c' : 'неизвестна'}`);
 
     // 1) точное совпадение
     try {
@@ -510,19 +540,22 @@ ytmusic-search-box[is-bauhaus-sidenav-enabled] {
       if (track.album) params.album_name = track.album;
       if (dur) params.duration = String(dur);
       const r = lrclibToResult(await lrclibJSON('get', params));
+      note(`LRCLib /get: ${r ? 'найдено' : 'нет'}`);
       if (r) return r;
-    } catch (_) {
-      /* переходим к поиску */
+    } catch (e) {
+      note(`LRCLib /get: ошибка (${e.message})`);
     }
 
     // 2) поиск по названию и исполнителю
     let list = await lrclibJSON('search', { track_name: track.title, artist_name: track.artist });
     let best = lrclibPickBest(list, track, dur);
+    note(`LRCLib /search: ${Array.isArray(list) ? list.length : 0} рез., подходящий: ${best ? 'да' : 'нет'}`);
     if (best) return lrclibToResult(best);
 
     // 3) свободный поиск
     list = await lrclibJSON('search', { q: `${track.title} ${track.artist}`.trim() });
     best = lrclibPickBest(list, track, dur);
+    note(`LRCLib /search?q: ${Array.isArray(list) ? list.length : 0} рез., подходящий: ${best ? 'да' : 'нет'}`);
     return best ? lrclibToResult(best) : null;
   }
 
@@ -541,7 +574,7 @@ ytmusic-search-box[is-bauhaus-sidenav-enabled] {
   // (на странице включены Trusted Types, parseFromString со строкой может быть запрещён).
   function extractGeniusLyrics(html) {
     const parts = [];
-    const startRe = /<div[^>]*data-lyrics-container="true"[^>]*>/g;
+    const startRe = /<div[^>]*(?:data-lyrics-container\s*=\s*["']true["']|class\s*=\s*["'][^"']*Lyrics[\w-]*__Container[^"']*["'])[^>]*>/g;
     let m;
     while ((m = startRe.exec(html)) !== null) {
       const tagRe = /<(\/?)(div|br)\b([^>]*)>/gi;
@@ -582,54 +615,149 @@ ytmusic-search-box[is-bauhaus-sidenav-enabled] {
     return text || null;
   }
 
-  async function fetchFromGenius(track) {
-    const q = new URLSearchParams({ q: `${track.artist} ${track.title}`.trim(), page: '1', per_page: '10' });
-    const res = await gm({
-      method: 'GET',
-      url: `https://genius.com/api/search/song?${q}`,
-      headers: { Accept: 'application/json' },
-    });
+  const DEBUG = true; // подробный лог в консоли: фильтр "[Pear Lite]"
+  const glog = (...args) => {
+    if (DEBUG) console.log('[Pear Lite][Genius]', ...args);
+  };
+  // кириллица, греческий, арабский, иврит, индийские, CJK, хангыль и т.п.
+  const hasNonLatin = (s) => /[\u0370-\u1fff\u2e80-\u9fff\uac00-\ud7af]/.test(s || '');
+
+  async function geniusSearch(url) {
+    const res = await gm({ method: 'GET', url, headers: { Accept: 'application/json' } });
+    glog('поиск', res.status, url);
     if (res.status < 200 || res.status >= 300) throw new Error(`Genius: HTTP ${res.status}`);
-
     const data = JSON.parse(res.responseText);
-    const hits = ((data.response && data.response.sections) || [])
-      .flatMap((s) => s.hits || [])
-      .filter((x) => x && x.result);
+    return ((data.response && data.response.sections) || [])
+      .flatMap((s) => (s.hits || []).filter((h) => !h.type || h.type === 'song').map((h) => h.result))
+      .filter(Boolean);
+  }
 
-    const scored = hits
-      .map((x) => x.result)
-      .filter((r) => r.primary_artist && !/Deleted-artist/i.test(r.primary_artist.url || ''))
-      .filter((r) => artistMatch(track.artist, `${r.artist_names || ''} ${r.primary_artist.name || ''}`))
-      .filter((r) => titleMatch(track.title, r.title))
-      .sort((a, b) => {
-        const ea = coreTitle(a.title) === coreTitle(track.title) ? 1 : 0;
-        const eb = coreTitle(b.title) === coreTitle(track.title) ? 1 : 0;
-        return eb - ea;
-      });
+  const wordOverlap = (a, b) => {
+    const A = new Set(coreTitle(a).split(' ').filter(Boolean));
+    const B = new Set(coreTitle(b).split(' ').filter(Boolean));
+    if (!A.size || !B.size) return 0;
+    let n = 0;
+    for (const w of A) if (B.has(w)) n++;
+    return n / Math.min(A.size, B.size);
+  };
 
-    const best = scored[0];
-    if (!best) return null;
+  function pickGenius(cands, track, trace) {
+    let best = null;
+    for (const r of cands) {
+      if (!r.path) continue;
+      if (r.primary_artist && /Deleted-artist/i.test(r.primary_artist.url || '')) continue;
 
-    const page = await gm({ method: 'GET', url: `https://genius.com${best.path}` });
+      const names = `${r.artist_names || ''} ${(r.primary_artist && r.primary_artist.name) || ''}`;
+      const tm = titleMatch(track.title, r.title);
+      const exact = coreTitle(r.title) === coreTitle(track.title);
+      const am = artistMatch(track.artist, names);
+      // у исполнителя на YouTube Music кириллица/иероглифы, а на Genius латиница (или наоборот)
+      const scriptDiffers = hasNonLatin(track.artist) !== hasNonLatin(names);
+      const overlap = wordOverlap(track.title, r.title);
+
+      let score = 0;
+      if (tm && am) score = exact ? 4 : 3;
+      else if (am && overlap >= 0.6) score = 2.5;
+      else if (exact && scriptDiffers) score = 2;
+
+      glog('кандидат', { title: r.title, artist: r.artist_names, tm, am, exact, scriptDiffers, overlap, score });
+      if (trace) trace.push({ r, tm, am, score });
+      if (score && (!best || score > best.score)) best = { score, r };
+    }
+    return best ? best.r : null;
+  }
+
+  // Загружает страницу песни на Genius и достаёт текст
+  async function fetchGeniusPage(path) {
+    const page = await gm({ method: 'GET', url: `https://genius.com${path}` });
+    glog('страница', page.status, path, `${(page.responseText || '').length} байт`);
     if (page.status < 200 || page.status >= 300) throw new Error(`Genius: HTTP ${page.status}`);
 
     const lyrics = extractGeniusLyrics(page.responseText);
-    if (!lyrics) return null;
+    if (!lyrics) {
+      if (/lyricsPlaceholderReason.{1,5}unreleased/.test(page.responseText)) return null;
+      throw new Error('Genius: страница получена, но текст не извлечён (возможно, изменилась разметка)');
+    }
     if (lyrics.toLowerCase().replace(/[[\]\s]/g, '') === 'instrumental') return null;
 
+    glog('текст получен', `${lyrics.length} символов`);
     return { source: 'Genius', synced: null, plain: lyrics };
   }
 
+  async function fetchFromGenius(track, report) {
+    const note = (s) => report && report.lines.push(s);
+    const firstArtist = (track.artist || '').split(/[&,]/)[0].trim();
+    const cleanTitle = (track.title || '').replace(/\(.*?\)|\[.*?\]|\s[-–—]\s.*$/g, '').trim() || track.title;
+    const queries = [...new Set([`${track.artist} ${track.title}`.trim(), `${firstArtist} ${cleanTitle}`.trim(), cleanTitle])];
+    glog('ищу', track, queries);
+
+    let chosen = null;
+    const seen = new Map();
+    let trace = [];
+    for (const query of queries) {
+      const p = new URLSearchParams({ q: query, page: '1', per_page: '10' });
+      const hits = await geniusSearch(`https://genius.com/api/search/song?${p}`);
+      note(`Genius search/song «${query}»: ${hits.length} рез.`);
+      for (const r of hits) if (!seen.has(r.id)) seen.set(r.id, r);
+      trace = [];
+      chosen = pickGenius([...seen.values()], track, trace);
+      if (chosen) break;
+    }
+
+    // запасной эндпоинт, если "song" ничего не дал
+    if (!chosen) {
+      const p = new URLSearchParams({ q: queries[0] });
+      try {
+        const hits = await geniusSearch(`https://genius.com/api/search/multi?${p}`);
+        note(`Genius search/multi: ${hits.length} рез.`);
+        for (const r of hits) if (!seen.has(r.id)) seen.set(r.id, r);
+        trace = [];
+        chosen = pickGenius([...seen.values()], track, trace);
+      } catch (e) {
+        note(`Genius search/multi: ошибка (${e.message})`);
+        glog('multi-поиск не удался', e);
+      }
+    }
+
+    if (!chosen) {
+      glog('подходящий результат не найден');
+      note('Genius: подходящего результата нет. Кандидаты:');
+      for (const t of trace.slice(0, 6)) {
+        note(`  • ${t.r.artist_names} — ${t.r.title}  [название ${t.tm ? '✓' : '✗'}, исполнитель ${t.am ? '✓' : '✗'}]`);
+      }
+      if (!trace.length) note('  (поиск ничего не вернул)');
+      if (report) {
+        report.candidates = [...seen.values()]
+          .filter((r) => r.path)
+          .slice(0, 6)
+          .map((r) => ({ title: r.title, artist: r.artist_names || '', path: r.path }));
+      }
+      return null;
+    }
+
+    glog('выбран', chosen.full_title || chosen.title, chosen.url);
+    note(`Genius: выбрано «${chosen.artist_names} — ${chosen.title}»`);
+    const result = await fetchGeniusPage(chosen.path);
+    if (!result) note('Genius: страница без текста (не издана или инструментал)');
+    return result;
+  }
+
   // ------------------------------ общий поиск ------------------------------
-  async function findLyrics(track, duration, progress) {
+  async function findLyrics(rawTrack, duration, progress, report) {
+    const track = cleanTrack(rawTrack);
+    if (track.title !== rawTrack.title) {
+      report.lines.push(`Название очищено: «${rawTrack.title}» → «${track.title}»`);
+    }
+
     try {
-      const r = await fetchFromLRCLib(track, duration);
+      const r = await fetchFromLRCLib(track, duration, report);
       if (r) return r;
     } catch (e) {
       console.warn('[Pear Lite] LRCLib:', e);
+      report.lines.push(`LRCLib: ошибка (${e.message})`);
     }
     progress('Не найдено на LRCLib — ищу на Genius…');
-    return fetchFromGenius(track);
+    return fetchFromGenius(track, report);
   }
 
   /* ================================================================== *
@@ -676,6 +804,12 @@ ytmusic-search-box[is-bauhaus-sidenav-enabled] {
 .pl-plain { line-height: 1.55; min-height: 1.55em; opacity: .92; white-space: pre-wrap; }
 .pl-sec { opacity: .55; font-size: .8em; font-weight: 700; margin-top: 1.1em; }
 .pl-state { padding: 30px 10px; text-align: center; opacity: .6; font-size: 14px; }
+.pl-sub { margin: 16px 0 6px; font-size: 12px; opacity: .6; }
+.pl-cand { padding: 8px 10px; margin: 4px 0; border-radius: 8px; background: rgba(255,255,255,.08); cursor: pointer; font-size: .8em; }
+.pl-cand:hover { background: rgba(255,255,255,.18); }
+.pl-report { margin: 0; padding: 8px 10px; border-radius: 8px; background: rgba(0,0,0,.3); font: 11px/1.45 ui-monospace, Consolas, monospace; white-space: pre-wrap; word-break: break-word; opacity: .8; user-select: text; }
+.pl-copy { margin-top: 8px; background: rgba(255,255,255,.12); color: #fff; border: 0; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; }
+.pl-copy:hover { background: rgba(255,255,255,.24); }
 `;
 
   let containerEl, bodyEl, titleEl, offsetEl, offsetGroupEl;
@@ -735,6 +869,58 @@ ytmusic-search-box[is-bauhaus-sidenav-enabled] {
     offsetGroupEl.style.display = 'none';
     bodyEl.classList.remove('plain');
     bodyEl.replaceChildren(h('div', { class: 'pl-state' }, text));
+  }
+
+  function copyText(text) {
+    try {
+      if (typeof GM_setClipboard === 'function') GM_setClipboard(text);
+      else if (navigator.clipboard) navigator.clipboard.writeText(text);
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  // «Текст не найден» + причина + список кандидатов на Genius для ручного выбора
+  function showNotFound(track, report, headline = 'Текст не найден 😔') {
+    resetView();
+    offsetGroupEl.style.display = 'none';
+    bodyEl.classList.add('plain');
+
+    const nodes = [h('div', { class: 'pl-state' }, headline)];
+    if (report.candidates.length) {
+      nodes.push(h('div', { class: 'pl-sub' }, 'Возможно, нужная песня есть на Genius — нажмите, чтобы открыть:'));
+      for (const c of report.candidates) {
+        nodes.push(h('div', { class: 'pl-cand', onclick: () => loadGeniusPath(c) }, `${c.artist} — ${c.title}`));
+      }
+    }
+    const text = [
+      `Искали: ${track.artist} — ${track.title}`,
+      track.album ? `Альбом: ${track.album}` : '',
+      ...report.lines,
+    ]
+      .filter(Boolean)
+      .join('\n');
+    nodes.push(
+      h('div', { class: 'pl-sub' }, 'Отчёт поиска:'),
+      h('pre', { class: 'pl-report' }, text),
+      h('button', { class: 'pl-copy', onclick: () => copyText(text) }, 'Скопировать отчёт'),
+    );
+    bodyEl.replaceChildren(...nodes);
+    bodyEl.scrollTop = 0;
+  }
+
+  async function loadGeniusPath(c) {
+    const token = ++lyricsToken;
+    showState('Загружаю с Genius…');
+    try {
+      const r = await fetchGeniusPage(c.path);
+      if (token !== lyricsToken) return;
+      if (r) showResult(r);
+      else showState('На этой странице Genius текста нет');
+    } catch (e) {
+      if (token !== lyricsToken) return;
+      showState(`Ошибка: ${e.message}`);
+    }
   }
 
   function showResult(result) {
@@ -825,16 +1011,24 @@ ytmusic-search-box[is-bauhaus-sidenav-enabled] {
     const v = getVideo();
     const duration = v && isFinite(v.duration) ? v.duration : 0;
 
+    const report = { lines: [], candidates: [] };
     try {
-      const result = await findLyrics(track, duration, (msg) => {
-        if (token === lyricsToken) showState(msg);
-      });
+      const result = await findLyrics(
+        track,
+        duration,
+        (msg) => {
+          if (token === lyricsToken) showState(msg);
+        },
+        report,
+      );
       if (token !== lyricsToken) return;
-      showResult(result);
+      if (result) showResult(result);
+      else showNotFound(track, report);
     } catch (e) {
       if (token !== lyricsToken) return;
       console.warn('[Pear Lite] ошибка получения текста:', e);
-      showState(`Ошибка: ${e.message}`);
+      report.lines.push(`Ошибка: ${e.message}`);
+      showNotFound(track, report, `Ошибка: ${e.message}`);
     }
   }
 
