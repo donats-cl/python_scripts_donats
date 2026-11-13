@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>PDF → Markdown · локальный тест</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 15px/1.5 system-ui, Segoe UI, Arial, sans-serif; margin: 0; padding: 24px; max-width: 1100px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  p.hint { margin: 0 0 20px; opacity: .7; font-size: 13px; }
+  #drop { border: 2px dashed #8888; border-radius: 12px; padding: 40px 20px; text-align: center; cursor: pointer; transition: .15s; }
+  #drop.over { border-color: #0b57d0; background: #0b57d018; }
+  #drop strong { display: block; margin-bottom: 6px; }
+  .row { display: flex; gap: 12px; align-items: center; margin: 16px 0; flex-wrap: wrap; }
+  button { font: inherit; padding: 8px 14px; border-radius: 8px; border: 1px solid #0b57d055; background: #0b57d012; color: inherit; cursor: pointer; }
+  button:hover { background: #0b57d0; color: #fff; }
+  button:disabled { opacity: .45; cursor: default; }
+  textarea { width: 100%; height: 52vh; box-sizing: border-box; font: 13px/1.5 ui-monospace, Consolas, monospace; padding: 12px; border-radius: 10px; border: 1px solid #8884; resize: vertical; }
+  #status { font-size: 13px; opacity: .8; }
+  #status.err { color: #d93025; opacity: 1; }
+</style>
+</head>
+<body>
+  <h1>PDF → Markdown</h1>
+  <p class="hint">Локальная проверка конвертера без Classroom. Кидай PDF сюда — увидишь то же, что получишь кнопкой «MD».</p>
+
+  <div id="drop">
+    <strong>Перетащи PDF сюда</strong>
+    или нажми, чтобы выбрать файл
+    <input type="file" id="file" accept="application/pdf,.pdf" hidden>
+  </div>
+
+  <div class="row">
+    <button id="save" disabled>Скачать .md</button>
+    <button id="copy" disabled>Скопировать</button>
+    <span id="status">—</span>
+  </div>
+
+  <textarea id="out" spellcheck="false" placeholder="Здесь появится Markdown…"></textarea>
+
+  <h2 style="font-size:16px;margin:28px 0 8px">Проверка кнопки (макет вложения Classroom)</h2>
+  <p class="hint">Настоящий Drive здесь недоступен, поэтому клик должен показать ошибку в тосте — это и проверяем.</p>
+  <div id="mock" style="display:flex;align-items:center;gap:8px;padding:12px;border:1px solid #8884;border-radius:10px;max-width:520px">
+    <span aria-hidden="true">📄</span>
+    <a id="mock-link" href="https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQrStUvWxYz012345/view">лекция_3.pdf</a>
+  </div>
+
+<script>window.__CPDM_FORCE_UI = true;</script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.min.js"></script>
+<script src="classroom-pdf-to-md.user.js"></script>
+<script>
+(function () {
+  'use strict';
+  var drop = document.getElementById('drop');
+  var input = document.getElementById('file');
+  var out = document.getElementById('out');
+  var status = document.getElementById('status');
+  var saveBtn = document.getElementById('save');
+  var copyBtn = document.getElementById('copy');
+  var currentName = 'document';
+
+  function setStatus(text, isError) {
+    status.textContent = text;
+    status.className = isError ? 'err' : '';
+  }
+
+  async function handle(file) {
+    if (!file) return;
+    currentName = file.name || 'document.pdf';
+    setStatus('Читаю ' + currentName + ' …');
+    try {
+      var buf = await file.arrayBuffer();
+      var res = await window.__cpdm.pdfToMarkdown(buf, {
+        title: currentName.replace(/\.pdf$/i, ''),
+        source: 'file://' + currentName,
+      });
+      out.value = res.markdown;
+      saveBtn.disabled = false;
+      copyBtn.disabled = false;
+      setStatus('Готово: ' + res.pages + ' стр., ' + res.markdown.length + ' символов');
+    } catch (e) {
+      console.error(e);
+      setStatus(String(e && e.message ? e.message : e), true);
+    }
+  }
+
+  drop.addEventListener('click', function () { input.click(); });
+  input.addEventListener('change', function () { handle(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); });
+  });
+  drop.addEventListener('drop', function (e) {
+    var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) handle(f);
+  });
+
+  saveBtn.addEventListener('click', function () {
+    window.__cpdm.saveMarkdown(window.__cpdm.safeFileName(currentName), out.value);
+  });
+  copyBtn.addEventListener('click', function () { navigator.clipboard.writeText(out.value); });
+})();
+</script>
+</body>
+</html>
