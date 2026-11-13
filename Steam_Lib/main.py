@@ -1,6 +1,5 @@
 import requests
 
-
 prompt = """I have a bunch of games on Steam. I want to find a game I'll enjoy playing. Here's a list of the games I own:
 
 {games_list}
