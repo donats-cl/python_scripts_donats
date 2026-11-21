@@ -3,24 +3,49 @@ import io
 import json
 import os
 import re
+import shutil
 import sys
 import urllib.request
 from pathlib import Path
 
-# import grpc_tools
+import grpc_tools
 import zstandard as zstd
 from google.protobuf.json_format import MessageToDict, ParseDict
-
-# from grpc_tools import protoc
+from grpc_tools import protoc
 
 BASE_DIR = Path(__file__).resolve().parent / "_deadlock_protos"
 RAW_DIR = BASE_DIR / "src"
 OUT_DIR = BASE_DIR / "gen"
 
 PROTO_SOURCES = [
-    "https://raw.githubusercontent.com/SteamTracking/GameTracking-Deadlock/master/Protobufs/",
     "https://raw.githubusercontent.com/SteamDatabase/Protobufs/master/deadlock/",
+    "https://raw.githubusercontent.com/SteamTracking/GameTracking-Deadlock/master/Protobufs/",
 ]
+
+
+def strip_valve_options(text: str) -> str:
+    # Убираем файловые опции Valve, которых нет в стандартном descriptor.proto
+    text = re.sub(
+        r'\boption\s+(?:additional_includes|php_output_subdir)\s*=\s*"[^"]*"\s*;',
+        "",
+        text,
+    )
+
+    # Убираем полевые опции Valve внутри [...], сохраняя стандартные (default, packed и т.д.)
+    def clean_brackets(m: re.Match) -> str:
+        inner = m.group(1)
+        inner = re.sub(r'\bboxed_type\s*=\s*"[^"]*"\s*,?', "", inner)
+        inner = re.sub(r"\bsynthetic_default\s*=\s*[^,\]]+\s*,?", "", inner)
+        inner = re.sub(r",\s*$", "", inner.strip())
+        inner = re.sub(r"^\s*,", "", inner).strip()
+        return f"[{inner}]" if inner else ""
+
+    text = re.sub(
+        r"\[([^\]]*\b(?:boxed_type|synthetic_default)\b[^\]]*)\]",
+        clean_brackets,
+        text,
+    )
+    return text
 
 
 def download_file(filename: str) -> Path:
@@ -37,7 +62,8 @@ def download_file(filename: str) -> Path:
                 url, headers={"User-Agent": "python-deadlock-build"}
             )
             with urllib.request.urlopen(req, timeout=20) as resp:
-                dest.write_bytes(resp.read())
+                text = resp.read().decode("utf-8", errors="replace")
+            dest.write_text(strip_valve_options(text), encoding="utf-8")
             print(f"Downloaded: {filename}")
             return dest
         except Exception as e:
@@ -46,16 +72,60 @@ def download_file(filename: str) -> Path:
     raise RuntimeError(f"Failed to download {filename}: {last_err}")
 
 
-def decode_build(code: str):
+def ensure_protos():
+    pb_file = OUT_DIR / "citadel_gcmessages_common_pb2.py"
+
+    if not pb_file.exists():
+        shutil.rmtree(RAW_DIR, ignore_errors=True)
+        shutil.rmtree(OUT_DIR, ignore_errors=True)
+        OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+        visited = set()
+
+        def fetch_recursive(filename: str):
+            if filename in visited or filename.startswith("google/protobuf/"):
+                return
+            visited.add(filename)
+            path = download_file(filename)
+            text = path.read_text(encoding="utf-8", errors="replace")
+            imports = re.findall(
+                r'^\s*import\s+(?:public\s+|weak\s+)?"([^"]+)"\s*;', text, re.M
+            )
+            for imp in imports:
+                fetch_recursive(imp)
+
+        fetch_recursive("citadel_gcmessages_common.proto")
+
+        grpc_proto_dir = os.path.join(os.path.dirname(grpc_tools.__file__), "_proto")
+        proto_files = [str(RAW_DIR / f) for f in sorted(visited)]
+        args = [
+            "grpc_tools.protoc",
+            f"-I{RAW_DIR}",
+            f"-I{grpc_proto_dir}",
+            f"--python_out={OUT_DIR}",
+            *proto_files,
+        ]
+        rc = protoc.main(args)
+        if rc != 0:
+            raise RuntimeError(f"protoc failed with exit code {rc}")
+
+    if str(OUT_DIR) not in sys.path:
+        sys.path.insert(0, str(OUT_DIR))
+
+
+ensure_protos()
+import citadel_gcmessages_common_pb2 as pb  # noqa: E402
+
+
+def decode_build(code: str) -> dict:
     raw = base64.b64decode(code.strip())
     dctx = zstd.ZstdDecompressor()
     with dctx.stream_reader(io.BytesIO(raw)) as reader:
         proto_bytes = reader.read()
-        print(proto_bytes)
 
-    # msg = pb.CMsgHeroBuild()
-    # msg.ParseFromString(proto_bytes)
-    # return MessageToDict(msg, preserving_proto_field_name=True)
+    msg = pb.CMsgHeroBuild()
+    msg.ParseFromString(proto_bytes)
+    return MessageToDict(msg, preserving_proto_field_name=True)
 
 
 def encode_build(data: dict) -> str:
@@ -74,15 +144,15 @@ if __name__ == "__main__":
 
     print("=== EMPTY BUILD ===")
     empty_dict = decode_build(EMPTY_BUILD)
-    # print(json.dumps(empty_dict, indent=2, ensure_ascii=False))
+    print(json.dumps(empty_dict, indent=2, ensure_ascii=False))
 
     print("\n=== NORMAL BUILD ===")
     normal_dict = decode_build(NORMAL_BUILD)
-    # Path("normal_build.json").write_text(
-    # json.dumps(normal_dict, indent=2, ensure_ascii=False),
-    # encoding="utf-8",
-    # )
+    Path("normal_build.json").write_text(
+        json.dumps(normal_dict, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
     print("Saved to normal_build.json")
 
-    # reencoded = encode_build(normal_dict)
-    # print("Re-encoded prefix:", reencoded[:40])
+    reencoded = encode_build(normal_dict)
+    print("Re-encoded prefix:", reencoded[:40])

@@ -1,0 +1,420 @@
+{
+  "hero_build_id": 48,
+  "hero_id": 19,
+  "author_account_id": 1021153446,
+  "last_updated_timestamp": 1794520148,
+  "name": "Copy of [DONATS - TIME TO DIE]",
+  "description": "",
+  "language": 0,
+  "version": 0,
+  "origin_build_id": 640162,
+  "details": {
+    "mod_categories": [
+      {
+        "mods": [
+          {
+            "ability_id": 3862866912,
+            "annotation": "Больно будет всегда, так что ТОЧНО покупаем, лишним не будет для нас + легче чистить пачки крипов и нейтралов",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1439347412,
+            "annotation": "Обычная, но хорошая шмотка тем, что за 1 нож можно отхилиться на 50 ед. здоровья",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3776945997,
+            "annotation": "+ урон к ножам и ещё 1 в кармане есть",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 395867183,
+            "annotation": "ОБОЖАЮ эту шмотку! И Radiant прокает, и хороший урон с ДПС, и инвест в оружие, где легче ломать пачки и кемпов5!",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 876563814,
+            "annotation": "Просто лечит вас, пока наносите урон своими кнопками + 6 мощи к спириту и даёт 90 hp",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2947183272,
+            "annotation": "ОДНА ИЗ САМЫХ ВАЖНЫХ ШМОТОК НА ШИВУ! Вам нужно лечиться В МОМЕНТЕ драки/фарма пачек и нейтралов, а не до и после",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 380806748,
+            "annotation": "После этого мы можем кататься под яростью с двумя придурками + ещё быстрее фармим [8.1 в среднем кд, что нам хватает + больше его предпочитаю ежели cold front]",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 1458044103
+          },
+          {
+            "ability_id": 1976391348,
+            "annotation": "Позволяет хорошо замедлить типов, чтобы попасть 2-ым",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Lane game",
+        "description": "просто базовые вещи на лайн для Шивы",
+        "width": 350.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1144549437,
+            "annotation": "Просто режит спирит защиту врагу (-8%) при попадании с оружия + в будущем ВНОВЬ лечитесь от своих же кнопок",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 395944548,
+            "annotation": "Вторая по ВАЖНОСТИ шмотка, помогает фармить + парой может выйти в лидеры по типу урона в конце матча",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 787198704,
+            "annotation": "ТРЕТЬЯ ВАЖНАЯ шмотка. Теперь она позволяет быстрее перезарядить ножи, что нам очень приятно!",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 4075861416,
+            "annotation": "Ещё и при попадании в голову накапливаете на врагов доп. снижение защиты от спирита.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2081037738,
+            "annotation": "ещё -8% сопротивления к спириту, отлично)",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3005970438,
+            "annotation": "С этого момента Шивчик в долгих боях просто смертельная опасность! Раньше покупал одной из первых шмоток. В лейте хорошо помогает разбивать защиту, особенно ножам вкусно",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Core",
+        "description": "Сейчас пробую так собираться: cold front -> spirit shredder -> Dispel magic (ЗП) -> Torment -> ЗП -> Rap. Rech. -> ЗП -> Spirit Rend -> vulnerability + escalating -> infuser  - а дальше по ситуации (потом unstopp чаще беру)",
+        "width": 355.0,
+        "height": 372.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1797283378,
+            "annotation": "Шаблон: метаем ножи, чтобы настакать rage -> уходим в поцизионку (тоннели с узким пространством) -> ждём врагов и нажимаем кнопки, а infuser лучше всего, когда уже скопилось как минимум 2 соперника",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3812615317,
+            "annotation": "Нажали artic, затем нажали S&D - я так привык комбинировать",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3577481646,
+            "annotation": "И накладывает лечение на умение [будто это 3ий Аполло], и замедляет, и урон даёт - хорошая шмотка в лейте!",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 1458044103
+          },
+          {
+            "ability_id": 3261353684,
+            "annotation": "плевать, самой последней покупаем как её улучшение в trans. cooldown",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 915014646,
+            "annotation": "Просто ВСЁ перезаряжается быстрее, так что покупаем её самой последней",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Finale",
+        "description": "Не обязательно L->R, думаейте, что Вам нужно",
+        "width": 268.0,
+        "height": 314.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1414025773,
+            "annotation": "nuh, i'd win",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1378931225,
+            "annotation": "Хейза, Дриффтер, Сильвер? пфффф, сосите!)",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3731635960,
+            "annotation": "ВСЕГДА покупаю, хорошо помогает и выручает, особенно против всех silence вещей для 2-го + Инфернусов с великими Токсиками!",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2533252781,
+            "annotation": "Адиос, парни! Вместо Conterspell",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3491236900,
+            "annotation": "Вместо MS [хорошо помогает против быстрых стаков инфернуса, миража, хейзы, немного мины, грейвсы - кАроч, всё, что может вам хуже сделать при помощи пуль, типа токсиков или inhibitor]",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3357231760,
+            "annotation": "Вместо DM или оставляем её вместе с Unstoppable; стал брать сразу после покупки всех шмоток из \"Основы\", к этому моменту эта шмотка будет ой как часто нужна!",
+            "sell_priority": 0
+          }
+        ],
+        "name": "[ВСЕГДА] Наборы \"Нетерпила\" и \"Живу на 9 секунд дольше\" [БЕРЁМ]",
+        "description": "",
+        "width": 271.0,
+        "height": 337.0,
+        "optional": false
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1047818222,
+            "annotation": "Берём, когда много противных эффектов, логично. Инфернус, Мираж с новыми скарабеями, Грейвс + DM купите потом",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2163598980,
+            "annotation": "Дольше живём - дольше дерёмся"
+          },
+          {
+            "ability_id": 1955841979,
+            "annotation": "Парой стоит выбор между этой шмоткой и witch-ом: первый увеличиваает СТОЙКОСТЬ к DEBUFF-ам до 44% (буквально всё негативное быстрее с вас уходит), а без него изначально Unstopp даёт 25%, ИЛИ..",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3028234315,
+            "annotation": "..ИЛИ против вас очень много врагов-магов (5-6) и вам хватает 25% debuff resist (чазе всего нет), то берём эту, чтобы кнопки буквально были ПОСТОЯННЫМИ, а так думайте и пробуйте, что будет лучше...",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Доп. выживаемость",
+        "description": "",
+        "width": 186.0,
+        "height": 293.0,
+        "optional": true
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1813726886,
+            "annotation": "Вот бы покупали её союзники, а не я...",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 619484391,
+            "annotation": "не покупаю, хотя парой хочется, т.к. не существуют предметов, чтобы задержать/остановить противника...",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1254091416,
+            "annotation": "Запретный плод",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1662311306,
+            "annotation": "против Покета, - его крЮтоЙ affliction, - когда ваш mid-supp не хочет купить такую вот штучку",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1219329868
+          },
+          {
+            "ability_id": 1925087134
+          },
+          {
+            "ability_id": 2603935618
+          },
+          {
+            "ability_id": 2417568017
+          }
+        ],
+        "name": "Активки",
+        "description": "чтобы закрыть 4-ую вместо arctic",
+        "width": 383.0,
+        "height": 284.0,
+        "optional": true
+      },
+      {
+        "name": "Советы/Tips",
+        "description": "1. Учитесь попадать точно в типа не только ножами, но и пулями, чтобы и Res. и Mystic shots [их прожектайлы идут посередине прицела]. 2. Пробуйте сперва выстрелить ЛКМ и в то же мгновение метнуть нож, чтобы и активировать Spirit Shredder [-8% резиста для спирита и +10% лечения нам], а НЕ НАОБОРОТ, т.к. есть анимация, которые сжирает драгоценную секунду, ну или просто метните нож, если вам ПОХ. 3.1.  Старайтесь двигаться, использую ПКМ [выстрел с отдачей], например, жмёте shift, потом подкат И, пока мы ещё имеем скорость с БЕСКОНЕЧНЫМИ патронами, поварачиваемся на 90 градусов и жмём ПКМ - поп",
+        "width": 1054.0,
+        "height": 600.0
+      }
+    ],
+    "ability_order": {
+      "currency_changes": [
+        {
+          "ability_id": 2460791803,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 1458044103,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 1537272748,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 1835738020,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 2460791803,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 2460791803,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1458044103,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1458044103,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1537272748,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1458044103,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 1835738020,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 2460791803,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 1537272748,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1835738020,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1537272748,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 1835738020,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 1458044103,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 1458044103,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1458044103,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 2460791803,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 2460791803,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 2460791803,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1537272748,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 1537272748,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1537272748,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1835738020,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 1835738020,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1835738020,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1458044103,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 2460791803,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 2460791803,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 2460791803,
+          "currency_type": 1,
+          "delta": -2
+        }
+      ]
+    }
+  },
+  "tags": [
+    1458044103,
+    36498494,
+    380806748
+  ],
+  "publish_timestamp": 1794453104
+}
