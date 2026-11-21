@@ -1,0 +1,45 @@
+name,stun,sleep,curse,lift,silence,disarm,slow,immobilize,displacement,shields,lifesteal,cdebuff,class
+Infernus,1,0,0,0,0,0,1,0,0,0,1,0,spirit_offlaner
+Seven,1,0,0,0,0,0,1,0,0,0,0,0,core
+Vindicta,0,0,0,0,0,0,0,0,0,0,0,0,side_support_jumper
+Lady Geist,0,0,0,0,1,0,1,0,0,0,1,0,spirit_offlaner
+Abrams,1,0,0,0,0,0,1,0,0,0,0,1,weapon_offlaner
+Wraith,0,0,0,1,0,0,0,0,0,1,0,0,core
+McGinnis,0,0,0,0,0,0,1,0,0,0,1,0,mid_support
+Paradox,0,0,0,0,1,0,1,0,0,1,0,0,side_support_jumper
+Dynamo,1,0,0,0,0,0,0,0,1,0,1,1,mid_support
+Kelvin,0,0,0,0,0,0,1,0,0,0,1,0,side_support_runner
+Haze,0,1,0,0,0,0,1,0,0,0,1,1,core
+Holliday,1,0,0,0,0,0,0,0,1,0,0,0,side_support_jumper
+Bebop,0,0,0,0,0,0,1,0,1,0,1,1,side_support_runner
+Calico,0,0,0,0,0,0,0,0,0,0,1,1,spirit_offlaner
+Grey Talon,0,0,0,0,1,1,1,0,0,0,1,0,side_support_jumper
+Mo & Krill,0,0,0,0,0,1,1,0,1,0,1,0,side_support
+Shiv,0,0,0,0,0,0,0,0,0,0,0,0,spirit_offlaner
+Ivy,1,0,0,1,1,0,1,1,0,1,1,0,mid_support
+Warden,0,0,0,0,1,0,0,1,0,1,1,1,side_support_runner
+Yamato,0,0,0,0,0,0,1,0,0,0,1,1,spirit_offlaner
+Lash,1,0,0,1,0,0,1,0,0,0,0,0,side_support_jumper
+Viscous,1,0,0,0,0,0,1,0,1,0,1,1,side_support_runner
+Pocket,0,0,0,0,0,0,1,0,0,0,0,1,side_support_jumper
+Mirage,1,1,0,1,1,0,1,1,0,1,1,0,spirit_offlaner
+Vyper,0,0,0,0,0,0,1,0,0,1,0,0,spirit_offlaner
+Sinclair,0,0,0,0,0,0,0,0,0,0,0,0,side_support_jumper
+Mina,0,0,0,0,1,0,1,0,0,0,1,1,spirit_offlaner
+Drifter,0,0,0,0,1,0,0,0,0,0,1,0,weapon_offlaner
+Venator,1,0,0,0,0,0,0,1,0,0,0,0,weapon_offlaner
+Victor,1,0,0,0,0,0,1,0,0,0,1,1,spirit_offlaner
+Paige,1,0,0,0,0,0,1,1,0,1,1,0,mid_support
+The Doorman,1,0,0,0,0,0,1,0,0,1,0,1,side_support_jumper
+Billy,0,0,0,0,0,0,1,0,1,0,0,1,weapon_offlaner
+Graves,0,0,0,0,0,0,1,1,0,0,1,0,side_support_jumper
+Apollo,0,0,0,0,0,1,1,1,0,0,1,0,spirit_offlaner
+Deadman Danny,1,0,0,0,0,0,1,0,1,0,1,0,side_support_jumper
+Rem,0,1,0,0,0,0,1,0,1,1,1,1,side_support_jumper
+Silver,0,0,0,0,0,0,1,0,0,0,0,0,weapon_offlaner
+Celeste,0,0,0,0,1,0,1,0,0,1,1,0,spirit_offlaner
+Rat King,0,0,0,0,0,0,1,0,0,1,0,0,side_support_runner
+Solomon,0,0,0,0,0,0,1,1,0,1,0,0,side_support_jumper
+Violet,1,0,0,0,1,0,1,0,0,0,1,0,spirit_offlaner
+Nurse Harrow,0,0,0,0,0,0,1,0,0,0,1,1,side_support_jumper
+Baba,0,0,0,0,1,0,1,0,1,1,1,1,side_support_runner
