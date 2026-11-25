@@ -1,0 +1,295 @@
+{
+  "hero_build_id": 1,
+  "hero_id": 79,
+  "author_account_id": 1021153446,
+  "last_updated_timestamp": 1795316675,
+  "name": "Rem - Side-Support Initiator (control)",
+  "description": "Инициатор и дизраптор с нюком из Pillow Toss: врываемся первыми, выбиваем ключевых врагов и их ульты. Без хилбот-набора.",
+  "language": 0,
+  "version": 0,
+  "details": {
+    "mod_categories": [
+      {
+        "mods": [
+          {
+            "ability_id": 3776945997,
+            "annotation": "Второй заряд Pillow Toss: два нюка подряд. Каждое попадание ещё режет КД остальных способностей на 5с, так что второй заряд = больше урона и контроля.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 968099481,
+            "annotation": "Extra Spirit. Базовый Spirit Power: усиливает урон нюка из 1-й кнопки и всё остальное.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1998374645,
+            "annotation": "Mystic Burst. Копит бонусный урон и отдаёт его способности, которая бьёт достаточно сильно: идеально для нюка из 1-й кнопки.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2922054143,
+            "annotation": "Rusted Barrel. Дешёвый ранний дизраптор: режет врагу скорострельность и сопротивление пулям. Выигрываем размен на линии. ПРОДАТЬ, когда нужен слот под актив из Лейта.",
+            "sell_priority": 1
+          },
+          {
+            "ability_id": 1813726886,
+            "annotation": "Slowing Hex. Замедляет цель и запрещает ей использовать предметы и способности на движение (даши и т.п.): не убежит и не отскочит от инициации. ПРОДАТЬ третьим, когда соберёшь активы из Лейта.",
+            "sell_priority": 2
+          },
+          {
+            "ability_id": 380806748,
+            "annotation": "Compress Cooldown, имбью на Naptime: ульт доступен в каждом файте.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 2396527575
+          },
+          {
+            "ability_id": 1644605047,
+            "annotation": "Reactive Barrier. Даёт барьер, когда тебя застанили, заглушили, усыпили или обездвижили. Ты влетаешь первым и ловишь контроль, это страховка.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лайн (агрессия)",
+        "description": "Rusted Barrel и Slowing Hex потом продаём (лимит 4 актива)",
+        "width": 350.0,
+        "height": 330.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1292979587,
+            "annotation": "Surge of Power, имбью на Pillow Toss: постоянный Spirit Power нюку + скорость при касте. Бросил Pillow и летишь в драку быстрее.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 3692321247
+          },
+          {
+            "ability_id": 1254091416,
+            "annotation": "Knockdown. Стан после короткой задержки, по воздушным целям стан дольше. Главная кнопка «выбить ключевого врага» перед заходом команды.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 787198704,
+            "annotation": "Rapid Recharge. +2 заряда способностям с зарядами (у Рема это Pillow Toss), -30% КД между зарядами (8с -> 5.6с), -14% КД и +14 Spirit Power таким способностям. Нюк чаще и сильнее, а каждое попадание Pillow Toss ещё режет КД остальных кнопок на 5с.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Роум после 9 мин",
+        "description": "Урон нюка + заряды + контроль",
+        "width": 300.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1371725689,
+            "annotation": "Phantom Strike. Телепорт к вражеской цели, притягивает её к земле, урон, замедление и Disarm. Это твоя инициация: выбираешь вражеского кора и выключаешь ему оружие до подхода команды.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2617435668,
+            "annotation": "Cursed Relic. Проклятие: прерывает, заглушает, разоружает и блокирует предметы, снимает баффы (кроме ультов). Единственная кнопка в билде, которая прерывает канальный ульт. Минус: твой урон на время режется, нам он не важен.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3357231760,
+            "annotation": "Unstoppable. Иммун к Stun, Silence, Sleep, Root и Disarm. Жми перед входом, если у врагов есть жёсткий контроль. Нельзя использовать, когда тебя уже застанили.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 915014646,
+            "annotation": "Transcendent Cooldown. Снижает КД способностей и предметов, весь арсенал (Knockdown, Phantom Strike, Cursed Relic) готов чаще.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лейт: инициация и дизрапт",
+        "description": "Итоговые 4 актива: Knockdown, Phantom Strike, Cursed Relic, Unstoppable",
+        "width": 300.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 3261353684,
+            "annotation": "Superior Cooldown. Общее снижение КД всех способностей. Вместо Rapid Recharge, если у героя мало способностей с зарядами.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 619484391,
+            "annotation": "Silence Wave. Расширяющийся снаряд заглушает врагов + урон. Канал НЕ прерывает, бей ДО каста ульта. Вместо Slowing Hex, если у врагов много кастов.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2061878743,
+            "annotation": "Disarming Hex. Disarm + снижение сопротивления пулям. Против ган-героев (Haze, Wraith, Vindicta и т.п.), когда нужно выключить кора.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1219329868,
+            "annotation": "Spirit Sap. Снижает цели Spirit Resist и Spirit Power. Против спирит-кастеров и их ультов.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1976391348,
+            "annotation": "Cold Front. AoE-замедление + урон, вместо Slowing Hex, когда враги стоят толпой.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 630839635,
+            "annotation": "Echo Shard. Повторное использование способности (например, второй Naptime). Занимает слот актива: берём вместо Unstoppable, если контроля у врагов нет.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 677738769,
+            "annotation": "Refresher. Сбрасывает КД способностей: второй Naptime и Pillow Toss в долгой драке. Тоже слот актива.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 600033864,
+            "annotation": "Majestic Leap. Прыжок вверх + барьер: заход с крыш и флангов. Нельзя использовать некоторое время после урона от вражеского героя.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3270001687,
+            "annotation": "Warp Stone. Телепорт вперёд + сопротивление пулям: быстрый заход, если Phantom Strike ещё не куплен.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3731635960,
+            "annotation": "Dispel Magic. Снять дебаффы. Альтернатива Unstoppable против слоу и DoT.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3399065363,
+            "annotation": "Sprint Boots. Скорость на роуме, если не хватает мобильности.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 754480263,
+            "annotation": "Mystic Expansion. Имбью на Naptime: больше дальность и радиус.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2447176615,
+            "annotation": "Enduring Speed. Меньше эффект вражеских замедлений при заходе.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2121044373,
+            "annotation": "Tankbuster. Копит бонусный урон для способности, которая бьёт достаточно сильно (как Mystic Burst). Против танков и ульт-билдов.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3005970438,
+            "annotation": "Escalating Exposure. Каждый урон накладывает стакающийся Spirit Amp на цель: сильнее нюки Pillow Toss по ключевой цели.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2519598785,
+            "annotation": "Boundless Spirit. Ещё больше Spirit Power на поздней стадии, если Transcendent Cooldown уже не нужен.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Ситуативно",
+        "description": "Под состав врагов",
+        "width": 383.0,
+        "height": 284.0,
+        "optional": true
+      },
+      {
+        "name": "Советы/Tips",
+        "description": "1. Лимит: не более 4 активов. Продавай Rusted Barrel -> Sprint Boots -> Slowing Hex, по мере покупки Knockdown, Phantom Strike, Cursed Relic, Unstoppable.\n2. Лайн (до ~9 мин): агрессивно давим Pillow Toss, это и есть твой нюк (75 урона, +100 с 3-го улучшения), каждое попадание режет КД остальных способностей на 5с. Extra Spirit и Mystic Burst усиливают его; пытайся попадать каждый заряд.\n3. После 9-й минуты покидаем сайд-линию, роумим, ищем инициацию и фраги. На своё место приходит кор.\n4. Порядок инициации: Pillow Toss -> Phantom Strike на вражеского кора -> Knockdown -> Naptime. Cursed Relic держим на ульт врага (канал прерывает только он).\n5. Naptime: канал ~1.9с, смотрит сквозь стены, замедляет, режет дистанцию даша и запрещает способности на движение. Жми ДО начала драки, чтобы враги не отскочили. На 3-м уровне во время канала ты Unstoppable.\n6. Tag Along: прицепись к союзнику-иниту, получишь краткий бонус к Spirit Resist и скорости.\n7. Цифры из файлов игры; проверь в игре после последнего патча.",
+        "width": 1054.0,
+        "height": 600.0
+      }
+    ],
+    "ability_order": {
+      "currency_changes": [
+        {
+          "ability_id": 3692321247,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 1568845221,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 3692321247,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1568845221,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 3692321247,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 536278136,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 2396527575,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 3692321247,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 2396527575,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 2396527575,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1568845221,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 2396527575,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 536278136,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1568845221,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 536278136,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 536278136,
+          "currency_type": 1,
+          "delta": -5
+        }
+      ]
+    }
+  },
+  "tags": [
+    2396527575,
+    1254091416,
+    1371725689
+  ],
+  "publish_timestamp": 1795315143
+}

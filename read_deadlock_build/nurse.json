@@ -1,0 +1,270 @@
+{
+  "hero_build_id": 7,
+  "hero_id": 87,
+  "author_account_id": 1021153446,
+  "last_updated_timestamp": 1795558592,
+  "name": "Nurse Harrow - Side-Support Initiator (fear + shred)",
+  "description": "Инициатор и дизраптор: Lurking Terrors как начало драки, Knockdown/Unstoppable/Cursed Relic, срез Spirit Resist, Echo Shard на Wretched Vapors. Не хилбот.",
+  "language": 0,
+  "version": 0,
+  "details": {
+    "mod_categories": [
+      {
+        "mods": [
+          {
+            "ability_id": 2829638276,
+            "annotation": "Extra Regen. Лайн-сустейн: у Harrow нет базовой регенерации здоровья (по гайду games.gg).",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 968099481,
+            "annotation": "Extra Spirit. Базовый Spirit Power: усиливает Leech Therapy, Healing Needles и ульт (DPS ульта 60).",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2922054143,
+            "annotation": "Rusted Barrel. Режет цели скорострельность и сопротивление пулям. Дешёвый размен на линии. ПРОДАТЬ, когда нужен слот под актив из Лейта.",
+            "sell_priority": 1
+          },
+          {
+            "ability_id": 380806748,
+            "annotation": "Compress Cooldown, имбью на Lurking Terrors: КД ульта 200с (T1 -50с) становится короче, главный инициатор драки чаще готов.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 3427093887
+          },
+          {
+            "ability_id": 1644605047,
+            "annotation": "Reactive Barrier. Барьер, когда тебя застанили, заглушили, усыпили или обездвижили. Ульт Terrors, 7 секунд канала, нужно защитить от контроля.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лайн (сустейн)",
+        "description": "Rusted Barrel потом продаём (лимит 4 актива)",
+        "width": 350.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 3261353684,
+            "annotation": "Superior Cooldown. Снижает КД способностей: Leech Therapy (30с), Vapors (40с) и ульта (200с) чаще готовы.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1254091416,
+            "annotation": "Knockdown. Стан после короткой задержки. Дополняет ульт: пока цель оглушена, она не может отвернуться, и страх копится быстрее.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2081037738,
+            "annotation": "Mystic Vulnerability. После урона способностью снижает цели Spirit Resist: усиливает Leech Therapy, ульт и спирит-урон союзников.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1144549437,
+            "annotation": "Spirit Shredder. Пули (шприцы) снижают Spirit Resist цели и дают вам и союзникам Spirit Lifesteal против неё. Срез спирит-урона для команды.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Роум после 9 мин",
+        "description": "КД, контроль и срез Spirit Resist",
+        "width": 300.0,
+        "height": 330.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 3357231760,
+            "annotation": "Unstoppable. Иммун к Stun, Silence, Sleep, Root и Disarm. Защищает канал Lurking Terrors от прерывания (рекомендация games.gg). Нельзя использовать, когда тебя уже застанили.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 630839635,
+            "annotation": "Echo Shard, имбью на Wretched Vapors: пары в две цели (по гайду games.gg). Слот актива.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 3621314027
+          },
+          {
+            "ability_id": 2617435668,
+            "annotation": "Cursed Relic. Прерывает, заглушает, разоружает и блокирует предметы, снимает баффы (кроме ультов). Прерывает вражеский канальный ульт: Lurking Terrors сам по себе только пугает.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3005970438,
+            "annotation": "Escalating Exposure. Урон накладывает стакающийся Spirit Amp, увеличивающий твой урон по цели: усиливает Leech Therapy и ульт.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лейт: ульт и дизрапт",
+        "description": "Итоговые 4 актива: Knockdown, Unstoppable, Echo Shard, Cursed Relic",
+        "width": 300.0,
+        "height": 330.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1804594021,
+            "annotation": "Rescue Beam. Лечит союзника и тебя, умеет вытащить застрявшего. Слот актива.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1662311306,
+            "annotation": "Divine Barrier. Снимает дебаффы и даёт барьер + скорость. Второй диспел рядом с Vapors T3. Слот актива.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1371725689,
+            "annotation": "Phantom Strike. Телепорт к вражеской цели, притягивает её к земле, урон, замедление и Disarm. Заход, если нужно дотянуться до цели.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 915014646,
+            "annotation": "Transcendent Cooldown. Снижает КД способностей и предметов: ульт 200с и Echo Shard чаще готовы.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 619484391,
+            "annotation": "Silence Wave. Заглушает врагов + урон. Канал НЕ прерывает, бей ДО каста ульта.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1813726886,
+            "annotation": "Slowing Hex. Замедляет цель и запрещает использовать предметы и способности на движение.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1219329868,
+            "annotation": "Spirit Sap. Снижает цели Spirit Resist и Spirit Power. Против спирит-кастеров.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1976391348,
+            "annotation": "Cold Front. AoE-замедление + урон.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2481177645,
+            "annotation": "Hunter's Aura. Снижает Bullet Resist и скорострельность ближайших врагов. Срез для оффлейнера-ганнера.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1770441818,
+            "annotation": "Weakening Headshot. Попадание в голову режет Bullet Resist: срез для ган-оффлейнера.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3731635960,
+            "annotation": "Dispel Magic. Снять дебаффы.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2519598785,
+            "annotation": "Boundless Spirit. Больше Spirit Power на поздней стадии.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Ситуативно",
+        "description": "Под состав врагов",
+        "width": 383.0,
+        "height": 284.0,
+        "optional": true
+      },
+      {
+        "name": "Советы/Tips",
+        "description": "1. Лимит: не более 4 активов. Продавай Rusted Barrel по мере покупки Knockdown, Unstoppable, Echo Shard и Cursed Relic.\n2. Это не хилбот: твоя работа инициировать и срывать ульты. Healing Needles лечит союзников шприцами, но решение в драке принимает ульт.\n3. Урон небольшой: Leech Therapy 23 DPS, ульт 60 DPS (+30 с T2). Он растёт от Spirit Power, Mystic Vulnerability, Escalating Exposure и стаков пиявок (T2 даёт Spirit Power за стак).\n4. Leech Therapy: банка пиявок с уроном и ест длительность вражеских баффов (радиус 6.5м). Подбирай пиявок: каждая даёт регенерацию и скорострельность, лишние стаки сохраняются после смерти (50%).\n5. Lurking Terrors: каст 1.3с, дальность 35м, конус 180 градусов, канал 7с (T3: 3с и 50% сопротивления урону во время канала). Враги, которые смотрят на тебя, копят страх: не могут использовать стамину и способности на движение, на максимуме бегут. Поэтому нужен Knockdown/Unstoppable и инициация сбоку или сзади, чтобы они смотрели на тебя.\n6. Wretched Vapors: «рывок и откат» на себя или союзника (13м): ускорение действий, входящий урон откладывается и потом наносится; T3 снимает дебаффы кроме ультов. Сочетай с Healing Needles, чтобы вылечить отложенный урон.\n7. После 9-й минуты уходим с сайд-линии, роумим, ищем инициацию. На своё место приходит кор.\n8. Срез: основной спирит (Mystic Vulnerability, Spirit Shredder, Spirit Sap). Для ган-оффлейнера возьми Hunter's Aura и Weakening Headshot из «Ситуативно».\n9. Цифры из файлов игры и гайдов; героиня вышла 21.10.2026 и билд ещё меняется, проверь после последнего патча.",
+        "width": 1054.0,
+        "height": 600.0
+      }
+    ],
+    "ability_order": {
+      "currency_changes": [
+        {
+          "ability_id": 267712790,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 683490631,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 3621314027,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 3427093887,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 683490631,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 267712790,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 683490631,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 3427093887,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 267712790,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 3427093887,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 683490631,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 3427093887,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 3621314027,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 267712790,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 3621314027,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 3621314027,
+          "currency_type": 1,
+          "delta": -5
+        }
+      ]
+    }
+  },
+  "tags": [
+    3427093887,
+    2617435668,
+    630839635
+  ],
+  "publish_timestamp": 1795558592
+}

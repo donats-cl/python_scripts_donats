@@ -1,0 +1,198 @@
+{
+  "hero_build_id": 1,
+  "hero_id": 35,
+  "author_account_id": 1021153446,
+  "last_updated_timestamp": 1795323885,
+  "name": "Viscous - Side-Support: контроль и дизрапт",
+  "description": "Viscous Side-Support: влетает первым, сбивает касты и ульты, вешает контроль и ломает строй. Прокачка: Splatter T1 -> Puddle Punch T1 -> Goo Ball максимально.",
+  "language": 0,
+  "version": 0,
+  "details": {
+    "mod_categories": [
+      {
+        "name": "Лайн (Side-Support)",
+        "description": "Минимум фарма: харас с дальности, выжить на узкой линии и не дать врагу фармить.",
+        "optional": false,
+        "width": 350.0,
+        "height": 301.0,
+        "mods": [
+          {
+            "ability_id": 3776945997,
+            "annotation": "Больше зарядов Splatter/Puddle Punch: чаще давим врага на линии.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 754480263,
+            "annotation": "Дальность способностей: харасим из-за укрытия.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1437614329,
+            "annotation": "Melee Lifesteal: Puddle Punch бьёт по дальности и лечит.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1976391348,
+            "annotation": "Замедление и урон: старт дизрапта уже на лайне.",
+            "sell_priority": 0
+          }
+        ]
+      },
+      {
+        "name": "Ядро: контроль и дизрапт",
+        "description": "Три активных контроля из вашего списка (Knockdown / Silence Wave / Slowing Hex) стоят в начале ряда. В бою нужно 3-4 разных вида контроля подряд. Активок в слотах максимум 4, остальные меняем по составу врагов.",
+        "optional": false,
+        "width": 355.0,
+        "height": 372.0,
+        "mods": [
+          {
+            "ability_id": 1254091416,
+            "annotation": "Активный контроль: стан / заглушение / замедление. Сбивает вражеский каст при инициации.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 619484391,
+            "annotation": "Активный контроль: стан / заглушение / замедление. Второй вид контроля в связке.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1813726886,
+            "annotation": "Активный контроль: стан / заглушение / замедление. Третий вид контроля для дизрапта.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2617435668,
+            "annotation": "Cursed Relic: прерывает, заглушает и обезоруживает врага, блокирует активки. Против героев, у которых вся игра в одном касте.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2142980412,
+            "annotation": "Focus Lens: заглушаем цель и добираем урон, когда заглушение спадает.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1219329868,
+            "annotation": "Spirit Sap: режем у цели сопротивление духу и силу духа.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 787198704,
+            "annotation": "Больше зарядов и быстрее перезарядка Splatter/Puddle Punch.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2081037738,
+            "annotation": "Снижает сопротивление духу у врагов: команда бьёт больнее.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 915014646,
+            "annotation": "Короче откат способностей и предметов: контроль доступен снова к следующему файту.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 630839635,
+            "annotation": "Echo Shard: повтор способности, например второй Cube или Goo Ball.",
+            "sell_priority": 0
+          }
+        ]
+      },
+      {
+        "name": "Инициация и вылет",
+        "description": "Влетаем первыми, ставим контроль и выходим.",
+        "optional": false,
+        "width": 268.0,
+        "height": 314.0,
+        "mods": [
+          {
+            "ability_id": 3812615317,
+            "annotation": "Arctic Blast + Goo Ball: заморозка и замедление, ломаем строй.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2800629741,
+            "annotation": "Заход с фланга и крыш, откуда враг не ждёт.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2533252781,
+            "annotation": "Ethereal Shift: неуязвимость на пару секунд после вылета.",
+            "sell_priority": 0
+          }
+        ]
+      },
+      {
+        "name": "Выживаемость инициатора",
+        "description": "Первый влёт = первый фокус. Нужно пережить первые секунды драки.",
+        "optional": false,
+        "width": 271.0,
+        "height": 337.0,
+        "mods": [
+          {
+            "ability_id": 2163598980,
+            "annotation": "Dispel Magic: снимаем вражеский контроль и получаем скорость.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1047818222,
+            "annotation": "Debuff Reducer: короче вражеские ослабления.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1644605047,
+            "annotation": "Reactive Barrier: щит, когда нас станят или заглушают.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1378931225,
+            "annotation": "Metal Skin: иммунитет к пулям, пока нас фокусят.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1662311306,
+            "annotation": "Divine Barrier: защита себе или Кору, снимает дебафы.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3357231760,
+            "annotation": "Unstoppable: жмём в момент вылета, чтобы нас не сбили до каста.",
+            "sell_priority": 0
+          }
+        ]
+      },
+      {
+        "name": "Ситуативно",
+        "description": "Докупаем по составу врагов.",
+        "optional": true,
+        "width": 186.0,
+        "height": 293.0,
+        "mods": [
+          {
+            "ability_id": 2603935618,
+            "annotation": "Против героев с лечением.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1925087134,
+            "annotation": "Против героев с сильным оружием: режем их скорострельность.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1414025773,
+            "annotation": "Против героев с одной ключевой кнопкой.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 395944548,
+            "annotation": "Torment Pulse: постоянный урон по врагам рядом после влёта.",
+            "sell_priority": 0
+          }
+        ]
+      }
+    ],
+    "ability_order": {
+      "currency_changes": []
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,296 @@
+{
+  "hero_build_id": 5,
+  "hero_id": 85,
+  "author_account_id": 1021153446,
+  "last_updated_timestamp": 1795352039,
+  "name": "Solomon - Side-Support Initiator (nuke + control)",
+  "description": "Инициатор и дизраптор с нюком из Setup Bishop: Rook Battery держит цель, Knight даёт неуязвимый заход, Cursed Relic срывает ульт. Без хилбот-набора.",
+  "language": 0,
+  "version": 0,
+  "details": {
+    "mod_categories": [
+      {
+        "mods": [
+          {
+            "ability_id": 968099481,
+            "annotation": "Extra Spirit. Базовый Spirit Power: усиливает урон Setup Bishop, Rook Battery и Develop Queen.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 754480263,
+            "annotation": "Mystic Expansion, имбью на Setup Bishop: больше дальность и радиус. Бишоп ставится на 20м, это помогает ставить его заранее и безопасно.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 4011110259
+          },
+          {
+            "ability_id": 2922054143,
+            "annotation": "Rusted Barrel. Режет цели скорострельность и сопротивление пулям. Дешёвый ранний размен, у Solomon сильные базовые характеристики оружия. ПРОДАТЬ, когда нужен слот под актив из Лейта.",
+            "sell_priority": 1
+          },
+          {
+            "ability_id": 380806748,
+            "annotation": "Compress Cooldown, имбью на Rook Battery: КД 33с короче, главный контроль (иммобилайз) чаще готов.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 2424652896
+          },
+          {
+            "ability_id": 1644605047,
+            "annotation": "Reactive Barrier. Барьер, когда тебя застанили, заглушили, усыпили или обездвижили. Ты первым входишь в драку, это страховка.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 7409189,
+            "annotation": "Improved Spirit. Больше Spirit Power: основной рост урона и нюка из Setup Bishop.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лайн (агрессия)",
+        "description": "Rusted Barrel потом продаём (лимит 4 актива)",
+        "width": 350.0,
+        "height": 330.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 2081037738,
+            "annotation": "Mystic Vulnerability. После урона способностью снижает цели Spirit Resist: усиливает бишопа, рук и ульт, а заодно и спирит-урон союзников.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3261353684,
+            "annotation": "Superior Cooldown. Solomon не имеет способностей с зарядами, поэтому общее снижение КД лучше, чем Rapid Recharge. Все 4 кнопки (Queen 240с!) готовы к файту.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1254091416,
+            "annotation": "Knockdown. Стан после короткой задержки. Дополняет Rook Battery (иммобилайз 1с) и Queen (стан 1.25с): можно держать цель подряд.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Роум после 9 мин",
+        "description": "Спирит-урон, КД и контроль",
+        "width": 300.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1371725689,
+            "annotation": "Phantom Strike. Телепорт к вражеской цели, притягивает её к земле, урон, замедление и Disarm. Дальше Rook Battery и бишоп в ногах. Заход, когда Kingside Knight на КД.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2617435668,
+            "annotation": "Cursed Relic. Прерывает, заглушает, разоружает и блокирует предметы, снимает баффы (кроме ультов). Rook Battery и Queen канал не прерывают, а Relic прерывает вражеский ульт.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3357231760,
+            "annotation": "Unstoppable. Иммун к Stun, Silence, Sleep, Root и Disarm. Жми перед входом, если у врагов жёсткий контроль. Нельзя использовать, когда тебя уже застанили.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3005970438,
+            "annotation": "Escalating Exposure. Урон накладывает стакающийся Spirit Amp, увеличивающий твой урон по цели. Усиливает бишопа и руки по ключевой цели.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лейт: инициация и дизрапт",
+        "description": "Итоговые 4 актива: Knockdown, Phantom Strike, Cursed Relic, Unstoppable",
+        "width": 300.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 630839635,
+            "annotation": "Echo Shard, имбью на Rook Battery: вторая пара рук сразу (двойной иммобилайз). Слот актива, вместо Unstoppable.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 2424652896
+          },
+          {
+            "ability_id": 677738769,
+            "annotation": "Refresher. Сбрасывает КД способностей: второй Develop Queen. Слот актива.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 915014646,
+            "annotation": "Transcendent Cooldown. Снижает КД способностей и предметов, вместо Escalating Exposure на поздней стадии.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1292979587,
+            "annotation": "Surge of Power, имбью на Kingside Knight: постоянный Spirit Power + скорость при касте (для рывка в драку).",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2519598785,
+            "annotation": "Boundless Spirit. Больше Spirit Power на поздней стадии.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1150006784,
+            "annotation": "Arcane Surge. После Dash-Jump следующая способность получает бонус к дальности, длительности и Spirit Power. У Solomon Knight даёт «прыжок» (король/конь двигается): проверь связку.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2717651715,
+            "annotation": "Superior Duration. Дольше иммобилайз и контроль.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1193964439,
+            "annotation": "Greater Expansion. Больше дальность и радиус способностей и предметов.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 4075861416,
+            "annotation": "Spirit Rend. Оружейный предмет для спирит-урона по цели: гайды берут его в гибрид-билде вместе с Mystic Vulnerability.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 334300056,
+            "annotation": "Stamina Mastery. Больше стамины для заходов (его советуют блиц и deadlocked.gg), Knight T2 тоже даёт стамину.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 619484391,
+            "annotation": "Silence Wave. Заглушает врагов + урон. Канал НЕ прерывает, бей ДО каста ульта.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1813726886,
+            "annotation": "Slowing Hex. Замедляет цель и запрещает использовать предметы и способности на движение. Против героев с рывками.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2061878743,
+            "annotation": "Disarming Hex. Disarm + снижение сопротивления пулям. Против ган-героев.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1219329868,
+            "annotation": "Spirit Sap. Снижает цели Spirit Resist и Spirit Power. Против спирит-кастеров.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1976391348,
+            "annotation": "Cold Front. AoE-замедление + урон, если враги стоят толпой.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3731635960,
+            "annotation": "Dispel Magic. Снять дебаффы. Альтернатива Unstoppable против слоу и DoT.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3399065363,
+            "annotation": "Sprint Boots. Скорость на роуме, если не хватает мобильности.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Ситуативно",
+        "description": "Под состав врагов",
+        "width": 383.0,
+        "height": 284.0,
+        "optional": true
+      },
+      {
+        "name": "Советы/Tips",
+        "description": "1. Лимит: не более 4 активов. Продавай Rusted Barrel по мере покупки Knockdown, Phantom Strike, Cursed Relic и Unstoppable.\n2. Нюк: Setup Bishop (первая кнопка). Удар 70 урона + 25 и урон от диагональных клеток, медленно. Со 2-го улучшения второй бишоп, примерно удваивающий урон. Перемещение бишопа возвращает 50% КД. Против дальних героев (Vindicta, Doorman) слабее.\n3. Лайн (до ~9 мин): у Solomon сильное оружие, размен коня (Kingside Knight) + стрельба. Setup Bishop ставь заранее.\n4. После 9-й минуты уходим с сайд-линии, роумим, ищем инициацию. На своё место приходит кор.\n5. Rook Battery: 2 ладьи отскакивают от стены, иммобилайз 1с (+0.5 с T3), -25% скорострельность на 5с, с T2 ещё 5% текущего здоровья. Бросай на пути отхода, а не на вход в драку.\n6. Kingside Knight: барьер 80 на 7с, а двигающаяся фигура неуязвима на время перемещения. На союзнике как конь, на себе как король (двойной барьер, 7м). С T3 снимает дебаффы и действует на 2 фигуры.\n7. Develop Queen: стан 1.25с, 120 урона, зона 50 DPS и замедление; со 2-го улучшения порог добивания выше (по гайдам ~200 здоровья). Стреляй по сгруппированным, побитым врагам. Не открывай ультом.\n8. Связки: Rook Battery -> Setup Bishop -> двигай фигуру на врагов. Knight -> Rook Battery -> уходишь (отход).\n9. Цифры из файлов игры и гайдов (Solomon вышел 9.10.2026); проверь в игре после последнего патча.",
+        "width": 1054.0,
+        "height": 600.0
+      }
+    ],
+    "ability_order": {
+      "currency_changes": [
+        {
+          "ability_id": 4011110259,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 2424652896,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 4180486641,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 4011110259,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 2424652896,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 4180486641,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1389230689,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 4011110259,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 2424652896,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1389230689,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 2424652896,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 4180486641,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 4011110259,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 1389230689,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 4180486641,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 1389230689,
+          "currency_type": 1,
+          "delta": -5
+        }
+      ]
+    }
+  },
+  "tags": [
+    2424652896,
+    1371725689,
+    2617435668
+  ],
+  "publish_timestamp": 1795352039
+}

@@ -4,7 +4,7 @@ from sklearn.linear_model import LogisticRegression
 df = pl.read_csv("heros.csv")
 
 target_col = "class"  # колонка с классом (или "name", если строк на героя много)
-target_class = "weapon_offlaner"  # интересующий класс
+target_class = "side_support_jumper"  # интересующий класс
 
 # Выбираем только колонки со статами
 feature_cols = df.select(pl.exclude(["name", target_col])).columns

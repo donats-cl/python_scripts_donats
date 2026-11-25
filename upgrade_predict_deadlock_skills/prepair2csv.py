@@ -26,7 +26,7 @@ COUNTER_DEBUFF = re.compile(
 )
 SHIELDS = re.compile("barrier", re.IGNORECASE)
 LIFESTEAL = re.compile("lifesteal|heal |heals|stealing life", re.IGNORECASE)
-RECUDTION = re.compile("", re.IGNORECASE)
+REDUCTION = re.compile("", re.IGNORECASE)
 
 
 class Ability:

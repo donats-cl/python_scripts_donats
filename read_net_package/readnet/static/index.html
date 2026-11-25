@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>readnet — traffic inspector</title>
+<style>
+  :root{
+    --bg:#0f1216; --bg2:#151a21; --bg3:#1b222b; --line:#242d38;
+    --fg:#dbe3ee; --dim:#8b98a9; --acc:#4da3ff; --out:#ffb454; --in:#5ad19a;
+    --bad:#ff6b6b; --mono:"Cascadia Mono",Consolas,"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{background:var(--bg);color:var(--fg);font:13px/1.45 "Segoe UI",system-ui,sans-serif;display:flex;flex-direction:column}
+  header{display:flex;align-items:center;gap:14px;padding:10px 14px;background:var(--bg2);border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .brand{font-weight:700;letter-spacing:.5px;color:var(--acc)}
+  .brand span{color:var(--dim);font-weight:400}
+  .target{color:var(--dim);font-size:12px}
+  .target b{color:var(--fg)}
+  .stats{color:var(--dim);font-size:12px;font-family:var(--mono)}
+  .grow{flex:1}
+  input[type=search]{background:var(--bg3);border:1px solid var(--line);color:var(--fg);padding:6px 10px;border-radius:6px;width:240px;outline:none}
+  input[type=search]:focus{border-color:var(--acc)}
+  label.live{display:flex;align-items:center;gap:6px;color:var(--dim);font-size:12px;cursor:pointer}
+  a.btn,button.btn{background:var(--bg3);border:1px solid var(--line);color:var(--fg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:12px;cursor:pointer}
+  a.btn:hover,button.btn:hover{border-color:var(--acc);color:#fff}
+  main{flex:1;display:grid;grid-template-columns:440px minmax(0,1fr);min-height:0}
+  .list{border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;background:#11151b}
+  .lhead{display:grid;grid-template-columns:64px 1fr 1fr 52px 90px;gap:6px;padding:7px 10px;color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#11151b}
+  #flows{overflow:auto;min-height:0}
+  .frow{display:grid;grid-template-columns:64px 1fr 1fr 52px 90px;gap:6px;padding:6px 10px;border-bottom:1px solid #1a212a;cursor:pointer;font-family:var(--mono);font-size:11.5px;align-items:center}
+  .frow:hover{background:#171e27}
+  .frow.active{background:#1d2b3d;box-shadow:inset 3px 0 0 var(--acc)}
+  .frow .t{color:var(--dim)}
+  .frow .p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .frow .dst{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#c9d6e6}
+  .frow .dst small{color:var(--dim)}
+  .badge{display:inline-block;padding:1px 5px;border-radius:4px;background:#22303f;color:#9fc2e5;font-size:10.5px;text-transform:uppercase}
+  .sizes{text-align:right;color:var(--dim);white-space:nowrap}
+  .sizes .o{color:var(--out)} .sizes .i{color:var(--in)}
+  .detail{overflow:auto;min-height:0;padding:14px 18px}
+  .empty{color:var(--dim);margin-top:30px;text-align:center}
+  h1{font-size:16px;margin:0 0 2px;word-break:break-all}
+  .sub{color:var(--dim);font-family:var(--mono);font-size:11.5px;margin-bottom:10px}
+  .meta{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}
+  .meta span{background:var(--bg2);border:1px solid var(--line);padding:3px 7px;border-radius:5px;font-family:var(--mono);font-size:11px;color:var(--dim)}
+  .meta b{color:var(--fg);font-weight:600}
+  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:12px;flex-wrap:wrap}
+  .tab{padding:6px 11px;border-radius:6px 6px 0 0;cursor:pointer;color:var(--dim);font-size:12px;border:1px solid transparent;border-bottom:none}
+  .tab:hover{color:var(--fg)}
+  .tab.active{background:var(--bg2);border-color:var(--line);color:var(--acc)}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:8px;margin-bottom:10px;overflow:hidden}
+  .card .line{display:flex;gap:8px;align-items:center;padding:8px 11px;background:var(--bg3);font-family:var(--mono);font-size:12px;flex-wrap:wrap}
+  .card .line .method{color:var(--acc);font-weight:700}
+  .card .line .status{font-weight:700}
+  .st2{color:var(--in)} .st3{color:var(--out)} .st4,.st5{color:var(--bad)}
+  .card .line .url{color:#e6eef9;word-break:break-all}
+  .card .line .dim{color:var(--dim)}
+  .body{padding:10px 11px;border-top:1px solid var(--line)}
+  pre{margin:0;font-family:var(--mono);font-size:11.5px;white-space:pre-wrap;word-break:break-word;max-height:420px;overflow:auto;color:#c8d4e2}
+  details summary{cursor:pointer;color:var(--dim);font-size:11.5px;padding:6px 11px;user-select:none}
+  details[open] summary{color:var(--fg)}
+  table.h{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px}
+  table.h td{padding:3px 11px;border-top:1px solid #1e2631;vertical-align:top}
+  table.h td:first-child{color:var(--dim);width:190px;white-space:nowrap}
+  table.h td:last-child{color:#cfe0f2;word-break:break-all}
+  .chunk{border-bottom:1px solid #1a212a;padding:6px 10px}
+  .chunk summary{display:flex;gap:10px;align-items:center;padding:0}
+  .chunk .dir{font-weight:700;font-family:var(--mono);font-size:11px;width:28px}
+  .chunk .dir.out{color:var(--out)} .chunk .dir.in{color:var(--in)}
+  .chunk .src{color:var(--dim);font-size:10.5px;width:70px}
+  .chunk .sz{color:var(--dim);font-family:var(--mono);font-size:11px}
+  .hex{padding:8px 10px;background:#0b0e12}
+  .hex .off{color:#4a5768;user-select:none}
+  .hex .asc{color:#6f7f93}
+  .notice{color:var(--dim);background:var(--bg2);border:1px dashed var(--line);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12px}
+  .notice b{color:var(--out)}
+  .jsonbar{display:flex;gap:8px;margin-bottom:8px}
+  .xchg{border-left:2px solid #223043;margin-left:2px;padding-left:10px;margin-bottom:18px}
+  .xlabel{color:var(--dim);font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;margin:0 0 5px}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#2a3441;border-radius:6px}
+  ::-webkit-scrollbar-track{background:transparent}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">read<span>net</span></div>
+  <div class="target" id="target"></div>
+  <div class="stats" id="stats"></div>
+  <div class="grow"></div>
+  <input type="search" id="search" placeholder="фильтр: host / ip / process">
+  <label class="live"><input type="checkbox" id="live" checked> live</label>
+  <a class="btn" id="export" href="/api/export?format=jsonl">export JSONL</a>
+</header>
+<main>
+  <div class="list">
+    <div class="lhead"><span>time</span><span>process</span><span>destination</span><span>proto</span><span style="text-align:right">↑ / ↓</span></div>
+    <div id="flows"></div>
+  </div>
+  <div class="detail" id="detail"><div class="empty">Выбери поток слева. Данные обновляются автоматически.</div></div>
+</main>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
+const enc = encodeURIComponent;
+let flows = [], selected = null, detail = null, tab = 'parsed', timer = null, tick = 0;
+let searchTimer = null;
+
+function fmtBytes(n) {
+  if (!n && n !== 0) return '';
+  if (n < 1024) return n + ' B';
+  if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+  if (n < 1073741824) return (n / 1048576).toFixed(1) + ' MB';
+  return (n / 1073741824).toFixed(2) + ' GB';
+}
+function fmtTime(ts) {
+  if (!ts) return '';
+  const d = new Date(ts * 1000);
+  return d.toLocaleTimeString('ru-RU', { hour12: false }) + '.' + String(d.getMilliseconds()).padStart(3, '0');
+}
+function destOf(f) {
+  if (f.host) return f.host + (f.remote_port ? ':' + f.remote_port : '');
+  if (f.remote_addr) return f.remote_addr + (f.remote_port ? ':' + f.remote_port : '');
+  return '—';
+}
+function b64ToBytes(b64) {
+  const bin = atob(b64 || '');
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+function bytesToText(bytes) {
+  try { return new TextDecoder('utf-8', { fatal: false }).decode(bytes); } catch (e) { return ''; }
+}
+function hexdump(bytes, limit = 8192) {
+  const n = Math.min(bytes.length, limit);
+  const lines = [];
+  for (let i = 0; i < n; i += 16) {
+    const slice = bytes.subarray(i, Math.min(i + 16, n));
+    const hex = Array.from(slice).map(b => b.toString(16).padStart(2, '0')).join(' ').padEnd(47, ' ');
+    const asc = Array.from(slice).map(b => (b >= 32 && b < 127) ? String.fromCharCode(b) : '.').join('');
+    lines.push('<span class="off">' + i.toString(16).padStart(6, '0') + '</span>  ' + hex + '  <span class="asc">' + asc.replace(/</g, '&lt;') + '</span>');
+  }
+  if (bytes.length > limit) lines.push('… ' + (bytes.length - limit) + ' more bytes');
+  return lines.join('\n');
+}
+function isTls(bytes) { return bytes.length > 2 && bytes[0] === 0x16 && bytes[1] === 0x03; }
+
+/* ---------------- flows list ---------------- */
+async function loadFlows() {
+  const q = $('#search').value.trim();
+  try {
+    const r = await fetch('/api/flows?limit=800' + (q ? '&q=' + enc(q) : ''));
+    const j = await r.json();
+    flows = j.flows || [];
+    renderFlows();
+  } catch (e) { /* offline */ }
+}
+function renderFlows() {
+  const box = $('#flows');
+  const scroll = box.scrollTop;
+  box.innerHTML = '';
+  for (const f of flows) {
+    const row = el('div', 'frow' + (selected === f.id ? ' active' : ''));
+    row.dataset.id = f.id;
+    row.append(
+      el('span', 't', fmtTime(f.started)),
+      el('span', 'p', (f.process || '?') + ' ' + f.pid),
+      el('span', 'dst'), el('span', '', f.proto || ''),
+      el('span', 'sizes'),
+    );
+    const dst = row.querySelector('.dst');
+    dst.append(document.createTextNode(destOf(f)));
+    if (f.local_port) dst.append(el('small', '', ' ←' + f.local_port));
+    const sz = row.querySelector('.sizes');
+    const o = el('span', 'o', '↑' + fmtBytes(f.out_bytes || 0));
+    const i = el('span', 'i', ' ↓' + fmtBytes(f.in_bytes || 0));
+    sz.append(o, i);
+    row.onclick = () => selectFlow(f.id);
+    box.append(row);
+  }
+  box.scrollTop = scroll;
+}
+
+async function loadSummary() {
+  try {
+    const s = await (await fetch('/api/summary')).json();
+    const t = s.target;
+    $('#target').innerHTML = t ? '<b>' + (t.process || '?') + '</b> pid ' + t.pid : '';
+    $('#stats').textContent = s.flows + ' flows · ' + s.chunks + ' chunks · ' + fmtBytes(s.bytes) + ' · ' + s.dns + ' dns';
+  } catch (e) {}
+}
+
+/* ---------------- detail ---------------- */
+async function selectFlow(id) {
+  selected = id;
+  for (const r of document.querySelectorAll('.frow')) r.classList.toggle('active', r.dataset.id === id);
+  await loadDetail();
+}
+async function loadDetail() {
+  if (!selected) return;
+  try {
+    const r = await fetch('/api/flows/' + enc(selected));
+    if (!r.ok) throw new Error(r.status);
+    detail = await r.json();
+    renderDetail();
+  } catch (e) {
+    $('#detail').innerHTML = '<div class="empty">Не удалось загрузить поток</div>';
+  }
+}
+
+function statusClass(st) {
+  if (st >= 500) return 'st5'; if (st >= 400) return 'st4';
+  if (st >= 300) return 'st3'; if (st >= 200) return 'st2'; return '';
+}
+function headerTable(headers) {
+  const d = el('details');
+  d.append(el('summary', '', 'headers (' + headers.length + ')'));
+  if (!headers.length) return d;
+  const t = el('table', 'h');
+  for (const [k, v] of headers) {
+    const tr = el('tr'); tr.append(el('td', '', k), el('td', '', v)); t.append(tr);
+  }
+  d.append(t);
+  return d;
+}
+function bodyBlock(m) {
+  const d = el('div', 'body');
+  if (m.body_json !== undefined) {
+    const pre = el('pre', '', JSON.stringify(m.body_json, null, 2));
+    d.append(pre);
+  } else if (m.body_text !== undefined) {
+    d.append(el('pre', '', m.body_text.length > 120000 ? m.body_text.slice(0, 120000) + '\n…' : m.body_text));
+  } else if (m.body_b64) {
+    d.append(el('pre', '', hexdump(b64ToBytes(m.body_b64))));
+  } else if (!m.body_len) {
+    d.append(el('pre', '', '(empty)'));
+  }
+  if (m.body_truncated) d.append(el('div', 'notice', 'body truncated'));
+  return d;
+}
+function reqCard(m) {
+  const c = el('div', 'card');
+  const line = el('div', 'line');
+  line.append(el('span', 'method', m.method || '?'));
+  line.append(el('span', 'url', m.target || ''));
+  line.append(el('span', 'dim', m.version || ''));
+  c.append(line, headerTable(m.headers || []), bodyBlock(m));
+  return c;
+}
+function resCard(m) {
+  const c = el('div', 'card');
+  const line = el('div', 'line');
+  line.append(el('span', 'status ' + statusClass(m.status), String(m.status || '?')));
+  line.append(el('span', 'url', m.reason || ''));
+  line.append(el('span', 'dim', m.version || ''));
+  c.append(line, headerTable(m.headers || []), bodyBlock(m));
+  return c;
+}
+
+function renderDetail() {
+  const d = $('#detail');
+  d.innerHTML = '';
+  if (!detail) return;
+  const f = detail;
+  const head = el('div');
+  head.append(el('h1', '', destOf(f)));
+  head.append(el('div', 'sub', (f.proto || '') + ' · ' + (f.source || '') + ' · local ' + (f.local_addr || '?') + ':' + (f.local_port || 0) + ' → ' + (f.remote_addr || '?') + ':' + (f.remote_port || 0)));
+  d.append(head);
+
+  const meta = el('div', 'meta');
+  const add = (k, v) => { const s = el('span'); s.append(document.createTextNode(k + ' ')); s.append(el('b', '', v)); meta.append(s); };
+  add('pid', f.pid + ' ' + (f.process || ''));
+  add('started', fmtTime(f.started));
+  add('duration', f.ended ? ((f.ended - f.started).toFixed(2) + ' s') : 'live');
+  add('↑ out', fmtBytes(f.out_bytes) + ' / ' + f.out_chunks + ' ch');
+  add('↓ in', fmtBytes(f.in_bytes) + ' / ' + f.in_chunks + ' ch');
+  if ((f.hosts || []).length) add('dns', f.hosts.join(', '));
+  d.append(meta);
+
+  const tabs = el('div', 'tabs');
+  const names = [['parsed', 'HTTP'], ['out', 'Out raw'], ['in', 'In raw'], ['timeline', 'Timeline'], ['json', 'JSON']];
+  for (const [id, label] of names) {
+    const t = el('div', 'tab' + (tab === id ? ' active' : ''), label);
+    t.onclick = () => { tab = id; renderDetail(); };
+    tabs.append(t);
+  }
+  d.append(tabs);
+  const body = el('div');
+  d.append(body);
+
+  if (tab === 'parsed') renderParsed(body, f);
+  else if (tab === 'out' || tab === 'in') renderRaw(body, f, tab);
+  else if (tab === 'timeline') renderTimeline(body, f);
+  else renderJson(body, f);
+}
+
+function renderParsed(root, f) {
+  const p = f.parsed || { exchanges: [] };
+  if (!p.exchanges.length) {
+    const outChunks = (f.chunks || []).filter(c => c.dir === 'out' && c.b64);
+    let tls = false;
+    if (outChunks.length) tls = isTls(b64ToBytes(outChunks[0].b64));
+    const n = el('div', 'notice');
+    if (tls) {
+      n.innerHTML = '<b>TLS/шифрованный поток.</b> HTTP не распознан: приложение не использует Schannel ' +
+        '(OpenSSL/BoringSSL/собственный TLS-стек) либо plaintext не удалось связать с сокетом. Raw-байты доступны во вкладках Out/In.';
+    } else {
+      n.innerHTML = 'HTTP не распознан — это может быть бинарный протокол, уже сжатые данные или неполный поток. Смотри raw.';
+    }
+    root.append(n);
+  } else {
+    const src = el('div', 'notice', 'распознано источником: ' + (p.parsed_source || '?') + ' · запросов: ' + p.request_count + ', ответов: ' + p.response_count);
+    root.append(src);
+  }
+
+  for (const x of p.exchanges) {
+    const box = el('div', 'xchg');
+    box.append(el('div', 'xlabel', '#' + x.index));
+    if (x.request) box.append(reqCard(x.request));
+    if (x.response) box.append(resCard(x.response));
+    if (!x.request) { const c = el('div', 'card'); c.append(el('div', 'line', '— ответ без запроса (запрос до старта перехвата) —')); box.append(c); }
+    if (!x.response) { const c = el('div', 'card'); c.append(el('div', 'line', '— ответ не получен / ещё идёт —')); box.append(c); }
+    root.append(box);
+  }
+}
+
+function renderRaw(root, f, dir) {
+  const chunks = (f.chunks || []).filter(c => c.dir === dir);
+  if (!chunks.length) { root.append(el('div', 'empty', 'нет данных')); return; }
+  const all = new Uint8Array(chunks.reduce((s, c) => s + b64ToBytes(c.b64).length, 0));
+  let off = 0;
+  for (const c of chunks) { const b = b64ToBytes(c.b64); all.set(b, off); off += b.length; }
+  const bar = el('div', 'jsonbar');
+  const hexBtn = el('button', 'btn', 'hex'); const txtBtn = el('button', 'btn', 'text');
+  bar.append(hexBtn, txtBtn, el('span', 'sub', fmtBytes(all.length) + ' · ' + chunks.length + ' chunks'));
+  const pre = el('pre', 'hex');
+  const showHex = () => { pre.innerHTML = hexdump(all, 131072); };
+  const showTxt = () => { pre.textContent = bytesToText(all.subarray(0, 131072)); };
+  hexBtn.onclick = showHex; txtBtn.onclick = showTxt;
+  showHex();
+  root.append(bar, pre);
+
+  for (const c of chunks) {
+    const b = b64ToBytes(c.b64);
+    const det = el('details', 'chunk');
+    const sum = el('summary');
+    sum.append(el('span', 'dir ' + c.dir, c.dir === 'out' ? '↑' : '↓'),
+               el('span', 'src', c.source || ''),
+               el('span', 'sz', fmtBytes(c.size) + (c.truncated ? ' (trunc)' : '')),
+               el('span', 'sz', fmtTime(c.ts)));
+    det.append(sum);
+    const pre2 = el('pre', 'hex', '');
+    det.append(pre2);
+    det.ontoggle = () => { if (det.open && !pre2.dataset.done) { pre2.innerHTML = hexdump(b, 16384); pre2.dataset.done = '1'; } };
+    root.append(det);
+  }
+}
+
+function renderTimeline(root, f) {
+  const chunks = f.chunks || [];
+  if (!chunks.length) { root.append(el('div', 'empty', 'нет данных')); return; }
+  for (const c of chunks) {
+    if (c.id < 0) { root.append(el('div', 'notice', c.note || 'cut')); continue; }
+    const row = el('div', 'chunk');
+    row.append(el('span', 'dir ' + c.dir, c.dir === 'out' ? '↑ out' : '↓ in'),
+               el('span', 'src', c.source || ''),
+               el('span', 'sz', fmtBytes(c.size)),
+               el('span', 'sz', fmtTime(c.ts)));
+    root.append(row);
+  }
+}
+
+function llmSummary(f) {
+  const clean = {
+    flow: {
+      id: f.id, pid: f.pid, process: f.process, proto: f.proto, source: f.source,
+      local: f.local_addr + ':' + f.local_port, remote: f.remote_addr + ':' + f.remote_port,
+      host: f.host, hosts: f.hosts, started: f.started, ended: f.ended,
+      out_bytes: f.out_bytes, in_bytes: f.in_bytes,
+    },
+    http: (f.parsed && f.parsed.exchanges || []).map(x => ({
+      request: x.request && { method: x.request.method, target: x.request.target, headers: x.request.headers, body: x.request.body_json ?? x.request.body_text },
+      response: x.response && { status: x.response.status, headers: x.response.headers, body: x.response.body_json ?? x.response.body_text },
+    })),
+  };
+  return JSON.stringify(clean, null, 2);
+}
+
+function renderJson(root, f) {
+  const bar = el('div', 'jsonbar');
+  const copy = el('button', 'btn', 'copy for LLM');
+  copy.onclick = async () => { await navigator.clipboard.writeText(llmSummary(f)); copy.textContent = 'copied'; setTimeout(() => copy.textContent = 'copy for LLM', 1200); };
+  bar.append(copy);
+  root.append(bar);
+  const pre = el('pre');
+  pre.textContent = JSON.stringify(f, (k, v) => (k === 'chunks' ? undefined : v), 2);
+  root.append(pre);
+}
+
+/* ---------------- loop ---------------- */
+async function refresh() {
+  await loadFlows();
+  await loadSummary();
+  if (selected && $('#live').checked && (++tick % 2 === 0)) await loadDetail();
+}
+$('#search').addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(loadFlows, 250);
+});
+$('#live').addEventListener('change', () => {
+  if ($('#live').checked) { clearInterval(timer); timer = setInterval(refresh, 1500); } else clearInterval(timer);
+});
+refresh();
+timer = setInterval(refresh, 1500);
+</script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+{
+  "hero_build_id": 2,
+  "hero_id": 60,
+  "author_account_id": 1021153446,
+  "last_updated_timestamp": 1795316675,
+  "name": "Sinclair - Side-Support Initiator (control)",
+  "description": "Инициатор и дизраптор с нюком из Vexing Bolt: Rabbit Hex по площади, заходы через свап Ассистента, Cursed Relic на вражеский ульт.",
+  "language": 0,
+  "version": 0,
+  "details": {
+    "mod_categories": [
+      {
+        "mods": [
+          {
+            "ability_id": 3776945997,
+            "annotation": "Второй заряд Vexing Bolt: два нюка подряд (каждый ещё и с болтом Ассистента). Больше урона и замедления стрельбы.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 968099481,
+            "annotation": "Extra Spirit. Базовый Spirit Power: усиливает урон нюка из 1-й кнопки и всё остальное.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1998374645,
+            "annotation": "Mystic Burst. Копит бонусный урон и отдаёт его способности, которая бьёт достаточно сильно: идеально для нюка из 1-й кнопки.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2922054143,
+            "annotation": "Rusted Barrel. Дешёвый ранний дизраптор: режет врагу скорострельность и сопротивление пулям. Выигрываем размен на линии. ПРОДАТЬ, когда нужен слот под актив из Лейта.",
+            "sell_priority": 1
+          },
+          {
+            "ability_id": 380806748,
+            "annotation": "Compress Cooldown, имбью на Spectral Assistant: меньше КД, чаще заходы со свапом позиций (у Ассистента 2 свапа).",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 12456023
+          },
+          {
+            "ability_id": 1644605047,
+            "annotation": "Reactive Barrier. Барьер, когда тебя застанили, заглушили, усыпили или обездвижили. Ты заходишь первым и ловишь контроль, это страховка.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лайн (агрессия)",
+        "description": "Rusted Barrel потом продаём (лимит 4 актива)",
+        "width": 350.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1292979587,
+            "annotation": "Surge of Power, имбью на Vexing Bolt: постоянный Spirit Power нюку + скорость при касте. Бросил болт и двигаешься быстрее в драку.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 3156905386
+          },
+          {
+            "ability_id": 1254091416,
+            "annotation": "Knockdown. Одиночный стан после короткой задержки (по воздушным целям дольше). Дополняет Rabbit Hex: хекс по площади, Knockdown по ключевой цели.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 787198704,
+            "annotation": "Rapid Recharge. +2 заряда способностям с зарядами (у Синклера это Vexing Bolt), -30% КД между зарядами (3с -> 2.1с), -14% КД и +14 Spirit Power таким способностям. Больше болтов подряд и сильнее каждый.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Роум после 9 мин",
+        "description": "Урон нюка + заряды + контроль",
+        "width": 300.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 2617435668,
+            "annotation": "Cursed Relic. Проклятие прерывает, заглушает, разоружает и блокирует предметы, снимает баффы (кроме ультов). Rabbit Hex канальные способности НЕ прерывает, а Relic прерывает: это твой ответ на вражеский ульт.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3357231760,
+            "annotation": "Unstoppable. Иммун к Stun, Silence, Sleep, Root и Disarm. Жми перед заходом, если у врагов есть жёсткий контроль. Нельзя использовать, когда тебя уже застанили.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 630839635,
+            "annotation": "Echo Shard, имбью на Rabbit Hex: хекс можно применить второй раз сразу после первого (два накрытия площади). Слот актива.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 2142213586
+          },
+          {
+            "ability_id": 915014646,
+            "annotation": "Transcendent Cooldown. Снижает КД способностей и предметов: Knockdown, Cursed Relic и Echo Shard чаще готовы.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лейт: инициация и дизрапт",
+        "description": "Итоговые 4 актива: Knockdown, Cursed Relic, Unstoppable, Echo Shard",
+        "width": 300.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 3261353684,
+            "annotation": "Superior Cooldown. Общее снижение КД всех способностей. Вместо Rapid Recharge, если у героя мало способностей с зарядами.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2717651715,
+            "annotation": "Superior Duration. Увеличивает длительность способностей и предметов: дольше Rabbit Hex, дольше Assistant, дольше контроль.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1193964439,
+            "annotation": "Greater Expansion. Больше дальность и радиус способностей и предметов: Rabbit Hex накрывает больше врагов, предметы достают дальше.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3399065363,
+            "annotation": "Sprint Boots. Скорость на роуме после 9-й минуты. ПРОДАТЬ вторым.",
+            "sell_priority": 2
+          },
+          {
+            "ability_id": 619484391,
+            "annotation": "Silence Wave. Заглушает врагов + урон. Канал НЕ прерывает, бей ДО каста ульта. Вместо Knockdown, если у врагов много кастов.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2061878743,
+            "annotation": "Disarming Hex. Disarm + снижение сопротивления пулям. Против ган-героев (Haze, Wraith, Vindicta и т.п.).",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1219329868,
+            "annotation": "Spirit Sap. Снижает цели Spirit Resist и Spirit Power. Против спирит-кастеров и их ульта.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1813726886,
+            "annotation": "Slowing Hex. Замедляет цель и запрещает ей использовать предметы и способности на движение. Против героев с мобильностью, которых хочешь поймать без хекса.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1976391348,
+            "annotation": "Cold Front. AoE-замедление + урон, если враги стоят толпой, а хекс на перезарядке.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 677738769,
+            "annotation": "Refresher. Сбрасывает КД способностей: второй Rabbit Hex, Assistant, ульт. Слот актива, берём вместо Echo Shard.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3731635960,
+            "annotation": "Dispel Magic. Снять дебаффы. Альтернатива Unstoppable против слоу и DoT.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 754480263,
+            "annotation": "Mystic Expansion. Имбью на Rabbit Hex или Vexing Bolt: больше дальность и радиус, если Greater Expansion ещё не куплен.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2121044373,
+            "annotation": "Tankbuster. Копит бонусный урон для способности, которая бьёт достаточно сильно (Vexing Bolt подходит). Против танков.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3005970438,
+            "annotation": "Escalating Exposure. Стакающийся Spirit Amp на цели: сильнее болты по ключевой цели.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2519598785,
+            "annotation": "Boundless Spirit. Больше Spirit Power на поздней стадии вместо Transcendent Cooldown.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Ситуативно",
+        "description": "Под состав врагов",
+        "width": 383.0,
+        "height": 284.0,
+        "optional": true
+      },
+      {
+        "name": "Советы/Tips",
+        "description": "1. Лимит: не более 4 активов. Продавай Rusted Barrel -> Sprint Boots по мере покупки Knockdown, Cursed Relic, Unstoppable и Echo Shard.\n2. Лайн (до ~9 мин): Vexing Bolt это твой нюк, поэтому Extra Spirit и Mystic Burst в самом начале. Давим с замедлением стрельбы. Выстрели болт вверх и перенаправь (кнопка 1): урон растёт со временем полёта, а перенаправить можно за угол и укрытие.\n3. После 9-й минуты уходим с сайд-линии, роумим, ищем инициацию. На своё место приходит кор.\n4. Rabbit Hex: задержка каста 0.9с, радиус 6м. Кролики не могут дашить и парировать, получают больше урона, но способности НЕ прерываются. Кидай хекс на пачку врагов ДО их каста, а прервать ульт нужно Cursed Relic.\n5. Spectral Assistant: 2 свапа позиций с Ассистентом. Закинул Ассистента за спины врагов, свап, хекс, и ты уже в тылу. Каст также перезаряжает оружие.\n6. Audience Participation: копируешь вражеский ульт (9с окно, до 20м), копия получает твои очки прокачки ульта. Лучшие цели: ульты, которые ломают строй или дают контроль.\n7. Цифры из файлов игры и вики; проверь в игре после последнего патча.",
+        "width": 1054.0,
+        "height": 600.0
+      }
+    ],
+    "ability_order": {
+      "currency_changes": [
+        {
+          "ability_id": 3156905386,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 2142213586,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 12456023,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 3156905386,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 2142213586,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 12456023,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 191022746,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 3156905386,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 3156905386,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 2142213586,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 2142213586,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 12456023,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 191022746,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 12456023,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 191022746,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 191022746,
+          "currency_type": 1,
+          "delta": -5
+        }
+      ]
+    }
+  },
+  "tags": [
+    2142213586,
+    2617435668,
+    630839635
+  ],
+  "publish_timestamp": 1795315294
+}

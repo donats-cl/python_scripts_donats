@@ -1,0 +1,305 @@
+{
+  "hero_build_id": 3,
+  "hero_id": 69,
+  "author_account_id": 1021153446,
+  "last_updated_timestamp": 1795316675,
+  "name": "The Doorman - Side-Support Initiator (nuke + control)",
+  "description": "Инициатор и дизраптор с нюком из Call Bell: заходы через Phantom Strike и Doorway, Hotel Guest выключает кора. Без хилбот-набора.",
+  "language": 0,
+  "version": 0,
+  "details": {
+    "mod_categories": [
+      {
+        "mods": [
+          {
+            "ability_id": 3776945997,
+            "annotation": "Дополнительный заряд Call Bell: больше колоколов подряд на линии, больше нюков и замедления. У Call Bell уже есть заряды с улучшениями, так что колоколы можно спамить.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 968099481,
+            "annotation": "Extra Spirit. Базовый Spirit Power: усиливает урон Call Bell, Luggage Cart и Hotel Guest.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1998374645,
+            "annotation": "Mystic Burst. Копит бонусный урон и отдаёт его способности, которая бьёт достаточно сильно: Call Bell и Luggage Cart подходят.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2922054143,
+            "annotation": "Rusted Barrel. Режет цели скорострельность и сопротивление пулям. Call Bell тоже хорош против ган-героев, вместе они выключают вражеского кора. ПРОДАТЬ, когда нужен слот под актив из Лейта.",
+            "sell_priority": 1
+          },
+          {
+            "ability_id": 3399065363,
+            "annotation": "Sprint Boots. У Доормена нет способностей на движение, поэтому скорость на роуме после 9-й минуты нужна. ПРОДАТЬ вторым.",
+            "sell_priority": 2
+          },
+          {
+            "ability_id": 380806748,
+            "annotation": "Compress Cooldown, имбью на Hotel Guest: ульт с КД 140с доступен в каждом файте.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 1703045691
+          },
+          {
+            "ability_id": 1644605047,
+            "annotation": "Reactive Barrier. Мало здоровья, а ты в центре драки: барьер, когда тебя застанили, заглушили, усыпили или обездвижили.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лайн (агрессия)",
+        "description": "Rusted Barrel и Sprint Boots потом продаём (лимит 4 актива)",
+        "width": 350.0,
+        "height": 330.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1292979587,
+            "annotation": "Surge of Power, имбью на Call Bell: постоянный Spirit Power главному нюку + скорость при касте. Бросил колокол и ускорился: это твой «рывок» при отсутствии мобильности.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 103496908
+          },
+          {
+            "ability_id": 1254091416,
+            "annotation": "Knockdown. Стан после короткой задержки. Цели Hotel Guest всё равно получают дебаффы (Knockdown, Slowing Hex, Decay), так что стан на ключевую цель + Hotel Guest = полное выключение.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 787198704,
+            "annotation": "Rapid Recharge. +2 заряда способностям с зарядами (у Доормена это Call Bell), -30% КД между зарядами (7с -> 4.9с), -14% КД и +14 Spirit Power таким способностям. Больше колоколов подряд и сильнее каждый.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Роум после 9 мин",
+        "description": "Урон нюка + заряды + контроль",
+        "width": 300.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1371725689,
+            "annotation": "Phantom Strike. У Доормена нет способностей на движение, а это твой заход: телепорт к вражеской цели, притягивает её к земле, урон, замедление и Disarm. Дальше Call Bell под ноги и Cart.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2617435668,
+            "annotation": "Cursed Relic. Прерывает, заглушает, разоружает и блокирует предметы, снимает баффы (кроме ультов). Прервёт вражеский канальный ульт, пока твой Hotel Guest занят другой целью.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3357231760,
+            "annotation": "Unstoppable. Иммун к Stun, Silence, Sleep, Root и Disarm. Жми перед заходом при жёстком контроле у врагов. Нельзя использовать, когда тебя уже застанили.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 915014646,
+            "annotation": "Transcendent Cooldown. Снижает КД способностей и предметов: Knockdown, Phantom Strike и Cursed Relic чаще готовы.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лейт: инициация и дизрапт",
+        "description": "Итоговые 4 актива: Knockdown, Phantom Strike, Cursed Relic, Unstoppable",
+        "width": 300.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 3261353684,
+            "annotation": "Superior Cooldown. Общее снижение КД всех способностей. Вместо Rapid Recharge, если у героя мало способностей с зарядами.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3270001687,
+            "annotation": "Warp Stone. Телепорт вперёд + сопротивление пулям: дешёвый заход, пока не куплен Phantom Strike.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 600033864,
+            "annotation": "Majestic Leap. Прыжок вверх + барьер: заход с крыш и флангов. Нельзя использовать некоторое время после урона от вражеского героя.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3812615317,
+            "annotation": "Arctic Blast. Ледяной взрыв: заморозка, потом замедление. В популярном билде RinaVX используется, чтобы попасть Luggage Cart.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1152158042,
+            "annotation": "Vortex Web. Корень по площади для связки с Luggage Cart и выходом через Doorway (по билду Rina). Требует практики, берём, когда уверен в связке.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 619484391,
+            "annotation": "Silence Wave. Заглушает врагов + урон. Канал НЕ прерывает, бей ДО каста ульта.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2061878743,
+            "annotation": "Disarming Hex. Disarm + снижение сопротивления пулям. Против ган-героев (Haze, Wraith, Vindicta и т.п.).",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1813726886,
+            "annotation": "Slowing Hex. Замедляет цель и запрещает использовать предметы и способности на движение. Doorway от него не отключается, а цель Hotel Guest замедление всё равно получает.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1219329868,
+            "annotation": "Spirit Sap. Снижает цели Spirit Resist и Spirit Power. Против спирит-кастеров.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1976391348,
+            "annotation": "Cold Front. AoE-замедление + урон, если враги стоят толпой.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 630839635,
+            "annotation": "Echo Shard. Повторное использование способности: второй Hotel Guest или Call Bell. Слот актива, вместо Unstoppable.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 677738769,
+            "annotation": "Refresher. Сбрасывает КД способностей: второй Hotel Guest. Слот актива.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3731635960,
+            "annotation": "Dispel Magic. Снять дебаффы. Альтернатива Unstoppable против слоу и DoT.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 754480263,
+            "annotation": "Mystic Expansion. Имбью на Call Bell: больше радиус (дальность броска не растёт).",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2121044373,
+            "annotation": "Tankbuster. Копит бонусный урон для способности, которая бьёт достаточно сильно (используется в билде RinaVX). Против танков.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3005970438,
+            "annotation": "Escalating Exposure. Стакающийся Spirit Amp на цели: сильнее нюки по ключевой цели.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2519598785,
+            "annotation": "Boundless Spirit. Больше Spirit Power на поздней стадии вместо Transcendent Cooldown.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2447176615,
+            "annotation": "Enduring Speed. Меньше эффект вражеских замедлений при заходе.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Ситуативно",
+        "description": "Под состав врагов",
+        "width": 383.0,
+        "height": 284.0,
+        "optional": true
+      },
+      {
+        "name": "Советы/Tips",
+        "description": "1. Лимит: не более 4 активов. Продавай Rusted Barrel -> Sprint Boots по мере покупки Knockdown, Phantom Strike, Cursed Relic и Unstoppable.\n2. Лайн (до ~9 мин): спамим Call Bell, это твой нюк: ~95 урона за колокол с ранними улучшениями, радиус 5.5м, режет точность и замедляет. Колокол можно взорвать выстрелом заранее. Особенно хорош против ган-героев.\n3. После 9-й минуты уходим с сайд-линии, роумим, ищем инициацию. На своё место приходит кор.\n4. У Доормена мало здоровья и нет способностей на движение: заход делаем через Phantom Strike (или Warp Stone) и Doorway, а не пешком.\n5. Doorway: заходи с разных углов, чтобы попасть Call Bell, или уходи от гангов. Слоу и подобные эффекты Doorway не отключают. Luggage Cart можно пускать через открытую дверь.\n6. Luggage Cart: долгая подготовка, поэтому удобен как контр-инициация, когда лезут на тебя. С 3-го улучшения оглушает при ударе о стену.\n7. Hotel Guest: убираем ключевого врага (кор на оружии) на несколько секунд. Дебаффы (Knockdown, Slowing Hex, Decay) на него всё равно действуют. Бросай Call Bell прямо под цель Hotel Guest, чтобы она вышла в зону колокола.\n8. Цифры из файлов игры и гайдов; проверь в игре после последнего патча.",
+        "width": 1054.0,
+        "height": 600.0
+      }
+    ],
+    "ability_order": {
+      "currency_changes": [
+        {
+          "ability_id": 103496908,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 1719512318,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 109766091,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 103496908,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1719512318,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1703045691,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 103496908,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 103496908,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 109766091,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1719512318,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1719512318,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 1703045691,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 109766091,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1703045691,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 109766091,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 1703045691,
+          "currency_type": 1,
+          "delta": -5
+        }
+      ]
+    }
+  },
+  "tags": [
+    1703045691,
+    1371725689,
+    1254091416
+  ],
+  "publish_timestamp": 1795316447
+}

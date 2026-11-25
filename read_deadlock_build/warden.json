@@ -1,0 +1,314 @@
+{
+  "hero_build_id": 4,
+  "hero_id": 25,
+  "author_account_id": 1021153446,
+  "last_updated_timestamp": 1795355724,
+  "name": "Warden - Side-Support Initiator (control)",
+  "description": "Инициатор и дизраптор: Binding Word, Flask и срез Bullet Resist для оффлейнера, заход через Phantom Strike. Без хилбот-набора.",
+  "language": 0,
+  "version": 0,
+  "details": {
+    "mod_categories": [
+      {
+        "mods": [
+          {
+            "ability_id": 2922054143,
+            "annotation": "Rusted Barrel. Режет цели скорострельность и сопротивление пулям. Вместе с Alchemical Flask (режет урон оружия) выключает вражеского кора на линии. ПРОДАТЬ, когда нужен слот под актив из Лейта.",
+            "sell_priority": 1
+          },
+          {
+            "ability_id": 2971868509,
+            "annotation": "Bullet Resist Shredder. Режет врагу Bullet Resist, когда ты наносишь урон способностью (тип урона в описании обрезан, проверь в игре). Каждое попадание Flask и Binding Word открывает врага для пуль твоего оффлейнера.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 393974127,
+            "annotation": "Slowing Bullets. Пули копят замедление: Warden стреляет из пушки, а значит ловит цели без кнопок. Основа его контроля помимо способностей.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 380806748,
+            "annotation": "Compress Cooldown, имбью на Binding Word: КД 34с короче, главный контроль чаще готов.",
+            "sell_priority": 0,
+            "imbue_target_ability_id": 1656913918
+          },
+          {
+            "ability_id": 1644605047,
+            "annotation": "Reactive Barrier. Барьер, когда тебя застанили, заглушили, усыпили или обездвижили. Ты первым входишь в драку, это страховка.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лайн (агрессия)",
+        "description": "Rusted Barrel потом продаём (лимит 4 актива). Rusted Barrel и Bullet Resist Shredder режут сопротивление пулям",
+        "width": 350.0,
+        "height": 301.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1254091416,
+            "annotation": "Knockdown. Стан после короткой задержки. Binding Word обездвиживает, только если цель не отошла за 2.8с и 20м от точки проклятия, а Knockdown не даёт ей отойти.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3261353684,
+            "annotation": "Superior Cooldown. У Warden нет способностей с зарядами, поэтому общее снижение КД работает лучше, чем Rapid Recharge: все 4 кнопки готовы к файту.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2481177645,
+            "annotation": "Hunter's Aura. Снижает Bullet Resist и скорострельность ближайших врагов, эффект удвоен, если рядом один враг. Срез на ту цель, по которой бьёт оффлейнер, когда ты врываешься к кору.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2678489038,
+            "annotation": "Hollow Point. Пока здоровья выше порога, больше урона оружия, и твои пули снижают Bullet Resist врага. Твой урон + срез для оффлейнера в одном предмете.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Роум после 9 мин",
+        "description": "Контроль, КД, срез Bullet Resist и урон оружия",
+        "width": 300.0,
+        "height": 330.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 1371725689,
+            "annotation": "Phantom Strike. У Warden нет рывка, только 20% скорости от Willpower. Телепорт к цели, притягивает её к земле, урон, замедление и Disarm. Дальше Binding Word и Flask.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2617435668,
+            "annotation": "Cursed Relic. Прерывает, заглушает, разоружает и блокирует предметы, снимает баффы (кроме ультов). Binding Word с 3-го улучшения заглушает, но канальный ульт прерывает именно Relic.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3357231760,
+            "annotation": "Unstoppable. Иммун к Stun, Silence, Sleep, Root и Disarm. Жми перед входом, если у врагов жёсткий контроль. Нельзя использовать, когда тебя уже застанили.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1770441818,
+            "annotation": "Weakening Headshot. Попадание в голову снижает цели Bullet Resist. Дёшево (T2), можно купить раньше и держать до конца. Складывается с Binding Word T1 (-20% Bullet Resist на 5с).",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Лейт: инициация и дизрапт",
+        "description": "Итоговые 4 актива: Knockdown, Phantom Strike, Cursed Relic, Unstoppable. Weakening Headshot можно взять раньше",
+        "width": 300.0,
+        "height": 330.0
+      },
+      {
+        "mods": [
+          {
+            "ability_id": 710436191,
+            "annotation": "Capacitor. Снаряд: урон, сильное замедление, запрет на стамину и заглушение способностей на движение. Вместо Phantom Strike, если враги спасаются рывками.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3270001687,
+            "annotation": "Warp Stone. Телепорт вперёд + сопротивление пулям: дешёвый заход, пока не куплен Phantom Strike.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 600033864,
+            "annotation": "Majestic Leap. Прыжок вверх + барьер: заход с крыш и флангов. Нельзя использовать некоторое время после урона от вражеского героя.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 619484391,
+            "annotation": "Silence Wave. Заглушает врагов + урон. Канал НЕ прерывает, бей ДО каста ульта.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2061878743,
+            "annotation": "Disarming Hex. Disarm + снижение сопротивления пулям. Против ган-героев (Haze, Wraith, Vindicta и т.п.).",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1813726886,
+            "annotation": "Slowing Hex. Замедляет цель и запрещает использовать предметы и способности на движение. Против героев с рывками.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1219329868,
+            "annotation": "Spirit Sap. Снижает цели Spirit Resist и Spirit Power. Против спирит-кастеров.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1976391348,
+            "annotation": "Cold Front. AoE-замедление + урон, если враги стоят толпой.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1144549437,
+            "annotation": "Spirit Shredder. Пули снижают Spirit Resist цели и дают вам и союзникам Spirit Lifesteal против неё. Берём вместо Bullet Resist Shredder, если оффлейнер бьёт спирит-уроном (Yamato и т.п.).",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2463960640,
+            "annotation": "Escalating Resilience. Попадания по героям дают Bullet Resist. Живучесть при долгой драке в упор.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 630839635,
+            "annotation": "Echo Shard, имбью на Binding Word: второе проклятие сразу. Слот актива, вместо Unstoppable.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 677738769,
+            "annotation": "Refresher. Сбрасывает КД способностей: второй Last Stand, Binding Word. Слот актива.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 915014646,
+            "annotation": "Transcendent Cooldown. Снижает КД способностей и предметов, вместо Point Blank на поздней стадии.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 3731635960,
+            "annotation": "Dispel Magic. Снять дебаффы. Альтернатива Unstoppable против слоу и DoT.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2447176615,
+            "annotation": "Enduring Speed. Меньше эффект вражеских замедлений при заходе.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2095565695,
+            "annotation": "Point Blank. На ближней дистанции больше урона оружия + пули замедляют. Вместо Hollow Point, если часто падаешь ниже порога здоровья.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1113837674,
+            "annotation": "Silencer. Пули копят заглушение. Дорогой T4, берём в лейте вместо Weakening Headshot.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 968099481,
+            "annotation": "Extra Spirit. Базовый Spirit Power: усиливает Binding Word (110), Flask и пульсы Last Stand.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 2081037738,
+            "annotation": "Mystic Vulnerability. После урона способностью снижает цели Spirit Resist. Для оффлейнера со спирит-уроном.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 673001892,
+            "annotation": "Armor Piercer. Часть пуль игнорирует Bullet Resist цели. Поздний T4 для затяжных драк.",
+            "sell_priority": 0
+          },
+          {
+            "ability_id": 1932939246,
+            "annotation": "Alchemical Fire. Колба: зона с растущим уроном в секунду, снижает Bullet Resist врагов. Актив, вместо Cursed Relic, если нужен дополнительный срез и урон.",
+            "sell_priority": 0
+          }
+        ],
+        "name": "Ситуативно",
+        "description": "Под состав врагов",
+        "width": 383.0,
+        "height": 284.0,
+        "optional": true
+      },
+      {
+        "name": "Советы/Tips",
+        "description": "1. Лимит: не более 4 активов. Продавай Rusted Barrel по мере покупки Knockdown, Phantom Strike, Cursed Relic и Unstoppable. Slowing Bullets, Hunter's Aura, Point Blank и Silencer пассивные.\n2. Урон Warden: основной идёт из оружия (Hollow Point, Slowing Bullets), способности добавляют: Binding Word 110, Alchemical Flask 60 (+35 с T2), Last Stand пульсы 70 DPS.\n3. Лайн (до ~9 мин): Flask режет урон оружия цели на 30% на 7с и замедляет: кидай в вражеского кора. Binding Word на цель, которая стоит на месте.\n4. После 9-й минуты уходим с сайд-линии, роумим, ищем инициацию. На своё место приходит кор.\n5. Binding Word: проклятие, если цель не отошла за 2.8с и 20м, она получает урон и обездвиживается на 1.75с (+0.75 T2). T3: -14с КД и заглушение. Стан Knockdown или Phantom Strike удерживают цель в радиусе.\n6. Willpower: барьер 125 + 20% скорости на 5с. Жми перед входом. T3: +30% сопротивления статусам.\n7. Last Stand: 2с зарядка, потом пульсы с лечением от урона, пока канал даёт 50% Bullet/Spirit Resist. T3: Unstoppable во время каста. Используй как «якорь» драки на фланге.\n8. Срез для оффлейнера (Bullet Resist): Binding Word T1 (-20% на 5с), Hunter's Aura, Weakening Headshot, Hollow Point, Bullet Resist Shredder, Rusted Barrel. Бей по ключевой цели, и твой оффлейнер и кор бьют заметно сильнее. Если оффлейнер на спирит-уроне, замени Bullet Resist Shredder и Weakening Headshot на Spirit Shredder и Mystic Vulnerability.\n9. Цифры из файлов игры; проверь в игре после последнего патча.",
+        "width": 1054.0,
+        "height": 600.0
+      }
+    ],
+    "ability_order": {
+      "currency_changes": [
+        {
+          "ability_id": 2656490109,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 1656913918,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 2751689917,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 1656913918,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 2656490109,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 1656913918,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 2702908623,
+          "currency_type": 2,
+          "delta": -1
+        },
+        {
+          "ability_id": 2656490109,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 1656913918,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 2751689917,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 2702908623,
+          "currency_type": 1,
+          "delta": -1
+        },
+        {
+          "ability_id": 2751689917,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 2656490109,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 2702908623,
+          "currency_type": 1,
+          "delta": -2
+        },
+        {
+          "ability_id": 2751689917,
+          "currency_type": 1,
+          "delta": -5
+        },
+        {
+          "ability_id": 2702908623,
+          "currency_type": 1,
+          "delta": -5
+        }
+      ]
+    }
+  },
+  "tags": [
+    1656913918,
+    1371725689,
+    2617435668
+  ],
+  "publish_timestamp": 1795351753
+}
