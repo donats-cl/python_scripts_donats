@@ -21,12 +21,13 @@ IMMOBILIZE = re.compile("immobiliz", re.IGNORECASE)
 DISPLAYSMENT = re.compile("knocks|knockback|knockup", re.IGNORECASE)
 
 COUNTER_DEBUFF = re.compile(
-    "unstoppable|untargetable|debuff resist|protects|escape into|immunity to|dispels",
+    "unstoppable|untargetable|debuff resist|protects|escape into|immunity to|dispels|slow resistance",
     re.IGNORECASE,
 )
 SHIELDS = re.compile("barrier", re.IGNORECASE)
 LIFESTEAL = re.compile("lifesteal|heal |heals|stealing life", re.IGNORECASE)
-REDUCTION = re.compile("", re.IGNORECASE)
+REDUCTION_RESIST = re.compile("", re.IGNORECASE)
+REDUCTION_HEAL = re.compile("", re.IGNORECASE)
 
 
 class Ability:
@@ -138,7 +139,7 @@ with open("./data/heroes.json", "r", encoding="utf-8") as f:
 
         h: Hero = Hero(hid, hname, abil)
         heros[hname] = h
-    print(str(heros["Violet"]))
+    print(str(heros["Apollo"]))
     print(heros["Calico"].abilitys[3].description)
     t: int = heros["Mina"].n
     mask: int = 0b110010111111  # 3263

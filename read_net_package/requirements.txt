@@ -1,4 +1,0 @@
-frida>=16.5
-fastapi>=0.110
-uvicorn>=0.29
-psutil>=5.9

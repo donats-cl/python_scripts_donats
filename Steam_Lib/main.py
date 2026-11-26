@@ -1,5 +1,7 @@
 import requests
 
+from dotenv import load_dotenv
+
 prompt = """I have a bunch of games on Steam. I want to find a game I'll enjoy playing. Here's a list of the games I own:
 
 {games_list}
@@ -8,8 +10,10 @@ I want to play something I'll actually enjoy. Can you help me find a game I'll e
 
 """
 
-STEAM_KEY = "FC1E517729FC2AA6E59D85BBE9D78064"
-STEAM_ID = "76561198981419174"
+load_dotenv()
+STEAM_KEY = str(os.getenv("STEAM_KEY"))
+STEAM_ID = str(os.getenv("STEAM_ID"))
+
 
 url = f"https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={STEAM_KEY}&steamid={STEAM_ID}&include_appinfo=1&include_played_free_games=1&format=json"
 

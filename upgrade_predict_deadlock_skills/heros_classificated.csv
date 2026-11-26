@@ -1,5 +1,5 @@
 name,stun,sleep,curse,lift,silence,disarm,slow,immobilize,displacement,shields,lifesteal,cdebuff
-Infernus,1,0,0,0,0,0,1,0,0,0,1,0
+Infernus,1,0,0,0,0,0,1,0,0,0,1,1
 Seven,1,0,0,0,0,0,1,0,0,0,0,0
 Vindicta,0,0,0,0,0,0,0,0,0,0,0,0
 Lady Geist,0,0,0,0,1,0,1,0,0,0,1,0
@@ -8,7 +8,7 @@ Wraith,0,0,0,1,0,0,0,0,0,1,0,0
 McGinnis,0,0,0,0,0,0,1,0,0,0,1,0
 Paradox,0,0,0,0,1,0,1,0,0,1,0,0
 Dynamo,1,0,0,0,0,0,0,0,1,0,1,1
-Kelvin,0,0,0,0,0,0,1,0,0,0,1,0
+Kelvin,0,0,0,0,0,0,1,0,0,0,1,1
 Haze,0,1,0,0,0,0,1,0,0,0,1,1
 Holliday,1,0,0,0,0,0,0,0,1,0,0,0
 Bebop,0,0,0,0,0,0,1,0,1,0,1,1
